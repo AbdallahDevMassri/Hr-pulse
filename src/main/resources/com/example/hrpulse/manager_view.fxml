@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="524.0" prefWidth="653.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.ManagerController">
+   <children>
+      <Label alignment="CENTER" layoutX="159.0" layoutY="34.0" prefHeight="27.0" prefWidth="318.0" style="-fx-background-color: yellow;" text="ברוך הבא לדף המנהל" textAlignment="CENTER" AnchorPane.topAnchor="34.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="displayWorkerButton" alignment="CENTER" layoutX="389.0" layoutY="108.0" mnemonicParsing="false" onAction="#DisplayEmployees" text="עובדים" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+      <Button fx:id="EditEmployeeButton" alignment="CENTER" layoutX="397.0" layoutY="281.0" mnemonicParsing="false" onAction="#NaigateToEditEmployeePage" text="ניהול עובדים  הסרה / הוספה / עדכון" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+      <Button fx:id="shiftHandlingbutton" alignment="CENTER" layoutX="391.0" layoutY="165.0" mnemonicParsing="false" onAction="#NavigateToTimesPage" text="טעינת שעות" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+      <Button fx:id="reportsButton" alignment="CENTER" layoutX="389.0" layoutY="213.0" mnemonicParsing="false" onAction="#NavigateToReportsPage" text="דוחות" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+      <Button fx:id="exitButton" alignment="CENTER" layoutX="82.0" layoutY="474.0" mnemonicParsing="false" onAction="#ExitButtonClicked" prefHeight="25.0" prefWidth="77.0" text="יציאה" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="82.0" />
+      <Button fx:id="homePageButton" alignment="CENTER" layoutX="482.0" layoutY="474.0" mnemonicParsing="false" onAction="#HomePageClicked" text="החלף משתמש" />
+   </children>
+</AnchorPane>
