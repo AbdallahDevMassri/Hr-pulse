@@ -7,14 +7,19 @@ public class Employee {
     public static int employeeKey ;
     private String firstName;
     private String lastName;
-    // have 4 level for every employee  the employee with level 1 is the boss  and the last level is the employees
-    // if you have level more up you can manage the worker that down to you
-
-    private int level;
     private String id;
     private String email;
     private String password;
     private String phoneNumber;
+    private String userName;
+    private boolean status;
+    private String position;
+    private String department;
+    private int bankCode;
+    private int bankSneefCode;
+    private int acountNumber;
+    private String bankName;
+
 
     public Employee() {
         employeeKey++;
@@ -47,11 +52,7 @@ public class Employee {
         this.id = id;
         this.email = email;
         this.phoneNumber = phoneNumber;
-       if(firstName=="Abdallah"){
-           this.level=4;
-       }else{
-           this.level=1;
-       }
+
         this.password=password;
     }
 
@@ -94,24 +95,6 @@ public class Employee {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public int getLevel() {
-        // Check if the new level is less than or equal to the employee's current level
-        if (level <= this.level) {
-            return this.level;
-        } else {
-            throw new IllegalArgumentException("You don't have the authority to set a level higher than your current level.");
-        }
-    }
-
-    public void setLevel(int level) {
-        // Check if the new level is less than or equal to the employee's current level
-        if (level <= this.level) {
-            this.level = level;
-        } else {
-            throw new IllegalArgumentException("You don't have the authority to set a level higher than your current level.");
-        }
     }
 
     public String getId() {

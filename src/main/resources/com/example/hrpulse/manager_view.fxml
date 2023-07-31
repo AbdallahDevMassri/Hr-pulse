@@ -12,8 +12,8 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="displayWorkerButton" alignment="CENTER" layoutX="389.0" layoutY="108.0" mnemonicParsing="false" onAction="#DisplayEmployees" text="עובדים" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
-      <Button fx:id="EditEmployeeButton" alignment="CENTER" layoutX="397.0" layoutY="281.0" mnemonicParsing="false" onAction="#NaigateToEditEmployeePage" text="ניהול עובדים  הסרה / הוספה / עדכון" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+      <Button fx:id="displayWorkerButton" alignment="CENTER" layoutX="22.0" layoutY="313.0" mnemonicParsing="false" onAction="#DisplayEmployees" text="עובדים" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="78.0" />
+      <Button fx:id="EditEmployeeButton" alignment="CENTER" layoutX="50.0" layoutY="124.0" mnemonicParsing="false" onAction="#NaigateToEditEmployeePage" text="הוספת עובד חדש" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
       <Button fx:id="shiftHandlingbutton" alignment="CENTER" layoutX="391.0" layoutY="165.0" mnemonicParsing="false" onAction="#NavigateToTimesPage" text="טעינת שעות" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
       <Button fx:id="reportsButton" alignment="CENTER" layoutX="389.0" layoutY="213.0" mnemonicParsing="false" onAction="#NavigateToReportsPage" text="דוחות" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
       <Button fx:id="exitButton" alignment="CENTER" layoutX="82.0" layoutY="474.0" mnemonicParsing="false" onAction="#ExitButtonClicked" prefHeight="25.0" prefWidth="77.0" text="יציאה" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="82.0" />

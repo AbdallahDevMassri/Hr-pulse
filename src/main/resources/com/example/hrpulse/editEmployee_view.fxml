@@ -1,17 +1,216 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="721.0" prefWidth="1002.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.EditEmployeePageController">
+<AnchorPane prefHeight="764.0" prefWidth="1079.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.EditEmployeePageController">
    <children>
-      <Label alignment="CENTER" layoutX="418.0" layoutY="52.0" prefHeight="41.0" prefWidth="180.0" text="דף ניהול עובד">
+      <Label alignment="CENTER" layoutX="418.0" layoutY="52.0" prefHeight="41.0" prefWidth="180.0" text="דף ניהול עובד" AnchorPane.leftAnchor="418.0" AnchorPane.rightAnchor="404.0" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="backButton" layoutX="449.0" layoutY="641.0" mnemonicParsing="false" onAction="#goToMain" text="חזרה לדף הראשי " />
+      <Button fx:id="backButton" layoutX="569.0" layoutY="707.0" mnemonicParsing="false" onAction="#goToMain" text="חזרה לדף הראשי " AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="359.0">
+         <font>
+            <Font name="System Bold Italic" size="16.0" />
+         </font></Button>
+      <GridPane alignment="CENTER" layoutX="73.0" layoutY="115.0" prefHeight="521.0" prefWidth="832.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="80.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="652.0" minWidth="10.0" prefWidth="652.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="494.0" minWidth="10.0" prefWidth="347.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="שם פרטי :" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="שם משפחה  :" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="ת.ז :" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="סיסמה ואימות :" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label text="מספר טלפון :" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label text="דוא&quot;ל :" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label text="מגדר :" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label text="סטטוס עובד :" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Label text="תפקיד : " GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <Label text="מחלקה : " GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <Label text="שעתי : " GridPane.columnIndex="1" GridPane.rowIndex="12" />
+            <Label text="גלובלי : " GridPane.columnIndex="1" GridPane.rowIndex="13" />
+            <Label text="מספר בנק : " GridPane.columnIndex="1" GridPane.rowIndex="14" />
+            <Label text="מספר סניף : " GridPane.columnIndex="1" GridPane.rowIndex="15" />
+            <Label text="מספר חשבון" GridPane.columnIndex="1" GridPane.rowIndex="16" />
+            <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="5" />
+            <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="15" />
+            <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="16" />
+            <Label text="מס עובד : " GridPane.columnIndex="1" />
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="516.0" minWidth="10.0" prefWidth="516.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="321.0" minWidth="10.0" prefWidth="136.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="*" textFill="#f2290a">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label text="המספר אינו ניתן לשינוי " textFill="#fc2706" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="10.0" prefWidth="450.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="320.0" minWidth="10.0" prefWidth="202.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                  <Label text="*" textFill="#f2290a" GridPane.halignment="RIGHT">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <GridPane GridPane.rowIndex="2">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="451.0" minWidth="10.0" prefWidth="451.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="321.0" minWidth="10.0" prefWidth="201.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="151.0" GridPane.columnIndex="1" />
+                  <Label text="*" textFill="#f2290a" GridPane.halignment="RIGHT">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <GridPane GridPane.rowIndex="3">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="452.0" minWidth="10.0" prefWidth="452.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="321.0" minWidth="10.0" prefWidth="200.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                  <Label text="*" textFill="#f2290a" GridPane.halignment="RIGHT">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <GridPane GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="212.0" minWidth="10.0" prefWidth="212.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="296.0" minWidth="10.0" prefWidth="198.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="35.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="222.0" minWidth="10.0" prefWidth="198.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
+                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="154.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                  <Label text="*" textFill="#f2290a" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label text="*" textFill="#f2290a" GridPane.halignment="RIGHT">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <GridPane GridPane.rowIndex="6">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="448.0" minWidth="10.0" prefWidth="448.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="319.0" minWidth="10.0" prefWidth="204.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                  <Label text="*" textFill="#f2290a" GridPane.halignment="RIGHT">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <ChoiceBox prefHeight="25.0" prefWidth="52.0" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+            <ChoiceBox prefHeight="25.0" prefWidth="52.0" GridPane.rowIndex="8" />
+            <ChoiceBox prefHeight="25.0" prefWidth="52.0" GridPane.rowIndex="9" />
+            <ChoiceBox prefHeight="25.0" prefWidth="52.0" GridPane.rowIndex="10" />
+            <Label text="מנהל ישיר :" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+            <ChoiceBox prefHeight="25.0" prefWidth="52.0" GridPane.rowIndex="11" />
+            <GridPane GridPane.rowIndex="12">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="361.0" minWidth="10.0" prefWidth="263.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="361.0" minWidth="10.0" prefWidth="113.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="418.0" minWidth="10.0" prefWidth="199.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="418.0" minWidth="10.0" prefWidth="113.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="212.0" minWidth="10.0" prefWidth="41.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.halignment="RIGHT" />
+                  <CheckBox mnemonicParsing="false" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
+                  <Label text="נסיעות ליום : " GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                  <Label text="תעריף לשעה :" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+               </children>
+            </GridPane>
+            <CheckBox mnemonicParsing="false" GridPane.rowIndex="13" />
+            <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="14" />
+         </children>
+      </GridPane>
+      <Button layoutX="366.0" layoutY="707.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="122.0" text="שמירה " AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="366.0">
+         <font>
+            <Font name="System Bold Italic" size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
