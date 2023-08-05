@@ -1,22 +1,18 @@
 package com.example.hrpulse;
 
 import com.example.hrpulse.Service.Employee;
+import com.example.hrpulse.Service.Navigators;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import java.io.IOException;
 
 
-public class loginController {
+public class loginController implements Navigators {
     public static Employee manager = new Employee("Admin", "Massri", "000000000", "A.v.e@live.com", "0523239955", "1234");
 
     public static Employee secerteia = new Employee("secerter", "Massri", "000000000", "A.v.e@live.com", "0523239955", "1234");
@@ -61,33 +57,14 @@ public class loginController {
         wrongLogin.setText("נא הכנס את שם המשתמש והסיסמה שלך");
     }
     else {
+        navigateToRegularEmployeesPage(event);
         wrongLogin.setText("שם משתמש או סיסמה שוגיים ");
     }
 
     }
 
-    // create a methods to navigate for every page
-    private void navigateToManagerPage(ActionEvent event) throws IOException {
-        Parent managerViewParent = FXMLLoader.load(getClass().getResource("manager_view.fxml"));
-        Scene managerViewScene = new Scene(managerViewParent);
-        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        mainStage.setScene(managerViewScene);
-        mainStage.show();
-    }
-    private void navigateToSecerterPage(ActionEvent event) throws IOException {
-        Parent managerViewParent = FXMLLoader.load(getClass().getResource("secerteria_view.fxml"));
-        Scene managerViewScene = new Scene(managerViewParent);
-        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        mainStage.setScene(managerViewScene);
-        mainStage.show();
-    }
-    private void navigateToHeadPage(ActionEvent event) throws IOException {
-        Parent managerViewParent = FXMLLoader.load(getClass().getResource("head_view.fxml"));
-        Scene managerViewScene = new Scene(managerViewParent);
-        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        mainStage.setScene(managerViewScene);
-        mainStage.show();
-    }
+
+
 
 }
 

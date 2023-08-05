@@ -1,4 +1,7 @@
 package com.example.hrpulse.Service;
+/**
+ * this class  is used to handle all the navigators between the pages
+ */
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -10,11 +13,33 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public interface Navigators {
-    default void navigateToManagerPage(ActionEvent event) throws IOException {
-        Parent homePageViewParent = FXMLLoader.load(getClass().getResource("manager_view.fxml"));
-        Scene homePageViewScene = new Scene(homePageViewParent);
+    // navigate to login page
+    default void navigateToLoginPage(ActionEvent event) throws IOException {
+        Parent loginPageViewParent = FXMLLoader.load(getClass().getResource("login-view.fxml"));
+        Scene loginPageViewScene = new Scene(loginPageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        mainStage.setScene(homePageViewScene);
+        mainStage.setScene(loginPageViewScene);
+        mainStage.show();
+    }
+    default void navigateToManagerPage(ActionEvent event) throws IOException {
+        Parent managerPageViewParent = FXMLLoader.load(getClass().getResource("manager_view.fxml"));
+        Scene managerPageViewScene = new Scene(managerPageViewParent);
+        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        mainStage.setScene(managerPageViewScene);
+        mainStage.show();
+    }
+    default void navigateToHeadPage(ActionEvent event) throws IOException {
+        Parent headPageViewParent = FXMLLoader.load(getClass().getResource("head_view.fxml"));
+        Scene headPageViewScene = new Scene(headPageViewParent);
+        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        mainStage.setScene(headPageViewScene);
+        mainStage.show();
+    }
+    default void navigateToSecerterPage(ActionEvent event) throws IOException {
+        Parent secerterPageViewParent = FXMLLoader.load(getClass().getResource("secerteria_view.fxml"));
+        Scene secerterPageViewScene = new Scene(secerterPageViewParent);
+        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        mainStage.setScene(secerterPageViewScene);
         mainStage.show();
     }
     default void navigateToDisplayEmployeesPage(ActionEvent event) throws IOException {
@@ -24,13 +49,14 @@ public interface Navigators {
         mainStage.setScene(homePageViewScene);
         mainStage.show();
     }
-    default void navigateToLoginPage(ActionEvent event) throws IOException {
-        Parent homePageViewParent = FXMLLoader.load(getClass().getResource("login-view.fxml"));
-        Scene homePageViewScene = new Scene(homePageViewParent);
+    default void navigateToRegularEmployeesPage(ActionEvent event) throws IOException {
+        Parent employeePageViewParent = FXMLLoader.load(getClass().getResource("regularWorker_view.fxml"));
+        Scene employeePageViewScene = new Scene(employeePageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        mainStage.setScene(homePageViewScene);
+        mainStage.setScene(employeePageViewScene);
         mainStage.show();
     }
+
 
     default void goToEditEmployeePage(ActionEvent event) throws IOException {
         Parent editEmployeeViewParent = FXMLLoader.load(getClass().getResource("editEmployee_view.fxml"));
