@@ -56,6 +56,31 @@ public class Employee {
         this.password=password;
     }
 
+    public Employee(String firstName, String email, String phone, String password1) {
+        // Validation for firstName
+        if (firstName == null || firstName.trim().isEmpty()) {
+            throw new IllegalArgumentException("First name cannot be empty.");
+        }
+
+        // Validation for email
+        if (!isValidEmail(email)) {
+            throw new IllegalArgumentException("Invalid email address.");
+        }
+
+        // You can add your own validation logic for phone number here
+
+        // Validation for password
+        if (password1 == null || password1.trim().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be empty.");
+        }
+
+        // If all validations pass, assign the values to instance variables
+        this.firstName = firstName;
+        this.email = email;
+        this.phoneNumber = phone;
+        this.password = password1;
+    }
+
     // Helper method to validate email using regex
     private boolean isValidEmail(String email) {
         // A simple email validation using regex

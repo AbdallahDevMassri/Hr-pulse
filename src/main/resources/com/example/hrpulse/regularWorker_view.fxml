@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="523.0" prefWidth="702.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.RegularWorkerController">
    <children>
-      <Label contentDisplay="CENTER" layoutX="157.0" layoutY="37.0" prefHeight="54.0" prefWidth="402.0" text="this is the worker page" textAlignment="CENTER" textFill="#c78080">
+      <Label contentDisplay="CENTER" layoutX="157.0" layoutY="37.0" prefHeight="54.0" prefWidth="402.0" text="this is the worker`s page" textAlignment="CENTER" textFill="#c78080">
          <font>
             <Font size="36.0" />
          </font>

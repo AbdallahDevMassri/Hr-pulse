@@ -7,6 +7,7 @@ module com.example.hrpulse {
     requires java.mail;
 
 
+
     opens com.example.hrpulse to javafx.fxml;
     exports com.example.hrpulse;
 

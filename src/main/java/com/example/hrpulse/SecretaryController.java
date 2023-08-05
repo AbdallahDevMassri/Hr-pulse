@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 
 import java.io.IOException;
 
-public class SecerteriaController implements Navigators {
+public class SecretaryController implements Navigators {
 
     @FXML
     private Button homePageButton;
