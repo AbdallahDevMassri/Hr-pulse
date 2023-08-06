@@ -1,4 +1,4 @@
-package com.example.hrpulse;
+package com.example.hrpulse.Controllers.RoleControllers.HeadOfDepartment;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

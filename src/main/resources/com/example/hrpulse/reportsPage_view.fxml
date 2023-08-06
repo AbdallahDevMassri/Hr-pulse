@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="593.0" prefWidth="828.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.ReportsController">
+<AnchorPane prefHeight="593.0" prefWidth="828.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.UtilityControllers.ReportsController">
    <children>
       <Label alignment="CENTER" layoutX="248.0" layoutY="53.0" prefHeight="17.0" prefWidth="332.0" text="דף דוחות עובדים ">
          <font>

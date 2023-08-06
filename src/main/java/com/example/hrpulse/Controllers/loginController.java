@@ -1,7 +1,7 @@
-package com.example.hrpulse;
+package com.example.hrpulse.Controllers;
 
-import com.example.hrpulse.Service.Employee;
-import com.example.hrpulse.Service.Navigators;
+import com.example.hrpulse.Service.Objects.Employee;
+import com.example.hrpulse.Service.Intefaces.Navigators;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -68,8 +68,6 @@ public class loginController implements Navigators  {
             wrongLogin.setText("שם משתמש או סיסמה שגויים"); // print an error for wrong user/pass
         }
     }
-
-
 
 
 }

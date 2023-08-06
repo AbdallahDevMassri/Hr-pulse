@@ -1,4 +1,4 @@
-package com.example.hrpulse.Service;
+package com.example.hrpulse.Service.Objects;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,7 +13,7 @@ public class Employee {
     private String phoneNumber;
     private String userName;
     private boolean status;
-    private String position;
+    private String role;
     private String department;
     private int bankCode;
     private int bankSneefCode;
@@ -144,5 +144,13 @@ public class Employee {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

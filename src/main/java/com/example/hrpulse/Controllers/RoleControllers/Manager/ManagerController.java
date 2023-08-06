@@ -1,6 +1,6 @@
-package com.example.hrpulse;
+package com.example.hrpulse.Controllers.RoleControllers.Manager;
 
-import com.example.hrpulse.Service.Navigators;
+import com.example.hrpulse.Service.Intefaces.Navigators;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

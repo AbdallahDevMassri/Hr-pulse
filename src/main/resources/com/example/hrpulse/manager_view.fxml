@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="786.0" prefWidth="1229.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.ManagerController">
+<AnchorPane prefHeight="786.0" prefWidth="1229.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.RoleControllers.Manager.ManagerController">
    <children>
       <AnchorPane layoutX="11.0" layoutY="14.0" prefHeight="753.0" prefWidth="1207.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="14.0">
          <children>

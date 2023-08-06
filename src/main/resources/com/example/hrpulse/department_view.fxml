@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="696.0" prefWidth="1071.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.ManageDepratment.ManagerDepratmentController">
+<AnchorPane prefHeight="696.0" prefWidth="1071.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.RoleControllers.Manager.ManagerDepartmentController">
    <children>
       <BorderPane layoutX="71.0" layoutY="63.0" prefHeight="593.0" prefWidth="954.0">
          <top>
@@ -58,7 +58,7 @@
          <left>
             <ImageView fitHeight="96.0" fitWidth="362.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                <image>
-                  <Image url="@../../../../Images/HR_logo.jpg" />
+                  <Image url="@../../../Images/HR_logo.jpg" />
                </image>
             </ImageView>
          </left>

@@ -1,12 +1,12 @@
-package com.example.hrpulse.ManageDepratment;
+package com.example.hrpulse.Controllers.RoleControllers.Manager;
 
-import com.example.hrpulse.Service.Navigators;
+import com.example.hrpulse.Service.Intefaces.Navigators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
 
-public class ManagerDepratmentController implements Navigators {
+public class ManagerDepartmentController implements Navigators {
 
     @FXML
     void BackToMainClicked(ActionEvent event) throws IOException {
