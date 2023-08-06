@@ -82,4 +82,12 @@ public interface Navigators {
         mainStage.setScene(reportEmployeeViewScene);
         mainStage.show();
     }
+    default void navigateToManageDepartment(ActionEvent event) throws IOException {
+        // Update the relative path to the FXML file within the resources folder
+        Parent manageDepartmentPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("department_view.fxml")));
+        Scene manageDepartmentPageViewScene = new Scene(manageDepartmentPageViewParent);
+        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        mainStage.setScene(manageDepartmentPageViewScene);
+        mainStage.show();
+    }
 }

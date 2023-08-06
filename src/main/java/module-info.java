@@ -10,5 +10,6 @@ module com.example.hrpulse {
 
     opens com.example.hrpulse to javafx.fxml;
     exports com.example.hrpulse;
+    exports com.example.hrpulse.ManageDepratment;
 
 }
