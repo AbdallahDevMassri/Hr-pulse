@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public interface Navigators {
         mainStage.setScene(loginPageViewScene);
         mainStage.show();
     }
+
     default void navigateToManagerPage(ActionEvent event) throws IOException {
         Parent managerPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/manager_view.fxml")));
         Scene managerPageViewScene = new Scene(managerPageViewParent);
@@ -29,6 +31,7 @@ public interface Navigators {
         mainStage.setScene(managerPageViewScene);
         mainStage.show();
     }
+
     default void navigateToHeadPage(ActionEvent event) throws IOException {
         Parent headPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/head_view.fxml")));
         Scene headPageViewScene = new Scene(headPageViewParent);
@@ -36,6 +39,7 @@ public interface Navigators {
         mainStage.setScene(headPageViewScene);
         mainStage.show();
     }
+
     default void navigateToSecretaryPage(ActionEvent event) throws IOException {
         Parent secretaryPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/secretariat_view.fxml")));
         Scene secretaryPageViewScene = new Scene(secretaryPageViewParent);
@@ -43,6 +47,7 @@ public interface Navigators {
         mainStage.setScene(secretaryPageViewScene);
         mainStage.show();
     }
+
     default void navigateToDisplayEmployeesPage(ActionEvent event) throws IOException {
         Parent homePageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/employees_view.fxml")));
         Scene homePageViewScene = new Scene(homePageViewParent);
@@ -50,6 +55,7 @@ public interface Navigators {
         mainStage.setScene(homePageViewScene);
         mainStage.show();
     }
+
     default void navigateToRegularEmployeesPage(ActionEvent event) throws IOException {
         Parent employeePageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/regularWorker_view.fxml")));
         Scene employeePageViewScene = new Scene(employeePageViewParent);
@@ -82,12 +88,57 @@ public interface Navigators {
         mainStage.setScene(reportEmployeeViewScene);
         mainStage.show();
     }
+
     default void navigateToManageDepartment(ActionEvent event) throws IOException {
         // Update the relative path to the FXML file within the resources folder
-        Parent manageDepartmentPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/department_view.fxml")));
+        Parent manageDepartmentPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/DepartmentView/manageDepartment_view.fxml")));
         Scene manageDepartmentPageViewScene = new Scene(manageDepartmentPageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(manageDepartmentPageViewScene);
+        mainStage.setTitle("ניהול מחלקות");
         mainStage.show();
+    }
+
+    default void navigateToCreateDepartment(ActionEvent event) throws IOException {
+        // Load the FXML file and create the Scene as before
+        Parent createDepartmentPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/DepartmentView/createNewDepratment_view.fxml")));
+        Scene createDepartmentPageViewScene = new Scene(createDepartmentPageViewParent);
+        // Get the main Stage and set its properties
+        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        mainStage.setScene(createDepartmentPageViewScene);
+        // Set the Stage properties for resizable and on Center of the screen
+        mainStage.setResizable(true);
+        mainStage.centerOnScreen();
+        mainStage.setTitle("יצירת מחלקה חדשה ");
+        mainStage.show();
+
+    }
+    default void navigateEditDepartment(ActionEvent event) throws IOException {
+        // Load the FXML file and create the Scene as before
+        Parent editDepartmentPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/DepartmentView/editDepartment_view.fxml")));
+        Scene editDepartmentPageViewScene = new Scene(editDepartmentPageViewParent);
+        // Get the main Stage and set its properties
+        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        mainStage.setScene(editDepartmentPageViewScene);
+        // Set the Stage properties for resizable and on Center of the screen
+        mainStage.setResizable(true);
+        mainStage.centerOnScreen();
+        mainStage.setTitle("עדכון נתוני מחלקה");
+        mainStage.show();
+
+    }
+    default void navigateToReportOfDepartment(ActionEvent event) throws IOException {
+        // Load the FXML file and create the Scene as before
+        Parent ReportOfDepartmentPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/DepartmentView/reportDepartment_view.fxml")));
+        Scene ReportOfDepartmentPageViewScene = new Scene(ReportOfDepartmentPageViewParent);
+        // Get the main Stage and set its properties
+        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        mainStage.setScene(ReportOfDepartmentPageViewScene);
+        // Set the Stage properties for resizable and on Center of the screen
+        mainStage.setResizable(true);
+        mainStage.centerOnScreen();
+        mainStage.setTitle("דוח מחלקות");
+        mainStage.show();
+
     }
 }
