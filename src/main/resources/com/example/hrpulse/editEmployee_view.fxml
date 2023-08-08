@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="764.0" prefWidth="1079.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.EditEmployeePageController">
    <children>
-      <Label alignment="CENTER" layoutX="418.0" layoutY="52.0" prefHeight="41.0" prefWidth="180.0" text="דף ניהול עובד" AnchorPane.leftAnchor="418.0" AnchorPane.rightAnchor="404.0" AnchorPane.topAnchor="20.0">
+      <Label alignment="CENTER" layoutX="418.0" layoutY="52.0" prefHeight="41.0" prefWidth="180.0" text="הכנסת עובד חדש " AnchorPane.leftAnchor="418.0" AnchorPane.rightAnchor="404.0" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -64,9 +64,9 @@
             <Label text="מספר בנק : " GridPane.columnIndex="1" GridPane.rowIndex="14" />
             <Label text="מספר סניף : " GridPane.columnIndex="1" GridPane.rowIndex="15" />
             <Label text="מספר חשבון" GridPane.columnIndex="1" GridPane.rowIndex="16" />
-            <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="5" />
-            <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="15" />
-            <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="16" />
+            <TextField fx:id="tf_email" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="5" />
+            <TextField fx:id="tf_sneefBankCode" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="15" />
+            <TextField fx:id="tf_acountNumber" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="16" />
             <Label text="מס עובד : " GridPane.columnIndex="1" />
             <GridPane>
               <columnConstraints>
@@ -94,7 +94,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                  <TextField fx:id="tf_firstName" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
                   <Label text="*" textFill="#f2290a" GridPane.halignment="RIGHT">
                      <font>
                         <Font size="18.0" />
@@ -111,7 +111,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="151.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="tf_lastName" maxWidth="200.0" prefHeight="25.0" prefWidth="151.0" GridPane.columnIndex="1" />
                   <Label text="*" textFill="#f2290a" GridPane.halignment="RIGHT">
                      <font>
                         <Font size="18.0" />
@@ -128,7 +128,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                  <TextField fx:id="tf_Id" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
                   <Label text="*" textFill="#f2290a" GridPane.halignment="RIGHT">
                      <font>
                         <Font size="18.0" />
@@ -147,8 +147,8 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
-                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="154.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                  <TextField fx:id="tf_password" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
+                  <TextField fx:id="tf_repeatedPassword" maxWidth="200.0" prefHeight="25.0" prefWidth="154.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
                   <Label text="*" textFill="#f2290a" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
                      <font>
                         <Font size="18.0" />
@@ -170,7 +170,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                  <TextField fx:id="tf_phoneNumber" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
                   <Label text="*" textFill="#f2290a" GridPane.halignment="RIGHT">
                      <font>
                         <Font size="18.0" />
@@ -178,12 +178,12 @@
                   </Label>
                </children>
             </GridPane>
-            <ChoiceBox prefHeight="25.0" prefWidth="52.0" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
-            <ChoiceBox prefHeight="25.0" prefWidth="52.0" GridPane.rowIndex="8" />
-            <ChoiceBox prefHeight="25.0" prefWidth="52.0" GridPane.rowIndex="9" />
-            <ChoiceBox prefHeight="25.0" prefWidth="52.0" GridPane.rowIndex="10" />
+            <ChoiceBox fx:id="cb_gender" prefHeight="25.0" prefWidth="52.0" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+            <ChoiceBox fx:id="cb_status" prefHeight="25.0" prefWidth="52.0" GridPane.rowIndex="8" />
+            <ChoiceBox fx:id="cb_role" prefHeight="25.0" prefWidth="52.0" GridPane.rowIndex="9" />
+            <ChoiceBox fx:id="cb_department" prefHeight="25.0" prefWidth="52.0" GridPane.rowIndex="10" />
             <Label text="מנהל ישיר :" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-            <ChoiceBox prefHeight="25.0" prefWidth="52.0" GridPane.rowIndex="11" />
+            <ChoiceBox fx:id="sc_head" prefHeight="25.0" prefWidth="52.0" GridPane.rowIndex="11" />
             <GridPane GridPane.rowIndex="12">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="361.0" minWidth="10.0" prefWidth="263.0" />
@@ -196,15 +196,15 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
-                  <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.halignment="RIGHT" />
-                  <CheckBox mnemonicParsing="false" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
+                  <TextField fx:id="tf_salaryPerHour" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                  <TextField fx:id="tf_salaryToTravel" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.halignment="RIGHT" />
+                  <CheckBox fx:id="cb_isHourly" mnemonicParsing="false" GridPane.columnIndex="4" GridPane.halignment="CENTER" />
                   <Label text="נסיעות ליום : " GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                   <Label text="תעריף לשעה :" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
                </children>
             </GridPane>
             <CheckBox mnemonicParsing="false" GridPane.rowIndex="13" />
-            <TextField maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="14" />
+            <TextField fx:id="tf_acountNumber" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="14" />
          </children>
       </GridPane>
       <Button layoutX="366.0" layoutY="707.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="122.0" text="שמירה " AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="366.0">

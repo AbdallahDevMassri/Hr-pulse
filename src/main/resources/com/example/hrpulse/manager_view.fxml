@@ -29,7 +29,7 @@
               </rowConstraints>
                <children>
                   <Button fx:id="EditEmployeeButton" alignment="CENTER" mnemonicParsing="false" onAction="#NavigateToManageDepartment" prefHeight="150.0" prefWidth="250.0" text="ניהול מחלקות" GridPane.columnIndex="1" />
-                  <Button fx:id="shiftHandlingbutton" alignment="CENTER" mnemonicParsing="false" onAction="#NavigateToTimesPage" prefHeight="150.0" prefWidth="250.0" text="ניהול עובדים" />
+                  <Button fx:id="shiftHandlingbutton" alignment="CENTER" mnemonicParsing="false" onAction="#manageEmployeeClicked" prefHeight="150.0" prefWidth="250.0" text="ניהול עובדים" />
                   <Button fx:id="reportsButton" alignment="CENTER" mnemonicParsing="false" onAction="#NavigateToReportsPage" prefHeight="150.0" prefWidth="250.0" text="ניהול דוחות ובקשות " GridPane.rowIndex="1" />
                   <Button fx:id="displayWorkerButton" alignment="CENTER" mnemonicParsing="false" onAction="#DisplayEmployees" prefHeight="150.0" prefWidth="250.0" text="הפקת דוחות" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Button fx:id="homePageButton" alignment="CENTER" mnemonicParsing="false" onAction="#HomePageClicked" prefHeight="60.0" prefWidth="120.0" text="החלף משתמש" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER" />

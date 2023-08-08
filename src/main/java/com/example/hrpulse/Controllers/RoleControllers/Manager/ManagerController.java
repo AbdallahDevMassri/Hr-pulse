@@ -1,5 +1,6 @@
 package com.example.hrpulse.Controllers.RoleControllers.Manager;
 
+import com.example.hrpulse.Service.Intefaces.EmployeeNavigators;
 import com.example.hrpulse.Service.Intefaces.Navigators;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -10,7 +11,7 @@ import javafx.scene.control.Button;
 
 import java.io.IOException;
 
-public class ManagerController implements Navigators {
+public class ManagerController implements Navigators , EmployeeNavigators {
 
     @FXML
     private Button EditEmployeeButton;
@@ -36,8 +37,8 @@ public class ManagerController implements Navigators {
     }
 
     @FXML
-    void NavigateToTimesPage(ActionEvent event) throws IOException {
-        navigateToTimeEditPage(event);
+    void manageEmployeeClicked(ActionEvent event) throws IOException {
+        navigateToManageEmployeePage(event);
     }
 
     @FXML
