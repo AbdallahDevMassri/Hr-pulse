@@ -1,5 +1,6 @@
-package com.example.hrpulse;
+package com.example.hrpulse.Controllers.EmployeeController;
 
+import com.example.hrpulse.Service.Intefaces.EmployeeNavigators;
 import com.example.hrpulse.Service.Intefaces.Navigators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,7 +11,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class EditEmployeePageController implements Navigators {
+public class CreateEmployeePageController implements EmployeeNavigators {
 
 
         @FXML
@@ -79,7 +80,7 @@ public class EditEmployeePageController implements Navigators {
 
     @FXML
     void goToMain(ActionEvent event) throws IOException {
-    navigateToManagerPage(event);
+    navigateToManageEmployeePage(event);
     }
 
 }

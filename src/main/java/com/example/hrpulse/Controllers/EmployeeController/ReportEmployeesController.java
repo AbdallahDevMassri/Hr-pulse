@@ -1,4 +1,4 @@
-package com.example.hrpulse.Controllers.UtilityControllers;
+package com.example.hrpulse.Controllers.EmployeeController;
 
 import com.example.hrpulse.Service.Intefaces.Navigators;
 import javafx.event.ActionEvent;
@@ -7,13 +7,13 @@ import javafx.scene.control.Button;
 
 import java.io.IOException;
 
-public class TimeEditorController implements Navigators {
+public class ReportEmployeesController implements Navigators {
 
     @FXML
-    private Button ButtonBack;
+    private Button backButton;
 
     @FXML
-    void mainPageButtonClicked(ActionEvent event) throws IOException {
+    void GoToHomeButtonClicked(ActionEvent event) throws IOException {
     navigateToManagerPage(event);
     }
 

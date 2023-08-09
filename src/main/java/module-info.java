@@ -18,8 +18,6 @@ module com.example.hrpulse {
     opens com.example.hrpulse.Controllers.RoleControllers.Secreteriat to javafx.fxml;
     exports com.example.hrpulse.Controllers;
     opens com.example.hrpulse.Controllers to javafx.fxml;
-    exports com.example.hrpulse.Controllers.UtilityControllers;
-    opens com.example.hrpulse.Controllers.UtilityControllers to javafx.fxml;
     exports com.example.hrpulse.Controllers.DepartmentController;
     opens com.example.hrpulse.Controllers.DepartmentController to javafx.fxml;
     exports com.example.hrpulse.Controllers.EmployeeController;

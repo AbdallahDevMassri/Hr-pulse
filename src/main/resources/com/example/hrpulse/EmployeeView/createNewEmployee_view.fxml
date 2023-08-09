@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="764.0" prefWidth="1079.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.EditEmployeePageController">
+<AnchorPane prefHeight="764.0" prefWidth="1079.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.EmployeeController.CreateEmployeePageController">
    <children>
       <Label alignment="CENTER" layoutX="418.0" layoutY="52.0" prefHeight="41.0" prefWidth="180.0" text="הכנסת עובד חדש " AnchorPane.leftAnchor="418.0" AnchorPane.rightAnchor="404.0" AnchorPane.topAnchor="20.0">
          <font>
@@ -207,7 +207,7 @@
             <TextField fx:id="tf_acountNumber" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="14" />
          </children>
       </GridPane>
-      <Button layoutX="366.0" layoutY="707.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="122.0" text="שמירה " AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="366.0">
+      <Button layoutX="366.0" layoutY="707.0" mnemonicParsing="false" onAction="#saveButtonClicked" prefHeight="35.0" prefWidth="122.0" text="שמירה " AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="366.0">
          <font>
             <Font name="System Bold Italic" size="16.0" />
          </font>

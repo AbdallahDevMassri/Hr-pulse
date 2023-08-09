@@ -1,16 +1,17 @@
 package com.example.hrpulse.Controllers.EmployeeController;
 
+import com.example.hrpulse.Service.Intefaces.EmployeeNavigators;
 import com.example.hrpulse.Service.Intefaces.Navigators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
 
-public class ManageEmployeeController implements Navigators {
+public class ManageEmployeeController implements Navigators, EmployeeNavigators {
 
     @FXML
-    void addEmployeeClicked(ActionEvent event) {
-
+    void addEmployeeClicked(ActionEvent event) throws IOException {
+        navigateToCreateEmployeePage(event);
     }
 
     @FXML
@@ -20,28 +21,28 @@ public class ManageEmployeeController implements Navigators {
     }
 
     @FXML
-    void editRoleClicked(ActionEvent event) {
-
+    void editShiftClicked(ActionEvent event) throws IOException {
+        navigateToEditEmployeeShiftPage(event);
     }
 
     @FXML
-    void employeeReportClicked(ActionEvent event) {
-
+    void employeeReportClicked(ActionEvent event) throws IOException {
+    navigateToReportPage(event);
     }
 
     @FXML
-    void feedbackClicked(ActionEvent event) {
-
+    void feedbackClicked(ActionEvent event) throws IOException {
+    navigateToFeedbackEmployeePage(event);
     }
 
     @FXML
-    void removeEmployeeClicked(ActionEvent event) {
-
+    void removeEmployeeClicked(ActionEvent event) throws IOException {
+        navigateToRemoveEmployeePage(event);
     }
 
     @FXML
-    void updateRoleClicked(ActionEvent event) {
-
+    void updateRoleClicked(ActionEvent event) throws IOException {
+        navigateToEditEmployeeRolePage(event);
     }
 
 }

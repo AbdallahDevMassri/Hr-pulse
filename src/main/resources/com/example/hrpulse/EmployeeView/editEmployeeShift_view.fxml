@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="850.0" prefWidth="1183.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.UtilityControllers.TimeEditorController">
+<AnchorPane prefHeight="850.0" prefWidth="1183.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.EmployeeController.EditEmployeeShiftController">
    <children>
       <Label alignment="CENTER" layoutX="535.0" layoutY="14.0" prefHeight="27.0" prefWidth="150.0" text="דף עדכון שעות " AnchorPane.leftAnchor="535.0" AnchorPane.rightAnchor="498.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="ButtonBack" layoutX="675.0" layoutY="792.0" mnemonicParsing="false" onAction="#mainPageButtonClicked" prefHeight="35.0" prefWidth="168.0" text="חזרה לדף הראשי " AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="340.0">
+      <Button fx:id="ButtonBack" layoutX="675.0" layoutY="792.0" mnemonicParsing="false" onAction="#mainPageButtonClicked" prefHeight="35.0" prefWidth="168.0" text="חזרה  " AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="340.0">
          <font>
             <Font name="System Bold Italic" size="16.0" />
          </font></Button>

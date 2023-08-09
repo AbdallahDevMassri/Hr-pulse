@@ -48,7 +48,7 @@ public class ManagerController implements Navigators , EmployeeNavigators {
 
     @FXML
     void NavigateToReportsPage(ActionEvent event) throws IOException {
-        goToReportPage(event);
+
     }
 
     @FXML

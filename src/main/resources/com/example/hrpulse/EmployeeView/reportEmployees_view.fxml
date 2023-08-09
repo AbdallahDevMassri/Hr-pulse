@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="691.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.DisplayEmployeesController">
+<AnchorPane prefHeight="691.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.EmployeeController.ReportEmployeesController">
    <children>
       <Label alignment="CENTER" layoutX="334.0" layoutY="54.0" prefHeight="17.0" prefWidth="181.0" text="דף דוחות עובדים">
          <font>

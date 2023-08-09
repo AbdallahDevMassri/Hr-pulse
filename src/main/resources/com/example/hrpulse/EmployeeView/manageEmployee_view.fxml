@@ -59,7 +59,7 @@
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button contentDisplay="RIGHT" mnemonicParsing="false" onAction="#editRoleClicked" text="עדכון משמרת לעובד" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <Button contentDisplay="RIGHT" mnemonicParsing="false" onAction="#editShiftClicked" text="עדכון משמרת לעובד" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <font>
                               <Font size="14.0" />
                            </font>
