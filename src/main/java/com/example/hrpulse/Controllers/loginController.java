@@ -44,8 +44,8 @@ public class loginController implements Navigators  {
     }
     @FXML
     void userLogin(ActionEvent event) throws IOException {
-        String username = tf_UserName.getText().trim();
-        String password = tf_Password.getText();
+        String username = tf_UserName.getText().trim().toLowerCase();
+        String password = tf_Password.getText().toLowerCase();
 
         Employee employee = employees.get(username);
 

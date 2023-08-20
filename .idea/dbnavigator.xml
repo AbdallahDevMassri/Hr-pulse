@@ -65,6 +65,8 @@
           <host value="localhost" />
           <port value="3306" />
           <database value="mysql" />
+          <tns-folder value="" />
+          <tns-profile value="" />
           <type value="USER_PASSWORD" />
           <user value="root" />
           <deprecated-pwd value="MzAyOTc5Njg3YW0=" />
@@ -149,9 +151,11 @@
           <host value="localhost" />
           <port value="3306" />
           <database value="mysql" />
+          <tns-folder value="" />
+          <tns-profile value="" />
           <type value="USER_PASSWORD" />
           <user value="root" />
-          <deprecated-pwd value="MDUyMzIzOTk1NUFt" />
+          <deprecated-pwd value="MDUyMzIzOTk1NQ==" />
         </database>
         <properties>
           <auto-commit value="false" />

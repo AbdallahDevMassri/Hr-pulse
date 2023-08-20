@@ -28,6 +28,8 @@ public interface Navigators {
         Scene managerPageViewScene = new Scene(managerPageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(managerPageViewScene);
+        mainStage.setTitle("דף כניסה למנהל");
+        mainStage.centerOnScreen();
         mainStage.show();
     }
 
