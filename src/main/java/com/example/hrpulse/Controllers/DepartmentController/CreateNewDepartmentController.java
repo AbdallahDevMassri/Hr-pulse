@@ -28,26 +28,12 @@ public class CreateNewDepartmentController implements Navigators {
 
     @FXML
     void saveDepartmentClicked(ActionEvent event) {
-        String name = departmentNameLabel.getText();
-        String description = descriptionOfDepartmentLabel.getText();
-        String status = statusDepartmentDropDown.getValue();
-
-        // Convert status to a Boolean value
-        boolean isActive = status != null && status.equals("Active");
-
-        // Create the Department object
-        Department department = new Department(name, isActive);
-
-        // Do something with the department object (e.g., print its details)
-        System.out.println("Department Name: " + department.getName());
-        System.out.println("Description: " + department.getDescription());
-        System.out.println("Status: " + department.getStatus());
 
     }
-    // Initialize method is called automatically when the view is loaded
+
     @FXML
     private void initialize() {
-        // Populate the choice box with the status options
+
         statusDepartmentDropDown.setItems(FXCollections.observableArrayList("פעיל", "לא פעיל").sorted());
     }
 }

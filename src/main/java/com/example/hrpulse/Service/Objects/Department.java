@@ -1,36 +1,35 @@
 package com.example.hrpulse.Service.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Department {
-    private String name;
-    private String description;
-    private Boolean Status;
+    private int departmentId;
+    private String departmentName;
+    private List<Employee> employees;
 
-    public Department(String name, Boolean status) {
-        this.name = name;
-        Status = status;
+    public Department(int departmentId, String departmentName) {
+        // Initialize department attributes here
+        // Initialize the 'employees' list as an empty ArrayList
     }
 
-    public String getName() {
-        return name;
+    public void addEmployee(Employee employee) {
+        // Add an employee to the department's 'employees' list
+        // ...
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void removeEmployee(Employee employee) {
+        // Remove an employee from the department's 'employees' list
+        // ...
     }
 
-    public String getDescription() {
-        return description;
+    public List<Employee> getEmployees() {
+        // Return the list of employees in this department
+        return employees;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Boolean getStatus() {
-        return Status;
-    }
-
-    public void setStatus(Boolean status) {
-        Status = status;
+    public double calculateTotalDepartmentBudget() {
+        // Calculate and return the total department budget (sum of employee salaries)
+        // ...
+        return 0;
     }
 }
