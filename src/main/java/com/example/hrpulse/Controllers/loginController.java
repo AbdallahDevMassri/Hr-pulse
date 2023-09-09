@@ -18,12 +18,10 @@ public class loginController implements Navigators  {
     private static Map<String, Employee> employees = new HashMap<>();
 
     static {
-        employees.put("manager", new Employee("manager", "Globalvpsm@gmail.com", "0535216838", "1234"));
-        employees.put("manager2", new Employee("manager2", "A.v.e@live.com", "0523239955", "12345"));
-        employees.put("secretary",  new Employee("secretary", "Globalvpsm@gmail.com", "0535216838", "1234"));
-        employees.put("secretary2", new Employee("secretary1", "A.v.e@live.com", "0523239955", "12345"));
-        employees.put("head", new Employee("head", "Globalvpsm@gmail.com", "0535216838", "1234"));
-        employees.put("head2", new Employee("head1", "A.v.e@live.com", "0523239955", "12345"));
+        employees.put("admin_m", new Employee("manager", "Globalvpsm@gmail.com", "0535216838", "1234"));
+        employees.put("admin_s",  new Employee("secretary", "Globalvpsm@gmail.com", "0535216838", "1234"));
+        employees.put("admin_h", new Employee("head", "A.v.e@live.com", "0535216838", "1234"));
+
     }
 
 
@@ -50,13 +48,13 @@ public class loginController implements Navigators  {
         Employee employee = employees.get(username);
 
         if (employee != null && password.equals(employee.getPassword())) {
-            if (username.equals("manager")) {
+            if (username.equals("admin_m")) {
                 wrongLogin.setText("שגיאת מערכת");
                 navigateToManagerPage(event);
-            } else if (username.equals("secretary")) {
+            } else if (username.equals("admin_s")) {
                 wrongLogin.setText("שגיאת מערכת");
                 navigateToSecretaryPage(event);
-            } else if (username.equals("head")) {
+            } else if (username.equals("admin_h")) {
                 wrongLogin.setText("שגיאת מערכת");
                 navigateToHeadPage(event);
             } else {

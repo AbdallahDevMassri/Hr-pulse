@@ -14,74 +14,60 @@ import java.io.IOException;
 import java.util.Objects;
 
 public interface Navigators {
-    // navigate to login page
+
+    default void openInFullScreen(Stage stage, Scene scene, String title) {
+        stage.setScene(scene);
+        stage.setTitle(title);
+        stage.setMaximized(true); // Set the stage to full-screen
+        stage.setResizable(true);
+        stage.show();
+    }
     default void navigateToLoginPage(ActionEvent event) throws IOException {
         Parent loginPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/login-view.fxml")));
         Scene loginPageViewScene = new Scene(loginPageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(loginPageViewScene);
+        mainStage.setResizable(false);
+        mainStage.centerOnScreen(
+
+        );
         mainStage.show();
     }
-
     default void navigateToManagerPage(ActionEvent event) throws IOException {
         Parent managerPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/UsersView/manager_view.fxml")));
         Scene managerPageViewScene = new Scene(managerPageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        mainStage.setScene(managerPageViewScene);
-        mainStage.setTitle("דף כניסה למנהל");
-        mainStage.centerOnScreen();
-        mainStage.show();
+        openInFullScreen(mainStage, managerPageViewScene, "דף כניסה למנהל");
     }
-
     default void navigateToHeadPage(ActionEvent event) throws IOException {
         Parent headPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/UsersView/head_view.fxml")));
         Scene headPageViewScene = new Scene(headPageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        mainStage.setScene(headPageViewScene);
-        mainStage.show();
+        openInFullScreen(mainStage,headPageViewScene,"דף כניסה לאחראי");
     }
-
     default void navigateToSecretaryPage(ActionEvent event) throws IOException {
         Parent secretaryPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/UsersView/secretariat_view.fxml")));
         Scene secretaryPageViewScene = new Scene(secretaryPageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        mainStage.setScene(secretaryPageViewScene);
-        mainStage.show();
+        openInFullScreen(mainStage,secretaryPageViewScene,"דף כניסה למזכירה");
     }
-
     default void navigateToDisplayEmployeesPage(ActionEvent event) throws IOException {
         Parent homePageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/reportEmployees_view.fxml")));
         Scene homePageViewScene = new Scene(homePageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(homePageViewScene);
+        mainStage.setMaximized(true);
         mainStage.show();
     }
-
-    default void navigateToRegularEmployeesPage(ActionEvent event) throws IOException {
-        Parent employeePageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/regularWorker_view.fxml")));
-        Scene employeePageViewScene = new Scene(employeePageViewParent);
-        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        mainStage.setScene(employeePageViewScene);
-        mainStage.show();
-    }
-
-
-
-
-
-
-
-
     default void navigateToManageDepartment(ActionEvent event) throws IOException {
-        // Update the relative path to the FXML file within the resources folder
         Parent manageDepartmentPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/DepartmentView/manageDepartment_view.fxml")));
         Scene manageDepartmentPageViewScene = new Scene(manageDepartmentPageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(manageDepartmentPageViewScene);
         mainStage.setTitle("ניהול מחלקות");
+        mainStage.setMaximized(true);
         mainStage.show();
     }
-
     default void navigateToCreateDepartment(ActionEvent event) throws IOException {
         // Load the FXML file and create the Scene as before
         Parent createDepartmentPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/DepartmentView/createNewDepratment_view.fxml")));
@@ -89,12 +75,9 @@ public interface Navigators {
         // Get the main Stage and set its properties
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(createDepartmentPageViewScene);
-        // Set the Stage properties for resizable and on Center of the screen
-        mainStage.setResizable(true);
-        mainStage.centerOnScreen();
+        mainStage.setMaximized(true);
         mainStage.setTitle("יצירת מחלקה חדשה ");
         mainStage.show();
-
     }
     default void navigateEditDepartment(ActionEvent event) throws IOException {
         // Load the FXML file and create the Scene as before
@@ -104,11 +87,9 @@ public interface Navigators {
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(editDepartmentPageViewScene);
         // Set the Stage properties for resizable and on Center of the screen
-        mainStage.setResizable(true);
-        mainStage.centerOnScreen();
+        mainStage.setMaximized(true);
         mainStage.setTitle("עדכון נתוני מחלקה");
         mainStage.show();
-
     }
     default void navigateToReportOfDepartment(ActionEvent event) throws IOException {
         // Load the FXML file and create the Scene as before
@@ -117,11 +98,8 @@ public interface Navigators {
         // Get the main Stage and set its properties
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(ReportOfDepartmentPageViewScene);
-        // Set the Stage properties for resizable and on Center of the screen
-        mainStage.setResizable(true);
-        mainStage.centerOnScreen();
+        mainStage.setMaximized(true);
         mainStage.setTitle("דוח מחלקות");
         mainStage.show();
-
     }
 }

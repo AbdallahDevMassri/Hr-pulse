@@ -1,13 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.Button?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.RoleControllers.Secreteriat.SecretaryController">
-    <children>
-        <Label accessibleText="c" layoutX="286.0" layoutY="43.0" text="Welcome Head of department !" textAlignment="CENTER" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0" />
-        <Button fx:id="homePageButton" layoutX="274.0" layoutY="336.0" mnemonicParsing="false" onAction="#homePageClicked" text="Home Page" />
-    </children>
-</AnchorPane>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.RoleControllers.HeadOfDepartment.HeadOfDepartmentController">
+   <bottom>
+      <AnchorPane prefHeight="49.0" prefWidth="600.0" style="-fx-background-color: yellow;" BorderPane.alignment="CENTER">
+         <children>
+            <ButtonBar layoutX="336.0" layoutY="5.0" prefHeight="40.0" prefWidth="200.0">
+              <buttons>
+                <Button mnemonicParsing="false" onAction="#ChangeUserClicked" text="החלפת משתמש" />
+              </buttons>
+            </ButtonBar>
+         </children>
+      </AnchorPane>
+   </bottom>
+   <right>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER" />
+   </right>
+   <left>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: blue;" BorderPane.alignment="CENTER" />
+   </left>
+   <top>
+      <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="47.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="212.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="18.0" prefWidth="195.0" text="דף כניסה לאחראי " textAlignment="JUSTIFY" textOverrun="CENTER_ELLIPSIS" AnchorPane.rightAnchor="20.0" />
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <AnchorPane prefHeight="34.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <GridPane alignment="CENTER" layoutX="29.0" layoutY="20.0" prefHeight="246.0" prefWidth="148.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="30.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button maxHeight="30.0" maxWidth="240.0" mnemonicParsing="false" onAction="#ReportToManagerClicked" prefHeight="30.0" prefWidth="120.0" text="משוב למנהל " GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                  <Button maxHeight="30.0" maxWidth="240.0" mnemonicParsing="false" onAction="#AddNewUserClicked" prefHeight="30.0" prefWidth="120.0" text="הוספת עובד למחלקה" GridPane.halignment="CENTER" />
+                  <Button maxHeight="30.0" maxWidth="240.0" mnemonicParsing="false" onAction="#ShowEmployeeDetailsClicked" prefHeight="30.0" prefWidth="120.0" text="צפייה בנתוני עובד" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

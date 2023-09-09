@@ -1,14 +1,31 @@
 package com.example.hrpulse.Controllers.RoleControllers.HeadOfDepartment;
 
+import com.example.hrpulse.Service.Intefaces.Navigators;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 
-public class HeadOfDepartmentController {
+import java.io.IOException;
+
+public class HeadOfDepartmentController implements Navigators {
+
     @FXML
-    private Label welcomeLabel;
+    void AddNewUserClicked(ActionEvent event) {
 
-    public void initialize() {
-        welcomeLabel.setText("Welcome, Head of Department!");
     }
-}
 
+    @FXML
+    void ChangeUserClicked(ActionEvent event) throws IOException {
+        navigateToLoginPage(event);
+    }
+
+    @FXML
+    void ReportToManagerClicked(ActionEvent event) {
+
+    }
+
+    @FXML
+    void ShowEmployeeDetailsClicked(ActionEvent event) {
+
+    }
+
+}

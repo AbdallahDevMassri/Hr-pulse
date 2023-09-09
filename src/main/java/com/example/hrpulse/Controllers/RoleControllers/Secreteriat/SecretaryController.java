@@ -13,8 +13,8 @@ public class SecretaryController implements Navigators {
     private Button homePageButton;
 
     @FXML
-    void homePageClicked(ActionEvent event) throws IOException {
-    navigateToManagerPage(event);
+    void homePageButton(ActionEvent event) throws IOException {
+    navigateToLoginPage(event);
     }
 
 }
