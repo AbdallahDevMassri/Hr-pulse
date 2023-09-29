@@ -1,4 +1,4 @@
-package com.example.hrpulse.Service.Intefaces;
+package com.example.hrpulse.Services.Interfaces;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;

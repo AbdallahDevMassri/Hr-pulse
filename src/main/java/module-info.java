@@ -5,7 +5,8 @@ module com.example.hrpulse {
     requires org.hibernate.orm.core;
     requires java.sql;
     requires java.mail;
-
+    requires java.naming;
+    requires java.persistence;
 
 
     opens com.example.hrpulse to javafx.fxml;
@@ -22,5 +23,6 @@ module com.example.hrpulse {
     opens com.example.hrpulse.Controllers.DepartmentController to javafx.fxml;
     exports com.example.hrpulse.Controllers.EmployeeController;
     opens    com.example.hrpulse.Controllers.EmployeeController to javafx.fxml;
+    opens com.example.hrpulse.Services.Objects to org.hibernate.orm.core;
 
 }

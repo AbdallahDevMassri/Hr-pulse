@@ -1,4 +1,4 @@
-package com.example.hrpulse.Service.Intefaces;
+package com.example.hrpulse.Services.Interfaces;
 /**
  * this class  is used to handle all the navigators between the pages
  */

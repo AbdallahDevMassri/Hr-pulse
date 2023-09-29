@@ -1,5 +1,4 @@
-package com.example.hrpulse.Service.Objects;
-import java.util.ArrayList;
+package com.example.hrpulse.Services.Objects;
 import java.util.List;
 
 public class Department {
