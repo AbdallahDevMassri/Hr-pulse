@@ -6,9 +6,10 @@ public class Department {
     private String departmentName;
     private List<Employee> employees;
 
-    public Department(int departmentId, String departmentName) {
-        // Initialize department attributes here
-        // Initialize the 'employees' list as an empty ArrayList
+    public Department(int departmentId, String departmentName, List<Employee> employees) {
+        this.departmentId = departmentId;
+        this.departmentName = departmentName;
+        this.employees = employees;
     }
 
     public void addEmployee(Employee employee) {

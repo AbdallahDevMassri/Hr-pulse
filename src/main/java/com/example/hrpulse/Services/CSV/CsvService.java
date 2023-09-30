@@ -2,8 +2,10 @@ package com.example.hrpulse.Services.CSV;
 
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -46,6 +48,15 @@ public class CsvService {
             }
             // Print a new line character to separate rows
             System.out.println();
+        }
+    }
+
+    public static void writeCsv(String filePath, List<String[]> csvData) {
+        try (CSVWriter writer = new CSVWriter(new FileWriter(filePath))) {
+            // Write all the data to the CSV file
+            writer.writeAll(csvData);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

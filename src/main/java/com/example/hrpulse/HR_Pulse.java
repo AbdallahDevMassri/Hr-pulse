@@ -19,7 +19,6 @@ public class HR_Pulse extends Application {
     public static void main(String[] args) {
         initDatabase();
         launch();
-
     }
 
     @Override

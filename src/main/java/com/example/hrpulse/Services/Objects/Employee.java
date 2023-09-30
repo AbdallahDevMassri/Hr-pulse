@@ -32,6 +32,8 @@ public class Employee {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+    @Column(name = "gender")
+    private String gender;
 
     @Column(name = "employee_role")
     private String employeeRole;
@@ -45,12 +47,26 @@ public class Employee {
 
     @Column(name = "hourly_rate")
     private double hourlyRate;
+    @Column(name = "permonth")
+    private boolean perMonth;
 
     @Column(name = "employment_start_date")
     private Date employmentStartDate;
 
     @Column(name = "hours_worked")
     private int hoursWorked;
+    @Column(name = "status")
+    private boolean status;
+    @Column(name = "salaryToTravel")
+    private double salaryToTravel;
+
+    public double getSalaryToTravel() {
+        return salaryToTravel;
+    }
+
+    public void setSalaryToTravel(double salaryToTravel) {
+        this.salaryToTravel = salaryToTravel;
+    }
 
     public Employee() {
     }
@@ -59,6 +75,24 @@ public class Employee {
         this.email=email;
         this.phoneNumber=phoneNumber;
         this.password=password;
+    }
+
+    public boolean isPerMonth() {
+        return perMonth;
+    }
+
+    public void setPerMonth(boolean perMonth) {
+        this.perMonth = perMonth;
+    }
+
+
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public int getId() {
@@ -145,6 +179,14 @@ public class Employee {
         return bankInfo;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public void setBankInfo(BankInfo bankInfo) {
         this.bankInfo = bankInfo;
     }
@@ -179,12 +221,7 @@ public class Employee {
         return 0;
     }
 
-    public boolean isActiveEmployee() {
-        // Check if the employee is considered active based on specific criteria
-        // For example, you can check if they have worked in the last month, etc.
-        // ...
-        return false;
-    }
+
 
     public void updateEmployeeDetails() {
         // Update employee details here
