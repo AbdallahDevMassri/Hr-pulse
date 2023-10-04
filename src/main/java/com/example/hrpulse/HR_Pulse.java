@@ -1,11 +1,10 @@
 package com.example.hrpulse;
 
+import com.example.hrpulse.Services.Database.DatabaseManager;
+import com.example.hrpulse.Services.Database.DatabaseSessionManager;
 import com.example.hrpulse.Services.Hibernate.HibernateUtil;
 import com.example.hrpulse.Services.Objects.Employee;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-
+import com.example.hrpulse.Controllers.EmployeeController.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,6 +21,10 @@ public class HR_Pulse extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        // Initialize the DatabaseManager when the application starts
+        DatabaseManager.getSessionFactory();
+
+        // Load the login view
         FXMLLoader fxmlLoader = new FXMLLoader(HR_Pulse.class.getResource("login-view.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root, 600, 500);
@@ -31,44 +34,26 @@ public class HR_Pulse extends Application {
         stage.setResizable(false);
         stage.centerOnScreen();
         stage.show();
+
+        // Close the SessionFactory when the application exits
+        stage.setOnCloseRequest(event -> {
+            DatabaseManager.closeSessionFactory();
+        });
     }
 
     // Method to perform database operations after form submission
     public static void performDatabaseOperations(Employee employee) {
-        // Initialize the database and perform Hibernate operations
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        Transaction transaction = null;
+        DatabaseSessionManager sessionManager = new DatabaseSessionManager(DatabaseManager.getSessionFactory());
 
-        try {
-            transaction = session.beginTransaction();
+        // Save the employee to the database
+        boolean saved = sessionManager.saveEmployee(employee);
 
-            // Save the employee to the database
-            session.save(employee);
-
-            // Commit the transaction
-            transaction.commit();
-
-            // Retrieve the saved employee (optional)
-            Employee retrievedEmployee = session.get(Employee.class, employee.getId());
-            if (retrievedEmployee != null) {
-                System.out.println("Employee retrieved from the database:");
-                System.out.println("ID: " + retrievedEmployee.getId());
-                System.out.println("Name: " + retrievedEmployee.getFirstName() + " " + retrievedEmployee.getLastName());
-            } else {
-                System.out.println("Employee not found in the database.");
-            }
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            session.close();
+        if (saved) {
+            // Display confirmation
+            System.out.println("Employee saved successfully.");
+        } else {
+            // Display error
+            System.out.println("Error saving employee.");
         }
-
-        // Close the Hibernate session factory when done
-        HibernateUtil.shutdown();
     }
-
 }
