@@ -1,9 +1,13 @@
 package com.example.hrpulse.Services.Database;
 
+import com.example.hrpulse.Services.Objects.Department;
 import com.example.hrpulse.Services.Objects.Employee;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import java.util.List;
 
 public class DatabaseSessionManager {
     private final SessionFactory sessionFactory;

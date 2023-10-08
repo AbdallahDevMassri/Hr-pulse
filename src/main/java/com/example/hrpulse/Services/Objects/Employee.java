@@ -1,5 +1,6 @@
 package com.example.hrpulse.Services.Objects;
 
+import java.time.LocalDate;
 import java.util.Date;
 import javax.persistence.*;
 import java.util.Date;
@@ -25,7 +26,7 @@ public class Employee {
     private String password;
 
     @Column(name = "date_of_birth")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Column(name = "email")
     private String email;
@@ -55,21 +56,17 @@ public class Employee {
     @Column(name = "hours_worked")
     private int hoursWorked;
 
-    @Column(name = "status")
-    private boolean status;
+    @Column(name = "isHourly")
+    private boolean isHourly;
 
     @Column(name = "salaryToTravel")
     private double salaryToTravel;
+    @Column(name = "salaryPerMonth")
+    private double salaryPerMonth;
 
-    public double getSalaryToTravel() {
-        return salaryToTravel;
-    }
-
-    public void setSalaryToTravel(double salaryToTravel) {
-        this.salaryToTravel = salaryToTravel;
-    }
 
     public Employee() {
+        this.bankInfo = new BankInfo();
     }
     public Employee(String firstName,String email,String phoneNumber,String password){
         this.firstName=firstName;
@@ -78,12 +75,12 @@ public class Employee {
         this.password=password;
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isHourly() {
+        return isHourly;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setHourly(boolean hourly) {
+        isHourly = hourly;
     }
 
     public int getId() {
@@ -126,11 +123,17 @@ public class Employee {
         this.password = password;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
+    public double getSalaryToTravel() {
+        return salaryToTravel;
+    }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setSalaryToTravel(double salaryToTravel) {
+        this.salaryToTravel = salaryToTravel;
+    }
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -204,6 +207,14 @@ public class Employee {
 
     public void setHoursWorked(int hoursWorked) {
         this.hoursWorked = hoursWorked;
+    }
+
+    public double getSalaryPerMonth() {
+        return salaryPerMonth;
+    }
+
+    public void setSalaryPerMonth(double salaryPerMonth) {
+        this.salaryPerMonth = salaryPerMonth;
     }
 
     public double computeSalary() {
