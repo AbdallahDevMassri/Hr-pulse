@@ -19,15 +19,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     private ChoiceBox<?> cd_employeeChoice;
 
     @FXML
-    private TableColumn<?, ?> tc_bonus125;
-
-    @FXML
-    private TableColumn<?, ?> tc_bonus150;
-
-    @FXML
-    private TableColumn<?, ?> tc_bonus200;
-
-    @FXML
     private TableColumn<?, ?> tc_breakTime;
 
     @FXML
@@ -47,7 +38,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
     @FXML
     private Label tf_countHours;
-
 
 
     @FXML
