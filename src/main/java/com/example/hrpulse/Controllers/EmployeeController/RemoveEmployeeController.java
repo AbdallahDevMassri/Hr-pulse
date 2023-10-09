@@ -53,7 +53,7 @@ public class RemoveEmployeeController implements EmployeeNavigators {
 
         // Check if the employee ID is empty
         if (employeeIdText.isEmpty()) {
-            lblResult.setText("Please enter an Employee ID.");
+            lblResult.setText("נא הכנס תעודת זהות למחיקה ");
             return;
         }
 
@@ -62,7 +62,7 @@ public class RemoveEmployeeController implements EmployeeNavigators {
         try {
             employeeId = Integer.parseInt(employeeIdText);
         } catch (NumberFormatException e) {
-            lblResult.setText("Invalid Employee ID. Please enter a valid number.");
+            lblResult.setText("מספר ת.ז לא חוקי נא הכנס ערך חוקי");
             return;
         }
 
@@ -70,9 +70,9 @@ public class RemoveEmployeeController implements EmployeeNavigators {
         boolean deleted = deleteEmployeeByEmployeeId(employeeId);
 
         if (deleted) {
-            lblResult.setText("Employee with ID " + employeeId + " has been deleted successfully.");
+            lblResult.setText("העובד עם תעודת זהות : " + employeeId + " נמחק בהצלחה .");
         } else {
-            lblResult.setText("No employee found with ID " + employeeId + ".");
+            lblResult.setText("לא נמצא עובד עם תעודת זהות :" + employeeId + ".");
         }
     }
 

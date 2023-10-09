@@ -19,6 +19,7 @@ public interface Navigators {
         stage.setScene(scene);
         stage.setTitle(title);
         stage.setMaximized(true); // Set the stage to full-screen
+        stage.centerOnScreen();
         stage.setResizable(true);
         stage.show();
     }
