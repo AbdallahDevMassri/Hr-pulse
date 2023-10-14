@@ -3,9 +3,7 @@ package com.example.hrpulse.Controllers.EmployeeController;
 import com.example.hrpulse.HR_Pulse;
 import com.example.hrpulse.Services.CSV.CsvService;
 import com.example.hrpulse.Services.Interfaces.EmployeeNavigators;
-import com.example.hrpulse.Services.Objects.Department;
 import com.example.hrpulse.Services.Objects.Employee;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -14,7 +12,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 
 public class CreateEmployeePageController implements EmployeeNavigators {

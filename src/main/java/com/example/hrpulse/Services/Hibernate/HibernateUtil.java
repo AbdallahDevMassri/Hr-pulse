@@ -14,6 +14,7 @@ public class HibernateUtil {
             // Explicitly add the Employee and BankInfo classes
             configuration.addAnnotatedClass(com.example.hrpulse.Services.Objects.Employee.class);
             configuration.addAnnotatedClass(com.example.hrpulse.Services.Objects.BankInfo.class);
+            configuration.addAnnotatedClass(com.example.hrpulse.Services.Objects.Department.class);
 
             sessionFactory = configuration.buildSessionFactory();
         } catch (Throwable ex) {

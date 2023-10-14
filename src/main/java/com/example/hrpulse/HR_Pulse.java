@@ -40,6 +40,14 @@ public class HR_Pulse extends Application {
         stage.centerOnScreen();
         stage.show();
 
+        List<Department> departments = retrieveDepartments();
+        for (Department department : departments) {
+            System.out.println("Department Name: " + department.getDepartmentName());
+            System.out.println("Description: " + department.getDescription());
+            // Add more attributes if needed
+        }
+
+
         // Close the SessionFactory when the application exits
         stage.setOnCloseRequest(event -> {
             DatabaseManager.closeSessionFactory();
@@ -62,6 +70,70 @@ public class HR_Pulse extends Application {
         }
 
     }
+    public static void performDatabaseOperations(Department department) {
+        DatabaseSessionManager sessionManager = new DatabaseSessionManager(DatabaseManager.getSessionFactory());
+
+        // Save the employee to the database
+        boolean saved = sessionManager.saveDepartment(department);
+
+        if (saved) {
+            // Display confirmation
+            System.out.println("Departments saved successfully.");
+        } else {
+            // Display error
+            System.out.println("Error saving Department.");
+        }
+
+    }
+    public static void performDatabaseOperations(Department department, boolean update) {
+        DatabaseSessionManager sessionManager = new DatabaseSessionManager(DatabaseManager.getSessionFactory());
+
+        if (update) {
+            boolean updated = sessionManager.updateDepartment(department);
+
+            if (updated) {
+                // Display confirmation
+                System.out.println("Department updated successfully.");
+            } else {
+                // Display error
+                System.out.println("Error updating Department.");
+            }
+        } else {
+            boolean removed = sessionManager.removeDepartment(department);
+
+            if (removed) {
+                // Display confirmation
+                System.out.println("Department removed successfully.");
+            } else {
+                // Display error
+                System.out.println("Error removing Department.");
+            }
+        }
+    }
+    public static List<Department> retrieveDepartments() {
+        try (Session session = sessionFactory.openSession()) {
+            // Begin a transaction
+            session.beginTransaction();
+
+            // Create an HQL query to select all departments
+            Query<Department> query = session.createQuery("from Department", Department.class);
+
+            // Execute the query and get the list of departments
+            List<Department> departments = query.list();
+
+            // Commit the transaction
+            session.getTransaction().commit();
+
+            return departments;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+
 
 
 

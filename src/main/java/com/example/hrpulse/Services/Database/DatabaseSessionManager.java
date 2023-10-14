@@ -32,6 +32,55 @@ public class DatabaseSessionManager {
 
         return false;
     }
+    public boolean saveDepartment(Department department) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+
+            try {
+                session.save(department);
+                transaction.commit();
+                return true;
+            } catch (Exception e) {
+                transaction.rollback();
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+    public boolean updateDepartment(Department department) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+
+            try {
+                session.update(department);
+                transaction.commit();
+                return true;
+            } catch (Exception e) {
+                transaction.rollback();
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+    public boolean removeDepartment(Department department) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+
+            try {
+                session.delete(department);
+                transaction.commit();
+                return true;
+            } catch (Exception e) {
+                transaction.rollback();
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+
 
     // Add more methods for other database operations if needed
 }

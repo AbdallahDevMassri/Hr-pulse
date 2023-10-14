@@ -1,13 +1,22 @@
 package com.example.hrpulse.Services.Objects;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 @Entity
 @Table(name = "departments") // Specify the actual database table name
 public class Department {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="id")
     private int departmentId;
+    @Column(name = "department_name")
     private String departmentName;
+    @Column(name = "description" )
+    private String description;
+    @OneToMany(mappedBy = "department")
     private List<Employee> employees;
+
+    public Department() {
+    }
 
     public Department(int departmentId, String departmentName, List<Employee> employees) {
         this.departmentId = departmentId;
@@ -33,6 +42,14 @@ public class Department {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void addEmployee(Employee employee) {
