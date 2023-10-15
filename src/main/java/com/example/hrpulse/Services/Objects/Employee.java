@@ -1,6 +1,7 @@
 package com.example.hrpulse.Services.Objects;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.*;
 import java.util.Date;
@@ -61,8 +62,12 @@ public class Employee {
 
     @Column(name = "salaryToTravel")
     private double salaryToTravel;
+
     @Column(name = "salaryPerMonth")
     private double salaryPerMonth;
+
+    @Column(name = "timestamp")
+    private LocalDateTime timestamp;
 
 
     public Employee() {
@@ -221,6 +226,16 @@ public class Employee {
         // Calculate and return the employee's salary based on hourly rate and hours worked
         // ...
         return 0;
+    }
+
+    public void clockIn() {
+        // Update the timestamp field with the current date and time
+        this.timestamp = LocalDateTime.now();
+    }
+
+    public void clockOut() {
+        // Update the timestamp field with the current date and time
+        this.timestamp = LocalDateTime.now();
     }
 
 
