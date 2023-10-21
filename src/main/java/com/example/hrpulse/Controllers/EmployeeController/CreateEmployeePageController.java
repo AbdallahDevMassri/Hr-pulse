@@ -249,6 +249,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
 
         // Associate the employee with the selected department
         employee.setDepartment(selectedDepartment.getDepartmentName());
+//        selectedDepartment.addEmployee(employee);
         // Save the data to the database using HR_Pulse's method
 
         hrPulse.performDatabaseOperations(employee);

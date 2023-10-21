@@ -5,10 +5,7 @@ import com.example.hrpulse.Services.Interfaces.Navigators;
 import com.example.hrpulse.Services.Objects.Department;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.hibernate.SessionFactory;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -163,10 +160,12 @@ public class EditDepartmentController implements Navigators {
                 cb_departmentShow.getItems().addAll(departmentNames);
 
                 // Display confirmation
-                System.out.println("Department removed successfully.");
+                showConfirmationDialog("Removed successfully !","המחלקה הוסרה בהצלחה !");
+
             } else {
                 // Display error
-                System.out.println("Error removing department.");
+                showErrorDialog("Error","שגיאה במחיקת המחלקה !");
+
             }
         }
     }
@@ -179,6 +178,23 @@ public class EditDepartmentController implements Navigators {
         }
 
         return departmentNames;
+    }
+    // Helper method to show a confirmation dialog
+    private void showConfirmationDialog(String title,String message ) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    // Helper method to show an error dialog
+    private void showErrorDialog(String title,String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }

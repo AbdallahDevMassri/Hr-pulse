@@ -12,7 +12,7 @@ public class Department {
     private String departmentName;
     @Column(name = "description" )
     private String description;
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
     private List<Employee> employees;
 
     public Department() {

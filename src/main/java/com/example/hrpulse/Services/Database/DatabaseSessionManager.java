@@ -80,7 +80,17 @@ public class DatabaseSessionManager {
 
         return false;
     }
+    public Department getDepartmentById(int departmentId) {
+        try (Session session = sessionFactory.openSession()) {
+            // Open a new session
 
+            // Retrieve the department using its ID
+            Department department = session.get(Department.class, departmentId);
+
+            // You now have the department object
+            return department;
+        }
+    }
 
     // Add more methods for other database operations if needed
 }
