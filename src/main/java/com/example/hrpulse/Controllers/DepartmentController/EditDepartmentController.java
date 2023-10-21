@@ -49,7 +49,7 @@ public class EditDepartmentController implements Navigators {
     @FXML
     private TextField tf_departmentDescription;
 
-    private List<Department> departments; // Your list of departments
+    private List<Department> departments; // the  list of departments
 
     @FXML
     public void initialize() {

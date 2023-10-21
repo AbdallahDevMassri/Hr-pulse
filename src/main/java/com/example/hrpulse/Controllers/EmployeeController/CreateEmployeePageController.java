@@ -3,6 +3,7 @@ package com.example.hrpulse.Controllers.EmployeeController;
 import com.example.hrpulse.HR_Pulse;
 import com.example.hrpulse.Services.CSV.CsvService;
 import com.example.hrpulse.Services.Interfaces.EmployeeNavigators;
+import com.example.hrpulse.Services.Objects.Department;
 import com.example.hrpulse.Services.Objects.Employee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,9 +11,13 @@ import javafx.scene.control.*;
 import org.hibernate.SessionFactory;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import static com.example.hrpulse.Controllers.DepartmentController.EditDepartmentController.retrieveDepartmentNames;
+import static com.example.hrpulse.HR_Pulse.retrieveDepartments;
 
 
 public class CreateEmployeePageController implements EmployeeNavigators {
@@ -59,6 +64,8 @@ public class CreateEmployeePageController implements EmployeeNavigators {
     @FXML
     private DatePicker dp_dateOfBirth;
     @FXML
+    private DatePicker dp_startDate;
+    @FXML
     private CheckBox cb_isHourly;
     @FXML
     private TextField tf_salaryPerHour;
@@ -102,11 +109,19 @@ public class CreateEmployeePageController implements EmployeeNavigators {
                 tf_password.setVisible(false);
             }
         });
-//        List<Department> departments = HR_Pulse.fetchDepartments();
-//        if (departments != null) {
-//            List<String> departmentNames = departments.stream().map(Department::getDepartmentName).collect(Collectors.toList());
-//            cb_department.setItems(FXCollections.observableArrayList(departmentNames));
-//        }
+        // declare a list of departments
+        List<Department> departments;
+        // retrieve the department from database by using the static method from the hr_pulse class
+        departments=retrieveDepartments();
+
+        // Check if departments are not null before populating the ComboBox
+        if (departments != null) {
+            // Retrieve department names using the static method that is presumably in the EditDepartment class
+            List<String> departmentNames = retrieveDepartmentNames(departments);
+
+            // Populate the ComboBox with department names
+            cb_department.getItems().addAll(departmentNames);
+        }
 
     }
     @FXML
@@ -129,6 +144,8 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         String department = cb_department.getValue();
         // Retrieve the selected date from the DatePicker
         LocalDate dateOfBirth = dp_dateOfBirth.getValue();
+
+        LocalDate employmentStartDate = dp_startDate.getValue();
         boolean isHourly = cb_isHourly.isSelected();
         //-----------------------------------------------------------------------
         String salaryPerHourText = tf_salaryPerHour.getText();
@@ -209,7 +226,29 @@ public class CreateEmployeePageController implements EmployeeNavigators {
        employee.getBankInfo().setBankNumber(bankNumber);
        employee.getBankInfo().setAccountNumber(acountNumber);
        employee.getBankInfo().setBankSneefCode(sneefBankCode);
+        employee.setEmploymentStartDate(Date.from(employmentStartDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
+
+
+
+        String departmentName = cb_department.getValue(); // Get the selected department name
+
+        // Check if a department name is selected
+        if (departmentName == null || departmentName.isEmpty()) {
+            departmentName ="default";
+            return; // Exit the method
+        }
+
+        // Retrieve the selected department based on its name
+        Department selectedDepartment = getDepartmentByName(departmentName);
+
+        if (selectedDepartment == null) {
+            showErrorDialog("Selected department not found. Please check the department name.");
+            return; // Exit the method
+        }
+
+        // Associate the employee with the selected department
+        employee.setDepartment(selectedDepartment.getDepartmentName());
         // Save the data to the database using HR_Pulse's method
 
         hrPulse.performDatabaseOperations(employee);
@@ -218,24 +257,38 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         showConfirmationDialog("נתוני העובד התווספו בהצלחה .");
     }
 
-    // Helper method to save data to a CSV file
-    private void saveToCSV(Employee employee, String filePath) {
-        List<String[]> csvData = new ArrayList<>();
+    private Department getDepartmentByName(String departmentName) {
+        // declare a list of departments
+        List<Department> allDepartments;
+        // retrieve the department from database by using the static method from the hr_pulse class
+        allDepartments=retrieveDepartments();
+        for (Department department : allDepartments) {
+            if (department.getDepartmentName().equals(departmentName)) {
+                return department;
+            }
+        }
+        return null; // Department not found
 
-        // Convert employee data to a String array
-        String[] employeeData = {
-                String.valueOf(employee.getEmployeeId()),
-                employee.getFirstName(),
-                employee.getLastName(),
-                // Add other fields here
-        };
-
-        // Add the employee data to the CSV data list
-        csvData.add(employeeData);
-
-        // Write the CSV data to the file
-        CsvService.writeCsv(filePath, csvData);
     }
+
+//    // Helper method to save data to a CSV file
+//    private void saveToCSV(Employee employee, String filePath) {
+//        List<String[]> csvData = new ArrayList<>();
+//
+//        // Convert employee data to a String array
+//        String[] employeeData = {
+//                String.valueOf(employee.getEmployeeId()),
+//                employee.getFirstName(),
+//                employee.getLastName(),
+//                // Add other fields here
+//        };
+//
+//        // Add the employee data to the CSV data list
+//        csvData.add(employeeData);
+//
+//        // Write the CSV data to the file
+//        CsvService.writeCsv(filePath, csvData);
+//    }
 
     // Helper method to show a confirmation dialog
     private void showConfirmationDialog(String message) {
