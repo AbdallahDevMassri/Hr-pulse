@@ -129,12 +129,23 @@ public class HR_Pulse extends Application {
             e.printStackTrace();
             return null;
         }
+
     }
+    public static List<Employee> retrieveEmployees() {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
 
+            Query<Employee> query = session.createQuery("from Employee", Employee.class);
+            List<Employee> employees = query.list();
 
+            session.getTransaction().commit();
 
-
-
+            return employees;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
 }

@@ -53,8 +53,7 @@ public class Department {
     }
 
     public void addEmployee(Employee employee) {
-        // Add an employee to the department's 'employees' list
-        // ...
+        employees.add(employee);
     }
 
     public void removeEmployee(Employee employee) {
@@ -71,5 +70,15 @@ public class Department {
         // Calculate and return the total department budget (sum of employee salaries)
         // ...
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "departmentId=" + departmentId +
+                ", departmentName='" + departmentName + '\'' +
+                ", description='" + description + '\'' +
+                ", employees=" + employees +
+                '}';
     }
 }

@@ -216,7 +216,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         employee.setEmail(email);
         employee.setGender(gender);
         employee.setEmployeeRole(role);
-        employee.setDepartment(department);
+
         employee.setDateOfBirth(dateOfBirth);
         employee.setPassword(password);
        employee.setHourly(isHourly);
