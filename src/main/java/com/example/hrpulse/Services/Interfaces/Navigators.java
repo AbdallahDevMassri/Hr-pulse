@@ -6,9 +6,11 @@ package com.example.hrpulse.Services.Interfaces;
 import com.example.hrpulse.HR_Pulse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -40,8 +42,13 @@ public interface Navigators {
         Parent managerPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/UsersView/manager_view.fxml")));
         Scene managerPageViewScene = new Scene(managerPageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         mainStage.setScene(managerPageViewScene);
         mainStage.setTitle("דף כניסה למנהל");
+        mainStage.setX(screenBounds.getMinX());
+        mainStage.setY(screenBounds.getMinY());
+        mainStage.setWidth(screenBounds.getWidth());
+        mainStage.setHeight(screenBounds.getHeight());
         mainStage.centerOnScreen();
         mainStage.show();
 
