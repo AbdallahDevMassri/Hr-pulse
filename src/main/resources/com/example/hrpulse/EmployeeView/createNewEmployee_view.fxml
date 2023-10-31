@@ -194,7 +194,7 @@
                   <ChoiceBox fx:id="cb_role" minWidth="80.0" prefHeight="25.0" prefWidth="52.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                      <items>
                         <FXCollections fx:factory="observableArrayList">
-                           <String fx:value="secretariat" />
+                           <String fx:value="secretary" />
                            <String fx:value="headOfDepartment" />
                            <String fx:value="employee" />
                         </FXCollections>

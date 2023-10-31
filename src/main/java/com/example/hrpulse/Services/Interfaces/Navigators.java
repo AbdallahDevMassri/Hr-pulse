@@ -3,6 +3,7 @@ package com.example.hrpulse.Services.Interfaces;
  * this class  is used to handle all the navigators between the pages
  */
 
+import com.example.hrpulse.HR_Pulse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,6 +17,7 @@ import java.util.Objects;
 public interface Navigators {
 
     default void openInFullScreen(Stage stage, Scene scene, String title) {
+
         stage.setScene(scene);
         stage.setTitle(title);
         stage.setMaximized(true); // Set the stage to full-screen
@@ -24,21 +26,26 @@ public interface Navigators {
         stage.show();
     }
     default void navigateToLoginPage(ActionEvent event) throws IOException {
+
         Parent loginPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/login-view.fxml")));
         Scene loginPageViewScene = new Scene(loginPageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(loginPageViewScene);
+        mainStage.setTitle("Hr-Pulse");
         mainStage.setResizable(false);
-        mainStage.centerOnScreen(
-
-        );
+        mainStage.centerOnScreen();
         mainStage.show();
     }
     default void navigateToManagerPage(ActionEvent event) throws IOException {
         Parent managerPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/UsersView/manager_view.fxml")));
         Scene managerPageViewScene = new Scene(managerPageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        openInFullScreen(mainStage, managerPageViewScene, "דף כניסה למנהל");
+        mainStage.setScene(managerPageViewScene);
+        mainStage.setTitle("דף כניסה למנהל");
+        mainStage.centerOnScreen();
+        mainStage.show();
+
+
     }
     default void navigateToHeadPage(ActionEvent event) throws IOException {
         Parent headPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/UsersView/head_view.fxml")));

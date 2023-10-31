@@ -3,6 +3,7 @@ package com.example.hrpulse;
 import com.example.hrpulse.Services.Database.DatabaseManager;
 import com.example.hrpulse.Services.Database.DatabaseSessionManager;
 import com.example.hrpulse.Services.Hibernate.HibernateUtil;
+import com.example.hrpulse.Services.Interfaces.Navigators;
 import com.example.hrpulse.Services.Objects.Department;
 import com.example.hrpulse.Services.Objects.Employee;
 import com.example.hrpulse.Controllers.EmployeeController.*;
@@ -18,7 +19,7 @@ import org.hibernate.query.Query;
 import java.io.IOException;
 import java.util.List;
 
-public class HR_Pulse extends Application {
+public class HR_Pulse extends Application  {
     private static SessionFactory sessionFactory;
     public static void main(String[] args) {
         launch(args);
@@ -32,7 +33,7 @@ public class HR_Pulse extends Application {
         // Load the login view
         FXMLLoader fxmlLoader = new FXMLLoader(HR_Pulse.class.getResource("login-view.fxml"));
         Parent root = fxmlLoader.load();
-        Scene scene = new Scene(root, 600, 500);
+        Scene scene = new Scene(root);
         stage.setResizable(false);
         stage.setTitle("Hr-Pulse");
         stage.setScene(scene);
