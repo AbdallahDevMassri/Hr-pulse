@@ -1,4 +1,68 @@
-.root{
--fx-background-image: url("Images/employeeManage.jpg");
--fx-background-size:cover;
+/* Root styles */
+.root {
+    -fx-background-image: url("Images/employeeManage.jpg");
+    -fx-background-size: cover;
+}
+
+/* Style for "ניהול מחלקות" button */
+#EditEmployeeButton {
+    -fx-background-color: #FF5733; /* Set the background color */
+    -fx-text-fill: white; /* Set the text color */
+    -fx-background-radius: 5; /* Rounded corners */
+    -fx-font-weight: bold;
+}
+
+/* Style for "ניהול עובדים" button */
+#shiftHandlingbutton {
+    -fx-background-color: #3498DB;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+}
+
+/* Style for "ניהול דוחות ובקשות" button */
+#reportsButton {
+    -fx-background-color: #E74C3C;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+}
+
+/* Style for "הפקת דוחות" button */
+#displayWorkerButton {
+    -fx-background-color: #27AE60;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+}
+
+/* Apply hover effect to all buttons */
+.button:hover {
+    -fx-background-color: derive(#34495E, 20%); /* Lighter background color on hover */
+    -fx-cursor: hand; /* Change cursor to a hand on hover */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 0); /* Add a drop shadow on hover */
+}
+/* Style for the "החלף משתמש" and "יציאה" buttons in the bottom ButtonBar */
+#homePageButton, #exitButton {
+    -fx-background-color: #E67E22;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+}
+
+/* Apply hover effect to the "החלף משתמש" and "יציאה" buttons */
+#homePageButton:hover, #exitButton:hover {
+    -fx-background-color: #D35400;
+    -fx-cursor: hand;
+}
+.button {
+    -fx-font-family: "Arial"; /* Change font family */
+    -fx-font-size: 14px; /* Change font size */
+    -fx-text-fill: white; /* Set text color to white */
+
+       -fx-min-width: 150px;
+        -fx-min-height: 40px;
+}
+.button:hover .text {
+    -fx-fill: lightgrey; /* Change font color to light grey on hover */
 }

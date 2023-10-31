@@ -42,13 +42,8 @@ public interface Navigators {
         Parent managerPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/UsersView/manager_view.fxml")));
         Scene managerPageViewScene = new Scene(managerPageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         mainStage.setScene(managerPageViewScene);
         mainStage.setTitle("דף כניסה למנהל");
-        mainStage.setX(screenBounds.getMinX());
-        mainStage.setY(screenBounds.getMinY());
-        mainStage.setWidth(screenBounds.getWidth());
-        mainStage.setHeight(screenBounds.getHeight());
         mainStage.centerOnScreen();
         mainStage.show();
 

@@ -12,7 +12,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane blendMode="DARKEN" prefHeight="454.0" prefWidth="702.0" styleClass="root" stylesheets="@../../../../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.RoleControllers.Manager.ManagerController">
+<BorderPane blendMode="DARKEN" prefHeight="652.0" prefWidth="1002.0" styleClass="root" stylesheets="@../../../../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.RoleControllers.Manager.ManagerController">
    <center>
       <GridPane alignment="CENTER" prefHeight="318.0" prefWidth="434.0" BorderPane.alignment="CENTER_LEFT">
          <columnConstraints>
@@ -25,10 +25,10 @@
             <RowConstraints maxHeight="164.80000610351564" minHeight="10.0" prefHeight="92.40001220703121" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="EditEmployeeButton" alignment="CENTER" mnemonicParsing="false" onAction="#NavigateToManageDepartment" prefHeight="60.0" prefWidth="120.0" text="ניהול מחלקות" GridPane.rowIndex="2" />
             <Button fx:id="shiftHandlingbutton" alignment="CENTER" mnemonicParsing="false" onAction="#manageEmployeeClicked" prefHeight="60.0" prefWidth="120.0" text="ניהול עובדים" />
-            <Button fx:id="reportsButton" alignment="CENTER" mnemonicParsing="false" onAction="#NavigateToReportsPage" prefHeight="60.0" prefWidth="130.0" text="ניהול דוחות ובקשות " GridPane.rowIndex="1" />
+            <Button fx:id="reportsButton" alignment="CENTER" mnemonicParsing="false" onAction="#NavigateToReportsPage" prefHeight="60.0" prefWidth="130.0" text="ניהול דוחות ובקשות " GridPane.rowIndex="2" />
             <Button fx:id="displayWorkerButton" alignment="CENTER" mnemonicParsing="false" onAction="#DisplayEmployees" prefHeight="60.0" prefWidth="120.0" text="הפקת דוחות" GridPane.rowIndex="3" />
+            <Button fx:id="EditEmployeeButton" alignment="CENTER" mnemonicParsing="false" onAction="#NavigateToManageDepartment" prefHeight="60.0" prefWidth="120.0" text="ניהול מחלקות" GridPane.rowIndex="1" />
          </children>
          <padding>
             <Insets left="200.0" />
@@ -55,6 +55,14 @@
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <buttons>
+            <Label fx:id="label_userName" nodeOrientation="LEFT_TO_RIGHT" text="שם משתמש :" textFill="#e7e1e1">
+               <opaqueInsets>
+                  <Insets right="1000.0" />
+               </opaqueInsets>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
             <Button fx:id="homePageButton" alignment="CENTER" mnemonicParsing="false" onAction="#HomePageClicked" prefHeight="60.0" prefWidth="120.0" text="החלף משתמש" />
             <Button fx:id="exitButton" alignment="CENTER" mnemonicParsing="false" onAction="#ExitButtonClicked" prefHeight="60.0" prefWidth="120.0" text="יציאה" />
          </buttons>
