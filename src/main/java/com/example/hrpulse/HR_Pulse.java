@@ -132,9 +132,4 @@ public class HR_Pulse extends Application {
     }
 
 
-
-
-
-
-
 }
