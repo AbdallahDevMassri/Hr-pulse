@@ -41,14 +41,6 @@ public class HR_Pulse extends Application  {
         stage.centerOnScreen();
         stage.show();
 
-        List<Department> departments = retrieveDepartments();
-        for (Department department : departments) {
-            System.out.println("Department Name: " + department.getDepartmentName());
-            System.out.println("Description: " + department.getDescription());
-            // Add more attributes if needed
-        }
-
-
         // Close the SessionFactory when the application exits
         stage.setOnCloseRequest(event -> {
             DatabaseManager.closeSessionFactory();

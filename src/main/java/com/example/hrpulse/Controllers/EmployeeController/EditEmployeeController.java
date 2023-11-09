@@ -11,10 +11,9 @@ import javafx.scene.control.TextField;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-
 import java.io.IOException;
 
-public class RemoveEmployeeController implements EmployeeNavigators {
+public class EditEmployeeController implements EmployeeNavigators {
 
     @FXML
     private TextField tf_employeeId;
@@ -29,11 +28,11 @@ public class RemoveEmployeeController implements EmployeeNavigators {
         this.sessionFactory = HibernateUtil.getSessionFactory();
     }
 
-    public RemoveEmployeeController() {
+    public EditEmployeeController() {
 
     }
 
-    public RemoveEmployeeController(HR_Pulse hrPulse, SessionFactory sessionFactory) {
+    public EditEmployeeController(HR_Pulse hrPulse, SessionFactory sessionFactory) {
         this.hrPulse = hrPulse;
 
         // Initialize the SessionFactory here
@@ -41,10 +40,7 @@ public class RemoveEmployeeController implements EmployeeNavigators {
     }
 
 
-    @FXML
-    void backToManageEmployee(ActionEvent event) throws IOException {
-        navigateToManageEmployeePage(event);
-    }
+
 
     @FXML
     void deleteEmployee(ActionEvent event) {
@@ -100,5 +96,8 @@ public class RemoveEmployeeController implements EmployeeNavigators {
             return false;
         }
     }
-
+@FXML
+    public void backToManageEmployee(ActionEvent actionEvent) throws IOException{
+        navigateToManageEmployeePage(actionEvent);
+    }
 }

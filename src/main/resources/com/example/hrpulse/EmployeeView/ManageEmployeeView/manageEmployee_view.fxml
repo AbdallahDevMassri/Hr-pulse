@@ -31,7 +31,7 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="removeEmployeeButton" contentDisplay="RIGHT" maxHeight="30.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" mnemonicParsing="false" onAction="#removeEmployeeClicked" text="הסרת עובד">
+                  <Button fx:id="editEmployeeButton" contentDisplay="RIGHT" maxHeight="30.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" mnemonicParsing="false" onAction="#editEmployeeClicked" text="עדכון / הסרת עובד">
                      <font>
                         <Font size="14.0" />
                      </font>

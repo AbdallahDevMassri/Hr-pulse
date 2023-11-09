@@ -13,7 +13,7 @@
 }
 
 /* Style for "הסרת עובד" button */
-#removeEmployeeButton {
+#editEmployeeButton {
     -fx-background-color: #3498DB;
     -fx-text-fill: white;
     -fx-background-radius: 5;

@@ -1,4 +1,4 @@
-package com.example.hrpulse.Controllers.DepartmentController;
+package com.example.hrpulse;
 
 import com.example.hrpulse.Services.Objects.Department;
 import com.example.hrpulse.Services.Objects.Employee;

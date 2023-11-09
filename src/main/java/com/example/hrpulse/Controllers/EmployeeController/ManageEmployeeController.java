@@ -36,8 +36,8 @@ public class ManageEmployeeController implements Navigators, EmployeeNavigators 
     }
 
     @FXML
-    void removeEmployeeClicked(ActionEvent event) throws IOException {
-        navigateToRemoveEmployeePage(event);
+    void editEmployeeClicked(ActionEvent event) throws IOException {
+        navigateToEditEmployeePage(event);
     }
 
     @FXML
