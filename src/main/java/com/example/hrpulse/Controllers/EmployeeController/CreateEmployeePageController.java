@@ -68,19 +68,17 @@ public class CreateEmployeePageController implements EmployeeNavigators {
     @FXML
     private CheckBox cb_isHourly;
     @FXML
-    private TextField tf_salaryPerHour;
-    @FXML
     private CheckBox cb_isPerMoth;
     @FXML
+    private TextField tf_salaryPerHour;
+    @FXML
     private TextField tf_perMonth;
-
     @FXML
     private TextField tf_salaryToTravel;
     @FXML
     private TextField tf_bankNumber;
     @FXML
     private TextField tf_acountNumber;
-
     @FXML
     private TextField tf_sneefBankCode;
 
@@ -166,7 +164,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         try {
             employeeID = Integer.parseInt(employeeIDText);
         } catch (NumberFormatException e) {
-            showErrorDialog("ת.ז  לא חוקית . נא הכנס ספרות בלבד .");
+            showErrorDialog("ת.ז  לא חוקית . ");
             return;
         }
         // Check if the employee ID is unique

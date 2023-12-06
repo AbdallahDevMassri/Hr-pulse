@@ -61,12 +61,15 @@ public class loginController implements Navigators {
         String username = tf_UserName.getText().trim().toLowerCase();
         String password = tf_Password.getText().toLowerCase();
         Employee employee = employees.get(username);
-        Employee employeeDb = getEmployeeByUsernameAndPassword(username, password);
-        UserSession.getInstance().setCurrentUser(employeeDb);
-        Employee currentUser = UserSession.getInstance().getCurrentUser();
 
-        if (currentUser != null) {
+        Employee employeeDb = getEmployeeByUsernameAndPassword(username, password);
+
+
+        if (employeeDb != null) {
             // Employee found in the database
+            UserSession.getInstance().setCurrentUser(employeeDb);
+            Employee currentUser = UserSession.getInstance().getCurrentUser();
+
             String employeeRole = currentUser.getEmployeeRole();
 
             switch (employeeRole) {

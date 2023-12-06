@@ -2,6 +2,7 @@ package com.example.hrpulse.Controllers.EmployeeController;
 
 
 import com.example.hrpulse.Services.Interfaces.EmployeeNavigators;
+import com.example.hrpulse.Services.Objects.Department;
 import com.example.hrpulse.Services.Objects.Employee;
 import com.example.hrpulse.HR_Pulse;
 import javafx.event.ActionEvent;
@@ -9,116 +10,115 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import org.hibernate.SessionFactory;
+
 import java.io.IOException;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.example.hrpulse.Controllers.DepartmentController.EditDepartmentController.retrieveDepartmentNames;
+import static com.example.hrpulse.HR_Pulse.retrieveDepartments;
 import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
 
 
 public class EditEmployeeController implements EmployeeNavigators {
 
-    private  HR_Pulse hrPulse;
-    private  SessionFactory sessionFactory;
+    private HR_Pulse hrPulse;
+    private SessionFactory sessionFactory;
 
-   public EditEmployeeController() {}
+    public EditEmployeeController() {
+    }
+
     public EditEmployeeController(HR_Pulse hrPulse) {
-        this.hrPulse =hrPulse;
-        this.sessionFactory= null;
+        this.hrPulse = hrPulse;
+        this.sessionFactory = null;
     }
 
     public EditEmployeeController(HR_Pulse hrPulse, SessionFactory sessionFactory) {
         this.hrPulse = hrPulse;
         this.sessionFactory = sessionFactory;
     }
-    @FXML
-    private Button backButton;
-
-    @FXML
-    private ChoiceBox<?> cb_department;
-
-    @FXML
-    private ChoiceBox<String> cb_gender;
-
-    @FXML
-    private CheckBox cb_isHourly;
-
-    @FXML
-    private CheckBox cb_isPerMoth;
-
-    @FXML
-    private ChoiceBox<String> cb_retriveEmployee;
-
-    @FXML
-    private ChoiceBox<String> cb_role;
-
-    @FXML
-    private DatePicker dp_dateOfBirth;
-
-    @FXML
-    private DatePicker dp_startDate;
-
-    @FXML
-    private GridPane gp_editEmployee;
-
-    @FXML
-    private Button saveButton;
-
-    @FXML
-    private TextField tf_acountNumber;
-
-    @FXML
-    private TextField tf_bankNumber;
-
-    @FXML
-    private TextField tf_email;
-
-    @FXML
-    private TextField tf_employeeID;
 
     @FXML
     private TextField tf_firstName;
-
     @FXML
     private TextField tf_lastName;
-
+    @FXML
+    private TextField tf_employeeID;
+    @FXML
+    private TextField tf_email;
+    @FXML
+    private TextField tf_phoneNumber;
+    @FXML
+    private ChoiceBox<String> cb_gender;
+    @FXML
+    private ChoiceBox<String> cb_role;
     @FXML
     private TextField tf_password;
 
     @FXML
-    private TextField tf_perMonth;
-
-    @FXML
-    private TextField tf_phoneNumber;
-
+    private CheckBox cb_isHourly;
     @FXML
     private TextField tf_salaryPerHour;
-
+    @FXML
+    private CheckBox cb_isPerMoth;
+    @FXML
+    private TextField tf_perMonth;
     @FXML
     private TextField tf_salaryToTravel;
-
+    @FXML
+    private TextField tf_bankNumber;
+    @FXML
+    private TextField tf_acountNumber;
     @FXML
     private TextField tf_sneefBankCode;
+    @FXML
+    private ChoiceBox<String> cb_retriveEmployee;
+    @FXML
+    private GridPane gp_editEmployee;
     private List<Employee> employeeList;
 
     @FXML
-    public void initialize (){
+    public void initialize() {
         employeeList = retrieveEmployees();
-        List<String> employeFullName =retrieveEmployeesNames(employeeList);
+        List<String> employeFullName = retrieveEmployeesNames(employeeList);
         cb_retriveEmployee.getItems().addAll(employeFullName);
 
         // Set an event handler for the cb_retriveEmployee ChoiceBox
         gp_editEmployee.setVisible(false);
-        cb_retriveEmployee.getSelectionModel().selectedItemProperty().addListener((observable,oldValue,newValue)->{
-            if(newValue !=null){
+        cb_retriveEmployee.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
                 gp_editEmployee.setVisible(true);
                 fillEmployeeDetails(newValue);
-            }else {
+            } else {
                 gp_editEmployee.setVisible(false);
             }
         });
-//
+
+        // Add a change listener to cb_isPerMoth
+        cb_isPerMoth.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            // Disable or enable cb_isHourly and tf_salaryPerHour based on newValue
+            cb_isHourly.setDisable(newValue);
+            tf_salaryPerHour.setDisable(newValue);
+        });
+        cb_isHourly.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            // Disable or enable cb_isHourly and tf_salaryPerHour based on newValue
+            cb_isPerMoth.setDisable(newValue);
+            tf_perMonth.setDisable(newValue);
+        });
+        cb_role.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            // Check if the selected role is "secretariat" or "headOfDepartment"
+            if ("secretary".equals(newValue) || "headOfDepartment".equals(newValue)) {
+                // Enable and show the disabled label
+                tf_password.setDisable(false);
+                tf_password.setVisible(true);
+            } else {
+                // Otherwise, disable and hide the label
+                tf_password.setDisable(true);
+                tf_password.setVisible(false);
+            }
+        });
 
     }
 
@@ -127,7 +127,7 @@ public class EditEmployeeController implements EmployeeNavigators {
         String[] names = fullName.split(" ");
         String firstName = names[0];
         String lastName = names[1];
-// Find the employee with the given first name and last name
+        // Find the employee with the given first name and last name
         Employee selectedEmployee = findEmployeeByName(firstName, lastName);
         // Fill the fields with the details of the selected employee
         tf_firstName.setText(selectedEmployee.getFirstName());
@@ -135,25 +135,9 @@ public class EditEmployeeController implements EmployeeNavigators {
         tf_employeeID.setText(String.valueOf(selectedEmployee.getEmployeeId()));
         tf_email.setText(selectedEmployee.getEmail());
         tf_phoneNumber.setText(selectedEmployee.getPhoneNumber());
-
-        // Additional fields
         cb_gender.setValue(selectedEmployee.getGender());
         cb_role.setValue(selectedEmployee.getEmployeeRole());
-
-        // Check and set values for checkboxes
         cb_isHourly.setSelected(selectedEmployee.isHourly());
-//        cb_isPerMoth.setSelected(selectedEmployee.isPerMonth());
-
-        // Date pickers
-//        if (selectedEmployee.getDateOfBirth() != null) {
-//            dp_dateOfBirth.setValue(selectedEmployee.getDateOfBirth().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-//        }
-//        if (selectedEmployee.getEmploymentStartDate() != null) {
-//            dp_startDate.setValue(selectedEmployee.getEmploymentStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-//        }
-
-
-        // Other text fields
         tf_password.setText(selectedEmployee.getPassword());
         tf_salaryPerHour.setText(String.valueOf(selectedEmployee.getHourlyRate()));
         tf_perMonth.setText(String.valueOf(selectedEmployee.getSalaryPerMonth()));
@@ -173,17 +157,16 @@ public class EditEmployeeController implements EmployeeNavigators {
     }
 
     private List<String> retrieveEmployeesNames(List<Employee> employeeList) {
-      List<String> employeeName = new ArrayList<>();
-        for (Employee employee:employeeList
-             ) {
-            employeeName.add(employee.getFirstName()+" "+employee.getLastName());
+        List<String> employeeName = new ArrayList<>();
+        for (Employee employee : employeeList
+        ) {
+            employeeName.add(employee.getFirstName() + " " + employee.getLastName());
         }
         return employeeName;
     }
 
-
     @FXML
-    public void backToManageEmployee(ActionEvent actionEvent) throws IOException{
+    public void backToManageEmployee(ActionEvent actionEvent) throws IOException {
         navigateToManageEmployeePage(actionEvent);
     }
 
@@ -199,9 +182,7 @@ public class EditEmployeeController implements EmployeeNavigators {
             // Find the employee with the given first name and last name
             Employee selectedEmployee = findEmployeeByName(firstName, lastName);
 
-            // Perform delete operation (you need to implement this in HR_Pulse or your data access layer)
-            hrPulse.deleteEmployee(selectedEmployee);
-//            hrPulse.employeePDO(selectedEmployee,false);
+            hrPulse.employeePDO(selectedEmployee, false);
 
             // Clear the choice box and hide the grid pane
             cb_retriveEmployee.setValue(null);
@@ -226,13 +207,6 @@ public class EditEmployeeController implements EmployeeNavigators {
             selectedEmployee.setGender(cb_gender.getValue());
             selectedEmployee.setEmployeeRole(cb_role.getValue());
             selectedEmployee.setHourly(cb_isHourly.isSelected());
-            // ... continue filling other fields accordingly
-//            selectedEmployee.setDateOfBirth(dp_dateOfBirth.getValue() != null ?
-//                    Date.from(dp_dateOfBirth.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()) : null);
-
-            selectedEmployee.setEmploymentStartDate(dp_startDate.getValue() != null ?
-                    Date.from(dp_startDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()) : null);
-
             selectedEmployee.setPassword(tf_password.getText());
             selectedEmployee.setHourlyRate(Double.parseDouble(tf_salaryPerHour.getText()));
             selectedEmployee.setSalaryPerMonth(Double.parseDouble(tf_perMonth.getText()));
@@ -242,9 +216,7 @@ public class EditEmployeeController implements EmployeeNavigators {
             selectedEmployee.getBankInfo().setBankSneefCode(Integer.parseInt(tf_sneefBankCode.getText()));
 
 
-            // Perform update operation (you need to implement this in HR_Pulse or your data access layer)
-//            hrPulse.employeePDO(selectedEmployee ,true);
-            hrPulse.employeePDO(selectedEmployee,true);
+            hrPulse.employeePDO(selectedEmployee, true);
 
             // Clear the choice box and hide the grid pane
             cb_retriveEmployee.setValue(null);
@@ -255,4 +227,5 @@ public class EditEmployeeController implements EmployeeNavigators {
     public void backbtn(ActionEvent actionEvent) throws IOException {
         navigateToManageEmployeePage(actionEvent);
     }
+
 }

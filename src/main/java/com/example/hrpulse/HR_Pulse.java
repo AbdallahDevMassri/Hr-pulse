@@ -171,17 +171,17 @@ public class HR_Pulse extends Application {
     }
 
 
-    public static void deleteEmployee(Employee employee) {
-        boolean deleted = deleteEmployeeByEmployeeId(employee.getEmployeeId());
-
-        if (deleted) {
-            // Display confirmation
-            System.out.println("Employee deleted successfully.");
-        } else {
-            // Display error
-            System.out.println("Error deleting employee.");
-        }
-    }
+//    public static void deleteEmployee(Employee employee) {
+//        boolean deleted = deleteEmployeeByEmployeeId(employee.getEmployeeId());
+//
+//        if (deleted) {
+//            // Display confirmation
+//            System.out.println("Employee deleted successfully.");
+//        } else {
+//            // Display error
+//            System.out.println("Error deleting employee.");
+//        }
+//    }
 
     public static void employeePDO(Employee selectedEmployee, boolean update) {
         DatabaseSessionManager sessionManager = new DatabaseSessionManager(DatabaseManager.getSessionFactory());
