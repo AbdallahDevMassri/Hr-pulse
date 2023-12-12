@@ -50,7 +50,7 @@ public interface EmployeeNavigators {
         mainStage.show();
     }
     default void navigateToFeedbackEmployeePage(ActionEvent event) throws IOException {
-        Parent FeedbackEmployeeViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/feedBackEmployee_view.fxml")));
+        Parent FeedbackEmployeeViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/feedbackEmployeeView/feedBackEmployee_view.fxml")));
         Scene FeedbackEmployeeViewScene = new Scene(FeedbackEmployeeViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(FeedbackEmployeeViewScene);

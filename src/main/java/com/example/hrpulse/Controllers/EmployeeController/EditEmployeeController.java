@@ -2,7 +2,6 @@ package com.example.hrpulse.Controllers.EmployeeController;
 
 
 import com.example.hrpulse.Services.Interfaces.EmployeeNavigators;
-import com.example.hrpulse.Services.Objects.Department;
 import com.example.hrpulse.Services.Objects.Employee;
 import com.example.hrpulse.HR_Pulse;
 import javafx.event.ActionEvent;
@@ -10,15 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import org.hibernate.SessionFactory;
-
 import java.io.IOException;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import static com.example.hrpulse.Controllers.DepartmentController.EditDepartmentController.retrieveDepartmentNames;
-import static com.example.hrpulse.HR_Pulse.retrieveDepartments;
 import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
 
 
