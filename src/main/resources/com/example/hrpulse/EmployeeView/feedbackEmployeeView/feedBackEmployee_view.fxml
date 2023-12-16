@@ -46,7 +46,6 @@
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <buttons>
                 <Button fx:id="send_button" mnemonicParsing="false" onAction="#sendButtonClicked" text="שליחה" />
-                  <Button fx:id="add_folder_button" mnemonicParsing="false" onAction="#addFolderClicked" text="צירוף קובץ " />
               </buttons>
                <BorderPane.margin>
                   <Insets right="40.0" />

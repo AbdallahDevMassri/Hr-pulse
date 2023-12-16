@@ -12,17 +12,11 @@ import org.hibernate.SessionFactory;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-import javafx.collections.ObservableList;
 import javafx.scene.control.MultipleSelectionModel;
-
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
-import java.util.stream.Collectors;
-
 import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
 
 public class feedBackEmployeeController implements EmployeeNavigators {
@@ -42,8 +36,6 @@ public class feedBackEmployeeController implements EmployeeNavigators {
         this.sessionFactory = sessionFactory;
     }
 
-    @FXML
-    private Button add_folder_button;
 
     @FXML
     private Button backButtonClicked;
@@ -58,17 +50,13 @@ public class feedBackEmployeeController implements EmployeeNavigators {
     @FXML
     public void initialize() {
         List<Employee> employeeList= retrieveEmployees();
-        List<String> emplyeeNames = employeeList.stream()
+        List<String> employeeNames = employeeList.stream()
                 .map(employee -> employee.getFirstName() + " " +employee.getLastName() +" :" +employee.getEmployeeId())
                 .collect(Collectors.toList());
 
-        lst_employee.getItems().addAll(emplyeeNames);
+        lst_employee.getItems().addAll(employeeNames);
     }
 
-    @FXML
-    void addFolderClicked(ActionEvent event) {
-
-    }
 
     @FXML
     void backButton(ActionEvent event) throws IOException {
@@ -89,7 +77,7 @@ public class feedBackEmployeeController implements EmployeeNavigators {
             System.out.println("Please select an employee.");
             return;
         }
-        // Assuming your Employee class has an getEmail() method, replace it with the actual method you use to get the employee's email
+        // Assuming your Employee class has an getEmail() method
         String selectedEmployeeId = selectedEmployees.get(0).split(":")[1].trim();
         String selectedEmployeeEmail = getEmailById(selectedEmployeeId,retrieveEmployees());
 

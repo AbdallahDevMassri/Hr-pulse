@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 public interface EmployeeNavigators {
+//----------------------------------This interface is handling the navigation between the employee page -------------
 
+    // --------- navigate to the main employee view page -------------------------------------
     default void navigateToManageEmployeePage(ActionEvent event) throws IOException {
         Parent ManageEmployeePageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/ManageEmployeeView/manageEmployee_view.fxml")));
         Scene ManageEmployeePageViewScene = new Scene(ManageEmployeePageViewParent);
@@ -21,6 +23,8 @@ public interface EmployeeNavigators {
         mainStage.centerOnScreen();
         mainStage.show();
     }
+
+    //-----------------------------------------------------------------------------------------
     default void navigateToCreateEmployeePage(ActionEvent event) throws IOException {
         Parent createEmployeeViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/CreateNewEmployeeView/createNewEmployee_view.fxml")));
         Scene createEmployeeViewScene = new Scene(createEmployeeViewParent);
@@ -30,6 +34,7 @@ public interface EmployeeNavigators {
         mainStage.centerOnScreen();
         mainStage.show();
     }
+
     default void navigateToEditEmployeePage(ActionEvent event) throws IOException {
         Parent removeEmployeeViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/EditEmployeeView/editEmployee_view.fxml")));
         Scene removeEmployeeViewScene = new Scene(removeEmployeeViewParent);
@@ -49,6 +54,7 @@ public interface EmployeeNavigators {
         mainStage.centerOnScreen();
         mainStage.show();
     }
+
     default void navigateToFeedbackEmployeePage(ActionEvent event) throws IOException {
         Parent FeedbackEmployeeViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/feedbackEmployeeView/feedBackEmployee_view.fxml")));
         Scene FeedbackEmployeeViewScene = new Scene(FeedbackEmployeeViewParent);
