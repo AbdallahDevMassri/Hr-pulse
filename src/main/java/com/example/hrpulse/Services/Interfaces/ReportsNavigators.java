@@ -12,7 +12,7 @@ import java.util.Objects;
 public interface ReportsNavigators {
 
     default void navigateToProductionOfReportsPage(ActionEvent event) throws IOException {
-        Parent ReportPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/productionOfReports_view/productionOfReports_view.fxml")));
+        Parent ReportPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/productionOfReports_view/productionOfReports/productionOfReports_view.fxml")));
         Scene ReportPageViewScene = new Scene(ReportPageViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(ReportPageViewScene);
