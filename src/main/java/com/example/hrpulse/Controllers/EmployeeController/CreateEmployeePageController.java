@@ -1,18 +1,23 @@
 package com.example.hrpulse.Controllers.EmployeeController;
 
 import com.example.hrpulse.HR_Pulse;
-import com.example.hrpulse.Services.CSV.CsvService;
 import com.example.hrpulse.Services.Interfaces.EmployeeNavigators;
+import com.example.hrpulse.Services.Objects.Department;
 import com.example.hrpulse.Services.Objects.Employee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.hibernate.SessionFactory;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
-
+import static com.example.hrpulse.Controllers.DepartmentController.EditDepartmentController.retrieveDepartmentNames;
+import static com.example.hrpulse.HR_Pulse.retrieveDepartments;
+import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
 
 
 public class CreateEmployeePageController implements EmployeeNavigators {
@@ -59,21 +64,21 @@ public class CreateEmployeePageController implements EmployeeNavigators {
     @FXML
     private DatePicker dp_dateOfBirth;
     @FXML
-    private CheckBox cb_isHourly;
+    private DatePicker dp_startDate;
     @FXML
-    private TextField tf_salaryPerHour;
+    private CheckBox cb_isHourly;
     @FXML
     private CheckBox cb_isPerMoth;
     @FXML
+    private TextField tf_salaryPerHour;
+    @FXML
     private TextField tf_perMonth;
-
     @FXML
     private TextField tf_salaryToTravel;
     @FXML
     private TextField tf_bankNumber;
     @FXML
     private TextField tf_acountNumber;
-
     @FXML
     private TextField tf_sneefBankCode;
 
@@ -92,7 +97,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         });
         cb_role.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             // Check if the selected role is "secretariat" or "headOfDepartment"
-            if ("secretariat".equals(newValue) || "headOfDepartment".equals(newValue)) {
+            if ("secretary".equals(newValue) || "headOfDepartment".equals(newValue)) {
                 // Enable and show the disabled label
                 tf_password.setDisable(false);
                 tf_password.setVisible(true);
@@ -102,13 +107,22 @@ public class CreateEmployeePageController implements EmployeeNavigators {
                 tf_password.setVisible(false);
             }
         });
-//        List<Department> departments = HR_Pulse.fetchDepartments();
-//        if (departments != null) {
-//            List<String> departmentNames = departments.stream().map(Department::getDepartmentName).collect(Collectors.toList());
-//            cb_department.setItems(FXCollections.observableArrayList(departmentNames));
-//        }
+        // declare a list of departments
+        List<Department> departments;
+        // retrieve the department from database by using the static method from the hr_pulse class
+        departments = retrieveDepartments();
+
+        // Check if departments are not null before populating the ComboBox
+        if (departments != null) {
+            // Retrieve department names using the static method that is presumably in the EditDepartment class
+            List<String> departmentNames = retrieveDepartmentNames(departments);
+
+            // Populate the ComboBox with department names
+            cb_department.getItems().addAll(departmentNames);
+        }
 
     }
+
     @FXML
     void goToMain(ActionEvent event) throws IOException {
         navigateToManageEmployeePage(event);
@@ -118,77 +132,133 @@ public class CreateEmployeePageController implements EmployeeNavigators {
     @FXML
     void saveButtonClicked(ActionEvent event) {
         // Collect data from input fields
-        String firstName = tf_firstName.getText();
-        String lastName = tf_lastName.getText();
-        String employeeIDText = tf_employeeID.getText();
+        // Validate first name
+        String firstName = tf_firstName.getText().trim();
+        if (firstName.isEmpty()) {
+            showErrorDialog("נא הכנס שם עובד ");
+            return;
+        }
+        if (firstName.length()<2) {
+            showErrorDialog("שם עובד קצר מדי ");
+            return;
+        }
+
+        // Validate last name
+        String lastName = tf_lastName.getText().trim();
+        if (lastName.isEmpty()) {
+            showErrorDialog("נא הכנס שם משפחה של עובד ");
+            return;
+        }
+        if(lastName.length()<2){
+            showErrorDialog("שם משפחה קצר מדי ");
+            return;
+        }
+
+        // Validate employee ID
+        String employeeIDText = tf_employeeID.getText().trim();
+        if (employeeIDText.isEmpty()) {
+            showErrorDialog("נא הכנס ת.ז .");
+            return;
+        }
+        int employeeID = 0;
+        try {
+            employeeID = Integer.parseInt(employeeIDText);
+        } catch (NumberFormatException e) {
+            showErrorDialog("ת.ז  לא חוקית . ");
+            return;
+        }
+        // Check if the employee ID is unique
+        if (!isEmployeeIDUnique(employeeID)) {
+            showErrorDialog("ת.ז כבר נמצאת במערכת .");
+            return;
+        }
         String email = tf_email.getText();
-        String phoneNumber = tf_phoneNumber.getText();
-        String gender = cb_gender.getValue();
-        String role = cb_role.getValue();
-        String password = tf_password.getText();
+        if (email.isEmpty()) {
+            showErrorDialog("נא הכנס דואר אלקטרוני .");
+            return;
+        }
+
+        // Validate phone number
+        String phoneNumber = tf_phoneNumber.getText().trim();
+        if (phoneNumber.isEmpty()) {
+            showErrorDialog("נא הכנס מספר נייד .");
+            return;
+        }
         String department = cb_department.getValue();
+        // Check if a department name is selected
+        if (department == null || department.isEmpty()) {
+            showErrorDialog("נא הכנס מחלקה .");
+            return; // Exit the method
+        }
+        String gender = cb_gender.getValue();
+        // Validate role
+        String role = cb_role.getValue();
+        if (role == null || role.isEmpty()) {
+            showErrorDialog("נא הכנס תפקיד .");
+            return;
+        }
+        // If role requires a password, validate the password field
+        if ("secretary".equals(role) || "headOfDepartment".equals(role)) {
+            String password = tf_password.getText().trim();
+            if (password.isEmpty()) {
+                showErrorDialog("נא בחר סיסמה לעובד זה !!");
+                return;
+            }
+        }
+        String password = tf_password.getText();
+
         // Retrieve the selected date from the DatePicker
         LocalDate dateOfBirth = dp_dateOfBirth.getValue();
+
+        LocalDate employmentStartDate = dp_startDate.getValue();
+
         boolean isHourly = cb_isHourly.isSelected();
         //-----------------------------------------------------------------------
         String salaryPerHourText = tf_salaryPerHour.getText();
-        int salaryPerHour=0;
+        int salaryPerHour = 0;
         try {
-             salaryPerHour = Integer.parseInt(salaryPerHourText);
+            salaryPerHour = Integer.parseInt(salaryPerHourText);
         } catch (NumberFormatException e) {
-            showErrorDialog("שגיאה בקלדת נתונים : שכר לשעה ");
+
         }
 
         boolean isPerMonth = cb_isPerMoth.isSelected();
         //-----------------------------------------------------------------------
         String salaryPerMonthText = tf_perMonth.getText();
-        Double salaryPerMonth=0.0;
+        Double salaryPerMonth = 0.0;
         try {
-             salaryPerMonth = Double.parseDouble(salaryPerMonthText);
+            salaryPerMonth = Double.parseDouble(salaryPerMonthText);
         } catch (NumberFormatException e) {
-            showErrorDialog("שגיאה בקלדת נתונים : שכר חודשי ");
+
         }
         //------------------------------------------------------------------------
         String salaryToTravelText = tf_salaryToTravel.getText();
-        Double salaryToTravel=0.0;
+        Double salaryToTravel = 0.0;
         try {
-             salaryToTravel = Double.parseDouble(salaryToTravelText);
+            salaryToTravel = Double.parseDouble(salaryToTravelText);
         } catch (NumberFormatException e) {
-            showErrorDialog("שגיאה בקלדת נתונים : נסיעות חודשי ");
+
         }
         //------------------------BankNumber validate--------------------------------
         String bankNumberText = tf_bankNumber.getText();
-        int bankNumber =0;
+        int bankNumber = 0;
         try {
             bankNumber = Integer.parseInt(bankNumberText);
         } catch (NumberFormatException e) {
-            showErrorDialog("שגיאה בקלדת נתונים : מספר בנק ");
+
         }
         //--------------------------------------------------------
         String acountNumber = tf_acountNumber.getText();
         //-----------------validate that sneef has just a numbers
         String sneefBankCodeText = tf_sneefBankCode.getText();
-        int sneefBankCode=0;
+        int sneefBankCode = 0;
         try {
-             sneefBankCode = Integer.parseInt(sneefBankCodeText);
+            sneefBankCode = Integer.parseInt(sneefBankCodeText);
         } catch (NumberFormatException e) {
-            showErrorDialog("שגיאה בקלדת נתונים : מספר סניף בנק");
+
         }
         //--------------------------------------------------------
-        // Check if a date is selected
-        if (dateOfBirth == null) {
-            showErrorDialog("נא בחר תאירך לידה ");
-            return; // Exit the method
-        }
 
-        // Parse employee ID as an integer
-        int employeeID = 0;
-        try {
-            employeeID = Integer.parseInt(employeeIDText);
-        } catch (NumberFormatException e) {
-            showErrorDialog("Invalid employee ID. Please enter a valid number.");
-            return; // Exit the method
-        }
 
         // Create an Employee object
         Employee employee = new Employee();
@@ -199,48 +269,64 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         employee.setEmail(email);
         employee.setGender(gender);
         employee.setEmployeeRole(role);
-        employee.setDepartment(department);
         employee.setDateOfBirth(dateOfBirth);
         employee.setPassword(password);
-       employee.setHourly(isHourly);
-       employee.setHourlyRate(salaryPerHour);
-       employee.setSalaryPerMonth(salaryPerMonth);
-       employee.setSalaryToTravel(salaryToTravel);
-       employee.getBankInfo().setBankNumber(bankNumber);
-       employee.getBankInfo().setAccountNumber(acountNumber);
-       employee.getBankInfo().setBankSneefCode(sneefBankCode);
+        employee.setHourly(isHourly);
+        employee.setHourlyRate(salaryPerHour);
+        employee.setSalaryPerMonth(salaryPerMonth);
+        employee.setSalaryToTravel(salaryToTravel);
+        employee.getBankInfo().setBankNumber(bankNumber);
+        employee.getBankInfo().setAccountNumber(acountNumber);
+        employee.getBankInfo().setBankSneefCode(sneefBankCode);
+        if (employmentStartDate != null) {
+            employee.setEmploymentStartDate(Date.from(employmentStartDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        } else {
+            // Set the employment start date to the current day
+            LocalDate currentDay = LocalDate.now();
+            employee.setEmploymentStartDate(Date.from(currentDay.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        }
 
+
+        String departmentName = cb_department.getValue(); // Get the selected department name
+
+
+
+        // Retrieve the selected department based on its name
+        Department selectedDepartment = getDepartmentByName(departmentName);
+
+
+        // Associate the employee with the selected department
+        employee.setDepartment(selectedDepartment.getDepartmentName());
+//        selectedDepartment.addEmployee(employee);
         // Save the data to the database using HR_Pulse's method
 
         hrPulse.performDatabaseOperations(employee);
 
         // Optionally, display a confirmation message
         showConfirmationDialog("נתוני העובד התווספו בהצלחה .");
+        clearInputFields();
+
     }
 
-    // Helper method to save data to a CSV file
-    private void saveToCSV(Employee employee, String filePath) {
-        List<String[]> csvData = new ArrayList<>();
+    private Department getDepartmentByName(String departmentName) {
+        // declare a list of departments
+        List<Department> allDepartments;
+        // retrieve the department from database by using the static method from the hr_pulse class
+        allDepartments = retrieveDepartments();
+        for (Department department : allDepartments) {
+            if (department.getDepartmentName().equals(departmentName)) {
+                return department;
+            }
+        }
+        return null; // Department not found
 
-        // Convert employee data to a String array
-        String[] employeeData = {
-                String.valueOf(employee.getEmployeeId()),
-                employee.getFirstName(),
-                employee.getLastName(),
-                // Add other fields here
-        };
-
-        // Add the employee data to the CSV data list
-        csvData.add(employeeData);
-
-        // Write the CSV data to the file
-        CsvService.writeCsv(filePath, csvData);
     }
+
 
     // Helper method to show a confirmation dialog
     private void showConfirmationDialog(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Employee Saved");
+        alert.setTitle(" Confirm ");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
@@ -249,18 +335,43 @@ public class CreateEmployeePageController implements EmployeeNavigators {
     // Helper method to show an error dialog
     private void showErrorDialog(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
+        alert.setTitle(" Error ");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
 
-    // Helper method to print employee details
-    private void printEmployeeDetails(Employee employee) {
-        System.out.println("Employee Details:");
-        System.out.println("First Name: " + employee.getFirstName());
-        System.out.println("Last Name: " + employee.getLastName());
-        // Print other details as needed
+    private boolean isEmployeeIDUnique(int employeeID) {
+
+        List<Employee> employees;
+
+        employees=retrieveEmployees();
+        for (Employee employee: employees
+             ) {
+            if(employee.getEmployeeId()==employeeID) return false;
+        }
+        return true; // Replace with your actual logic
+    }
+    private void clearInputFields() {
+        tf_firstName.clear();
+        tf_lastName.clear();
+        tf_employeeID.clear();
+        tf_email.clear();
+        tf_phoneNumber.clear();
+        cb_gender.getSelectionModel().clearSelection();
+        cb_role.getSelectionModel().clearSelection();
+        tf_password.clear();
+        cb_department.getSelectionModel().clearSelection();
+        dp_dateOfBirth.setValue(null);
+        dp_startDate.setValue(null);
+        cb_isHourly.setSelected(false);
+        tf_salaryPerHour.clear();
+        cb_isPerMoth.setSelected(false);
+        tf_perMonth.clear();
+        tf_salaryToTravel.clear();
+        tf_bankNumber.clear();
+        tf_acountNumber.clear();
+        tf_sneefBankCode.clear();
     }
 }
 

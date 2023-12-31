@@ -1,0 +1,44 @@
+.root {
+    -fx-background-color: #f0f0f0; /* Set the background color */
+    -fx-font-family: "Arial"; /* Change the default font-family */
+    -fx-font-size: 14px; /* Change the default font size */
+}
+
+/* Style for labels */
+.label {
+    -fx-font-size: 16px; /* Increase label font size */
+    -fx-text-fill: #000000; /* Set label text color to black */
+}
+
+/* Style for text fields */
+.text-field {
+    -fx-font-size: 14px;
+}
+
+/* Style for choice boxes */
+.choice-box {
+    -fx-font-size: 14px;
+}
+
+/* Style for buttons */
+.button {
+    -fx-font-size: 16px;
+    -fx-text-fill: #ffffff; /* Set button text color to white */
+    -fx-background-color: #4CAF50; /* Default button background color */
+}
+
+/* Button hover effect */
+.button:hover {
+    -fx-background-color: #45a049; /* Button background color on hover */
+    -fx-effect: innershadow(three-pass-box, #d8d8d8, 10, 0, 0, 0);
+}
+
+/* Style for date pickers */
+.date-picker {
+    -fx-font-size: 14px;
+}
+
+/* Style for checkboxes */
+.checkbox {
+    -fx-font-size: 14px;
+}

@@ -2,38 +2,34 @@ package com.example.hrpulse.Controllers.RoleControllers.Manager;
 
 import com.example.hrpulse.Services.Interfaces.EmployeeNavigators;
 import com.example.hrpulse.Services.Interfaces.Navigators;
+import com.example.hrpulse.Services.Interfaces.ReportsNavigators;
+import com.example.hrpulse.Services.Objects.Employee;
+import com.example.hrpulse.Session.UserSession;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
-import javafx.scene.control.Button;
-
-
+import javafx.scene.control.Label;
 import java.io.IOException;
 
-public class ManagerController implements Navigators , EmployeeNavigators {
+public class ManagerController implements Navigators , EmployeeNavigators, ReportsNavigators {
 
     @FXML
-    private Button EditEmployeeButton;
+    private Label label_userName;
+    public void initialize() {
+        // Get the current user from the UserSession
+        UserSession userSession = UserSession.getInstance();
+        Employee currentUser = userSession.getCurrentUser();
+
+        if (currentUser != null) {
+            // Set the text of the label_userName to the user's name
+            label_userName.setText("User: " + currentUser.getFirstName());
+        }
+    }
+
 
     @FXML
-    private Button displayWorkerButton;
-
-    @FXML
-    private Button exitButton;
-
-    @FXML
-    private Button homePageButton;
-
-    @FXML
-    private Button reportsButton;
-
-    @FXML
-    private Button shiftHandlingbutton;
-
-    @FXML
-    void DisplayEmployees(ActionEvent event) throws IOException {
-        navigateToDisplayEmployeesPage(event);
+    void reportsClicked(ActionEvent event) throws IOException {
+      navigateToProductionOfReportsPage(event);
     }
 
     @FXML

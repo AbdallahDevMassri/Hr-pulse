@@ -23,6 +23,9 @@ public class Employee {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "perMonth")
+    private Boolean perMonth;
+
     @Column(name = "password")
     private String password;
 
@@ -140,6 +143,14 @@ public class Employee {
     }
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public Boolean getPerMonth() {
+        return perMonth;
+    }
+
+    public void setPerMonth(Boolean perMonth) {
+        this.perMonth = perMonth;
     }
 
     public String getEmail() {

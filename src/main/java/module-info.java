@@ -23,6 +23,8 @@ module com.example.hrpulse {
     opens com.example.hrpulse.Controllers.DepartmentController to javafx.fxml;
     exports com.example.hrpulse.Controllers.EmployeeController;
     opens    com.example.hrpulse.Controllers.EmployeeController to javafx.fxml;
+    exports com.example.hrpulse.Controllers.ReportsControllers;
+    opens com.example.hrpulse.Controllers.ReportsControllers to javafx.fxml;
     opens com.example.hrpulse.Services.Objects to org.hibernate.orm.core;
     opens com.example.hrpulse.Services.CSV;
 
