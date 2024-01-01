@@ -333,6 +333,23 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         newRow.setLastEditor(currentUser.getUsername());
         System.out.println("addRowButtonClicked - lastEditor: " + currentUser.getUsername());
 
+        // Check for duplicates
+        if (isDuplicateRow(newRow)) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Duplicate Entry");
+            alert.setHeaderText("Employee Shift Entry Already Exists");
+            alert.setContentText("A shift entry for the specified employee_id and date already exists. Do you want to overwrite it?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Delete the existing row with the same employee_id and date
+                deleteExistingRow(newRow);
+            } else {
+                // Do not proceed with addition
+                return;
+            }
+        }
+
         // Add the new row to the TableView
         tableViewCSVData.getItems().add(newRow);
 
@@ -344,6 +361,23 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         // Track the new row in the map
         editedRowsMap.put(newRow.getCompositeKey(), newRow);
     }
+
+    private boolean isDuplicateRow(CsvRow newRow) {
+        // Check if a row with the same employee_id and date already exists
+        for (CsvRow existingRow : tableViewCSVData.getItems()) {
+            if (existingRow.getEmployeeId().equals(newRow.getEmployeeId()) && existingRow.getDateTable().equals(newRow.getDateTable())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void deleteExistingRow(CsvRow newRow) {
+        // Find and delete the existing row with the same employee_id and date
+        tableViewCSVData.getItems().removeIf(existingRow ->
+                existingRow.getEmployeeId().equals(newRow.getEmployeeId()) && existingRow.getDateTable().equals(newRow.getDateTable()));
+    }
+
 
 
 
@@ -425,11 +459,12 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
                 if (DatabaseManager.isDataExists(sessionFactory, "employeeshiftdata", row.getEmployeeId(), row.getDateTable())) {
                     // Existing row, update the database
                     updateRowInDatabase(row);
+
                 } else {
                     // New row, insert into the database
                     // Set last editor and comments in the database only, not in the CSV file
-                    row.setLastEditor(null);
-                    row.setComments(null);
+                    row.setLastEditor(currentUser.getUsername());
+                    row.setComments(row.getComments());
 
                     DatabaseManager.insertRowIntoDatabase(row);
                 }
@@ -438,6 +473,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
                 // Handle the exception as needed
             }
         }
+
 
         // Optionally, you may want to clear the map and handle other cleanup tasks
         editedRowsMap.clear();

@@ -36,9 +36,9 @@ public class loginController implements Navigators {
     private static Map<String, Employee> employees = new HashMap<>();
 
     static {
-        employees.put("admin_m", new Employee("manager", "Globalvpsm@gmail.com", "0535216838", "1234"));
-        employees.put("admin_s", new Employee("secretary", "Globalvpsm@gmail.com", "0535216838", "1234"));
-        employees.put("admin_h", new Employee("head", "A.v.e@live.com", "0535216838", "1234"));
+        employees.put("admin_m", new Employee("manager", "Globalvpsm@gmail.com", "0535216838", "1234","manager"));
+        employees.put("admin_s", new Employee("secretary", "Globalvpsm@gmail.com", "0535216838", "1234","secretary"));
+        employees.put("admin_h", new Employee("head", "A.v.e@live.com", "0535216838", "1234","head"));
     }
     @FXML
     private PasswordField tf_Password;
@@ -53,7 +53,7 @@ public class loginController implements Navigators {
     }
 
     @FXML
-    void ExitButtonClicked(ActionEvent event) {
+    void ExitButtonClicked() {
         Platform.exit();
     }
 
@@ -63,47 +63,21 @@ public class loginController implements Navigators {
         String password = tf_Password.getText().toLowerCase();
         Employee employee = employees.get(username);
         Employee employeeDb = getEmployeeByUsernameAndPassword(username, password);
-        UserSession.getInstance().setCurrentUser(employeeDb);
-        Employee currentUser = UserSession.getInstance().getCurrentUser();
+        System.out.print("employeeDb");
+        System.out.println(employeeDb);
 
-        if (currentUser != null) {
+        if (employeeDb != null) {
             // Employee found in the database
-            String employeeRole = currentUser.getEmployeeRole();
-
-            switch (employeeRole) {
-                case "manager":
-                    navigateToManagerPage(event);
-                    break;
-                case "secretary":
-                    navigateToSecretaryPage(event);
-                    break;
-                case "headOfDepartment":
-                    navigateToHeadPage(event);
-                    break;
-                default:
-                    wrongLogin.setText("תפקיד אינו תואם ");
-                    break;
-            }
-
-
+            // Declare a new User
+            UserSession.getInstance().setCurrentUser(employeeDb);
+            navigateToMainPage(event);
         }
 
         if (employee != null && password.equals(employee.getPassword())) {
-            if (username.equals("admin_m")) {
-                wrongLogin.setText("שגיאת מערכת");
-                UserSession.getInstance().setCurrentUser(employee);
-                navigateToManagerPage(event);
-            } else if (username.equals("admin_s")) {
-                wrongLogin.setText("שגיאת מערכת");
-                UserSession.getInstance().setCurrentUser(employee);
-                navigateToSecretaryPage(event);
-            } else if (username.equals("admin_h")) {
-                wrongLogin.setText("שגיאת מערכת");
-                UserSession.getInstance().setCurrentUser(employee);
-                navigateToHeadPage(event);
-            } else {
-                wrongLogin.setText("שגיאת מערכת"); //print error if unsuccessful log-in
-            }
+
+            UserSession.getInstance().setCurrentUser(employee);
+            navigateToMainPage(event);
+
         } else if (username.trim().isEmpty() && password.trim().isEmpty()) {
             wrongLogin.setText("נא הכנס את שם המשתמש והסיסמה שלך"); // print that the user needs to enter user&pass
         } else {
@@ -112,7 +86,9 @@ public class loginController implements Navigators {
     }
 
     private Employee getEmployeeByUsernameAndPassword(String username, String password) {
+
         for (Employee employee : employeesList) {
+
             if (String.valueOf(employee.getEmployeeId()).equals(username) && employee.getPassword().equals(password)) {
                 return employee;
             }

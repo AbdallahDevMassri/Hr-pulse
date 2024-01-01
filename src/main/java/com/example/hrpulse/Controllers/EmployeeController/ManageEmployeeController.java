@@ -16,7 +16,8 @@ public class ManageEmployeeController implements Navigators, EmployeeNavigators 
 
     @FXML
     void backToManagerPage(ActionEvent event) throws IOException {
-        navigateToManagerPage(event);
+        navigateToMainPage(event);
+
     }
 
     @FXML
@@ -35,13 +36,10 @@ public class ManageEmployeeController implements Navigators, EmployeeNavigators 
     }
 
     @FXML
-    void removeEmployeeClicked(ActionEvent event) throws IOException {
-        navigateToRemoveEmployeePage(event);
+    void editEmployeeClicked(ActionEvent event) throws IOException {
+        navigateToEditEmployeePage(event);
     }
 
-    @FXML
-    void updateRoleClicked(ActionEvent event) throws IOException {
-        navigateToEditEmployeeRolePage(event);
-    }
+
 
 }

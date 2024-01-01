@@ -91,7 +91,7 @@ public class Employee {
         this.email=email;
         this.phoneNumber=phoneNumber;
         this.password=password;
-
+        this.employeeRole =employeeRole;
     }
 
 

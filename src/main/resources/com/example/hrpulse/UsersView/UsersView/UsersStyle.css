@@ -1,6 +1,10 @@
 /* Root styles */
-.root {
+.root.manager{
     -fx-background-image: url("Images/employeeManage.jpg");
+    -fx-background-size: cover;
+}
+.root.secretary{
+    -fx-background-image: url("Images/secratery2.png");
     -fx-background-size: cover;
 }
 
