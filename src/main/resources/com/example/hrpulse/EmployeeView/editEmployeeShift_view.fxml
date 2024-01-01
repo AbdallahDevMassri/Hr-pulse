@@ -1,98 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="850.0" prefWidth="1183.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.EmployeeController.EditEmployeeShiftController">
-   <children>
-      <Label alignment="CENTER" layoutX="535.0" layoutY="14.0" prefHeight="27.0" prefWidth="150.0" text="דף עדכון שעות " AnchorPane.leftAnchor="535.0" AnchorPane.rightAnchor="498.0" AnchorPane.topAnchor="14.0">
-         <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-      </Label>
-      <TableView layoutX="46.0" layoutY="113.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="120.0">
-        <columns>
-            <TableColumn fx:id="tc_dayTable" maxWidth="200.0" minWidth="150.0" prefWidth="-1.0" text="יום" />
-          <TableColumn fx:id="tc_enterHour" maxWidth="200.0" minWidth="150.0" prefWidth="75.0" text="כניסה" />
-            <TableColumn fx:id="tc_exitHour" maxWidth="200.0" minWidth="150.0" prefWidth="75.0" text="יציאה" />
-            <TableColumn fx:id="tc_breakTime" maxWidth="200.0" minWidth="150.0" prefWidth="174.4000244140625" text="הפסקה" />
-            <TableColumn fx:id="tc_commit" maxWidth="600.0" minWidth="376.0" prefWidth="455.79998779296875" resizable="false" text="הערות" />
-        </columns>
-      </TableView>
-      <Label alignment="CENTER" layoutX="719.0" layoutY="725.0" prefHeight="17.0" prefWidth="124.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="108.0" AnchorPane.rightAnchor="340.0" />
-      <Label alignment="CENTER" layoutX="243.0" layoutY="725.0" prefHeight="17.0" prefWidth="124.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="108.0" AnchorPane.leftAnchor="243.0" />
-      <GridPane layoutX="230.0" layoutY="28.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="60.0">
-        <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="100.0" prefWidth="150.0" />
-          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="100.0" prefWidth="541.0" />
-            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="150.0" minWidth="100.0" prefWidth="0.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="31.20000305175781" minHeight="10.0" prefHeight="31.20000305175781" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label alignment="CENTER" text="שם עובד :" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
-            <ChoiceBox fx:id="cd_employeeChoice" prefWidth="150.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-            <Label text="בחור חודש :" GridPane.columnIndex="1" />
-            <ChoiceBox fx:id="cb_monthChoice" prefWidth="150.0">
-               <GridPane.margin>
-                  <Insets right="20.0" />
-               </GridPane.margin>
-            </ChoiceBox>
-         </children>
-      </GridPane>
-      <GridPane layoutX="381.0" layoutY="663.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
-        <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Button mnemonicParsing="false" onAction="#saveButtonClicked" prefHeight="35.0" prefWidth="113.0" text="שמירה">
-               <font>
-                  <Font name="System Bold Italic" size="16.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#mainPageButtonClicked" prefHeight="35.0" prefWidth="168.0" text="חזרה  " GridPane.columnIndex="1">
-               <font>
-                  <Font name="System Bold Italic" size="16.0" />
-               </font>
-            </Button>
-         </children>
-      </GridPane>
-      <GridPane layoutX="424.0" layoutY="679.0" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
-        <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="50.0" prefWidth="80.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label text="סה&quot;כ שעות החודש :" GridPane.columnIndex="3" />
-            <Label text="סה&quot;כ ימי עבודה :" GridPane.columnIndex="1" />
-            <Label fx:id="tf_countDays" maxWidth="50.0" minWidth="50.0">
-               <effect>
-                  <InnerShadow />
-               </effect>
+<AnchorPane prefHeight="600.0" prefWidth="500" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.EmployeeController.EditEmployeeShiftController">
+    <children>
+        <VBox alignment="CENTER" layoutX="400" layoutY="14.0" spacing="20" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="14.0">
+            <Label prefHeight="40.0" text="עדכון שעות עובד">
+                <font>
+                    <Font name="System Bold Italic" size="24.0" />
+                </font>
             </Label>
-            <Label fx:id="tf_countHours" maxWidth="50.0" minWidth="50.0" GridPane.columnIndex="2" />
-         </children>
-      </GridPane>
-   </children>
+            <HBox alignment="CENTER_RIGHT" spacing="20" />
+        </VBox>
+
+        <TableView fx:id="tableViewCSVData" layoutX="50.0" layoutY="100.0" minWidth="400" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="140.0">
+            <columns>
+                <TableColumn fx:id="tc_totalWorkHrs" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="סה'כ שעות" />
+                <TableColumn fx:id="tc_breakTime" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="זמן הפסקה" />
+                <TableColumn fx:id="tc_exitHour" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="שעת יציאה" />
+                <TableColumn fx:id="tc_enterHour" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="שעת כניסה" />
+                <TableColumn fx:id="tc_dateTable" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="תאריך" />
+                <TableColumn fx:id="tc_employeeId" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="ת.ז" />
+            </columns>
+        </TableView>
+
+
+
+        <GridPane layoutX="50.0" layoutY="400.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+            <HBox alignment="CENTER_RIGHT" prefWidth="265.0" spacing="20" />
+            <columnConstraints>
+                <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+            </rowConstraints>
+        </GridPane>
+
+        <GridPane alignment="CENTER_RIGHT" layoutX="50.0" layoutY="480.0" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+            <Label fx:id="tf_countDays" maxWidth="60.0" minWidth="60.0">
+                <effect>
+                    <InnerShadow />
+                </effect>
+            </Label>
+            <Label fx:id="tf_countHours" maxWidth="60.0" minWidth="60.0" GridPane.columnIndex="2" />
+            <columnConstraints>
+                <ColumnConstraints />
+                <ColumnConstraints />
+                <ColumnConstraints />
+                <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+            </rowConstraints>
+        </GridPane>
+
+        <!-- Add the button to display CSV data -->
+       <!-- <Button layoutX="700.0" layoutY="400.0" onAction="#displayCsvData" text="הצגת נתונים אחרונים" />
+        <HBox alignment="CENTER_RIGHT" layoutX="700.0" layoutY="420.0" spacing="20" /> -->
+        <Button layoutX="852.0" layoutY="400.0" onAction="#uploadCsvFile" text="העלאת קובץ שעות" />
+        <Button layoutX="867.0" layoutY="520.0" mnemonicParsing="false" onAction="#mainPageButtonClicked" prefHeight="40.0" prefWidth="150.0" text="חזור" AnchorPane.leftAnchor="867.0">
+            <font>
+                <Font name="System Bold Italic" size="18.0" />
+            </font>
+        </Button>
+        <Button layoutX="50.0" layoutY="520.0" mnemonicParsing="false" onAction="#saveButtonClicked" prefHeight="40.0" prefWidth="150.0" text="שמירה">
+            <font>
+                <Font name="System Bold Italic" size="18.0" />
+            </font>
+        </Button>
+        <Label layoutX="920.0" layoutY="108.0" text="ת.ז עובד:" />
+        <TextField fx:id="tf_employeeID" layoutX="759.0" layoutY="104.0" prefWidth="150.0" promptText="הזן ת.ז עובד" />
+      <Button layoutX="696.0" layoutY="104.0" mnemonicParsing="false" text="חפש" />
+    </children>
 </AnchorPane>

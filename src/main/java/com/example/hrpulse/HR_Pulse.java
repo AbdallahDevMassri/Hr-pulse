@@ -171,6 +171,8 @@ public class HR_Pulse extends Application {
     }
 
 
+<<<<<<< HEAD
+=======
 //    public static void deleteEmployee(Employee employee) {
 //        boolean deleted = deleteEmployeeByEmployeeId(employee.getEmployeeId());
 //
@@ -211,4 +213,5 @@ public class HR_Pulse extends Application {
     }
 
 
+>>>>>>> 41e803b91eddc8dcff237095c31ee61aa57abb1d
 }
