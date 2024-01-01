@@ -7,6 +7,7 @@ module com.example.hrpulse {
     requires java.mail;
     requires java.naming;
     requires java.persistence;
+    requires jasperreports;
 
 
     opens com.example.hrpulse to javafx.fxml;

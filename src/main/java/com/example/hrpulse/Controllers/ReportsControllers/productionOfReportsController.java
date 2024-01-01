@@ -5,31 +5,17 @@ import com.example.hrpulse.Services.Interfaces.ReportsNavigators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-//import javafx.event.ActionEvent;
-//import javafx.fxml.FXML;
-//import net.sf.jasperreports.engine.JRException;
-//import net.sf.jasperreports.engine.JasperCompileManager;
-//import net.sf.jasperreports.engine.JasperFillManager;
-//import net.sf.jasperreports.engine.JasperPrint;
-//import net.sf.jasperreports.view.JasperViewer;
-//
-//import java.sql.Connection;
-//import java.sql.DriverManager;
-//import java.sql.SQLException;
-//import java.util.HashMap;
-//import java.util.Map;
-//
-//import java.sql.Connection;
-//import java.sql.DriverManager;
-//import java.sql.SQLException;
-
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.io.IOException;
 
 public class productionOfReportsController implements Navigators, ReportsNavigators {
 
     @FXML
     private Button back_btn;
-
     @FXML
     private Button department_reports_btn;
 
@@ -41,8 +27,6 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
         navigateToManagerPage(event);
     }
 
-
-
     @FXML
     void departmentReportsClicked(ActionEvent event) {
 
@@ -50,36 +34,27 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
 
     @FXML
     void employeeRepotsClicked(ActionEvent event) {
-//        try {
-//            // Load and compile the JasperReport
-//            String reportPath = "EmployeeReport.jrxml";
-//            JasperCompileManager.compileReportToFile(reportPath);
-//
-//            // Establish a connection to the MySQL database
-//            Connection connection = getConnection();
-//
-//            // Fill the JasperReport with data from the database
-//            JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, null, connection);
-//
-//            // Display the JasperReport in a viewer
-//            JasperViewer.viewReport(jasperPrint, false);
-//
-//            // Close the database connection
-//            connection.close();
-//        } catch (JRException | SQLException e) {
-//            e.printStackTrace();
-//            // Handle the exception (show an alert, log the error, etc.)
-//        }
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
 
+            // Establish a connection to the MySQL database
+            Connection connection =DriverManager.getConnection("jdbc:mysql://localhost:3306/hrpulsedb","root","0523239955");
+            String reportPath = "EmployeeReport.jrxml";
+
+            JasperReport jr =JasperCompileManager.compileReport(reportPath);
+            JasperPrint jp =JasperFillManager.fillReport(jr,null,connection);
+            JasperViewer.viewReport(jp,false);
+            connection.close();
+
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        } catch (JRException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }
-    // Establish a connection to the MySQL database
-//    private Connection getConnection() throws SQLException {
-//        String jdbcUrl = "jdbc:mysql://localhost:3306/hrpulsedb";
-//        String username = "root";
-//        String password = "0523239955";
-//        return DriverManager.getConnection(jdbcUrl, username, password);
-//}
+
 
 
 
