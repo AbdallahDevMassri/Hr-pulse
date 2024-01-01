@@ -63,6 +63,6 @@ public class ShiftData {
     }
 
 
-    // Getters and setters
+
 }
 

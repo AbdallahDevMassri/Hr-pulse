@@ -4,74 +4,55 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.*;
-import java.util.Date;
+
 
 @Entity
 @Table(name = "employees")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "id")
     private int id;
-
     @Column(name = "employee_id")
     private int employeeId;
-
     @Column(name = "first_name")
     private String firstName;
-
     @Column(name = "last_name")
     private String lastName;
-
     @Column(name = "perMonth")
     private Boolean perMonth;
-
     @Column(name = "password")
     private String password;
-
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
-
     @Column(name = "email")
     private String email;
-
     @Column(name = "phone_number")
     private String phoneNumber;
-
     @Column(name = "gender")
     private String gender;
-
     @Column(name = "employee_role")
     private String employeeRole;
-
     @Column(name = "department")
     private String department;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "bank_info_id")
     private BankInfo bankInfo;
-
     @Column(name = "hourly_rate")
     private double hourlyRate;
-
     @Column(name = "employment_start_date")
     private Date employmentStartDate;
-
     @Column(name = "hours_worked")
     private int hoursWorked;
-
     @Column(name = "isHourly")
     private boolean isHourly;
-
     @Column(name = "salaryToTravel")
     private double salaryToTravel;
-
     @Column(name = "salaryPerMonth")
-    private double salaryPerMonth;
-
+    private Double salaryPerMonth;
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
-
 
     public Employee() {
         this.bankInfo = new BankInfo();
@@ -82,7 +63,6 @@ public class Employee {
         this.phoneNumber=phoneNumber;
         this.password=password;
     }
-
     public boolean isHourly() {
         return isHourly;
     }
@@ -233,11 +213,6 @@ public class Employee {
         this.salaryPerMonth = salaryPerMonth;
     }
 
-    public double computeSalary() {
-        // Calculate and return the employee's salary based on hourly rate and hours worked
-        // ...
-        return 0;
-    }
 
     public void clockIn() {
         // Update the timestamp field with the current date and time
@@ -249,10 +224,4 @@ public class Employee {
         this.timestamp = LocalDateTime.now();
     }
 
-
-
-    public void updateEmployeeDetails() {
-        // Update employee details here
-        // ...
-    }
 }

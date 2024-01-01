@@ -2,11 +2,8 @@ package com.example.hrpulse;
 
 import com.example.hrpulse.Services.Database.DatabaseManager;
 import com.example.hrpulse.Services.Database.DatabaseSessionManager;
-import com.example.hrpulse.Services.Hibernate.HibernateUtil;
-import com.example.hrpulse.Services.Interfaces.Navigators;
 import com.example.hrpulse.Services.Objects.Department;
 import com.example.hrpulse.Services.Objects.Employee;
-import com.example.hrpulse.Controllers.EmployeeController.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,7 +12,6 @@ import javafx.stage.Stage;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -30,8 +26,7 @@ public class HR_Pulse extends Application {
     public void start(Stage stage) throws IOException {
         // Initialize the DatabaseManager when the application starts
         sessionFactory = DatabaseManager.getSessionFactory();
-
-        // Load the login view
+         // Load the login view
         FXMLLoader fxmlLoader = new FXMLLoader(HR_Pulse.class.getResource("login-view.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
@@ -73,10 +68,12 @@ public class HR_Pulse extends Application {
             List<Employee> employees = query.list();
 
             session.getTransaction().commit();
+            System.out.println("Retrieved " + employees.size() + " employees.");
 
             return employees;
         } catch (Exception e) {
             e.printStackTrace();
+            System.err.println("Error retrieving employees: " + e.getMessage());
             return null;
         }
     }
@@ -171,9 +168,7 @@ public class HR_Pulse extends Application {
     }
 
 
-<<<<<<< HEAD
-=======
-//    public static void deleteEmployee(Employee employee) {
+//    public static void deleteEmployee(Employee) {
 //        boolean deleted = deleteEmployeeByEmployeeId(employee.getEmployeeId());
 //
 //        if (deleted) {
@@ -213,5 +208,5 @@ public class HR_Pulse extends Application {
     }
 
 
->>>>>>> 41e803b91eddc8dcff237095c31ee61aa57abb1d
+
 }

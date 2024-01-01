@@ -47,7 +47,6 @@ public class loginController implements Navigators {
     private Label wrongLogin;
     private static List<Employee> employeesList = getEmployees();
     private static List<Employee> getEmployees() {
-
         return retrieveEmployees();
     }
 
@@ -60,10 +59,14 @@ public class loginController implements Navigators {
     void userLogin(ActionEvent event) throws IOException {
         String username = tf_UserName.getText().trim().toLowerCase();
         String password = tf_Password.getText().toLowerCase();
+        // get the local employee that we declare if not found it return null .
         Employee employee = employees.get(username);
-
+        System.out.print("employee");
+        System.out.println(employee);
+        // get the employee from database if not found return null .
         Employee employeeDb = getEmployeeByUsernameAndPassword(username, password);
-
+        System.out.print("employeeDb");
+        System.out.println(employeeDb);
 
         if (employeeDb != null) {
             // Employee found in the database
@@ -112,7 +115,10 @@ public class loginController implements Navigators {
     }
 
     private Employee getEmployeeByUsernameAndPassword(String username, String password) {
+
+
         for (Employee employee : employeesList) {
+
             if (String.valueOf(employee.getEmployeeId()).equals(username) && employee.getPassword().equals(password)) {
                 return employee;
             }
