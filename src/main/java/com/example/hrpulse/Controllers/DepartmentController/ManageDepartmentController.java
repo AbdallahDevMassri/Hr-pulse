@@ -25,7 +25,7 @@ public class ManageDepartmentController implements Navigators {
 
     @FXML
     void BackToMainClicked(ActionEvent event) throws IOException {
-        navigateToManagerPage(event);
+        navigateToMainPage(event);
     }
 
 }

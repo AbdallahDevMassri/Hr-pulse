@@ -12,7 +12,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane blendMode="DARKEN" prefHeight="652.0" prefWidth="1002.0" styleClass="root" stylesheets="@ManagerStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.RoleControllers.Manager.ManagerController">
+<BorderPane blendMode="DARKEN" fx:id="borderPane" prefHeight="652.0" prefWidth="1002.0" styleClass="root" stylesheets="@UsersStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.UsersControllers.UserController">
    <center>
       <GridPane alignment="CENTER" prefHeight="318.0" prefWidth="434.0" BorderPane.alignment="CENTER_LEFT">
          <columnConstraints>

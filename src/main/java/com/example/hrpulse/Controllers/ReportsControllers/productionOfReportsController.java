@@ -24,7 +24,7 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
 
     @FXML
     void backToMainClicked(ActionEvent event) throws IOException {
-        navigateToManagerPage(event);
+        navigateToMainPage(event);
     }
 
     @FXML

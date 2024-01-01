@@ -57,11 +57,12 @@ public class Employee {
     public Employee() {
         this.bankInfo = new BankInfo();
     }
-    public Employee(String firstName,String email,String phoneNumber,String password){
+    public Employee(String firstName,String email,String phoneNumber,String password,String employeeRole){
         this.firstName=firstName;
         this.email=email;
         this.phoneNumber=phoneNumber;
         this.password=password;
+        this.employeeRole =employeeRole;
     }
     public boolean isHourly() {
         return isHourly;
