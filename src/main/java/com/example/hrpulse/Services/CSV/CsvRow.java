@@ -18,7 +18,6 @@ public class CsvRow implements DataModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Transient
     private String compositeKey;
 
     @Column(name = "total_work_hours")

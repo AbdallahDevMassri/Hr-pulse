@@ -448,6 +448,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
 
 
+
     private void saveCommentToDatabase(CsvRow row) {
         // Ensure that you are working within a transactional context
         try (Session session = sessionFactory.openSession()) {
@@ -458,28 +459,19 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
                 transaction = session.beginTransaction();
 
                 // Use the original ID when updating the comment
-                String updateQuery = "UPDATE employeeshiftdata SET comments = :comments, last_editor = :lastEditor " +
-                        "WHERE employee_id = :employeeId AND date = :dateTable";
+                String updateQuery = "UPDATE CsvRow SET comments = :comments, last_editor = :lastEditor " +
+                        "WHERE id = :id";
 
                 // Creating a query object
-                Query<?> query = session.createNativeQuery(updateQuery);
+                Query query = session.createNativeQuery(updateQuery);
 
                 // Setting parameters for the query
                 query.setParameter("comments", row.getComments());
                 query.setParameter("lastEditor", row.getLastEditor());
-                query.setParameter("employeeId", row.getEmployeeId());
-                query.setParameter("dateTable", row.getDateTable());
 
-                // Execute the update query
-                query.executeUpdate();
 
                 // Commit the transaction
                 transaction.commit();
-
-                // Update the CsvRow object with the saved values
-                row.setLastEditor(query.getParameter("lastEditor").toString());
-                row.setComments(query.getParameter("comments").toString());
-
             } catch (Exception e) {
                 // If an exception occurs, rollback the transaction
                 if (transaction != null && transaction.isActive()) {
@@ -492,9 +484,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             }
         }
     }
-
-
-
 
     private void processEditedRowsAndExternallyAddedRows(boolean editedRowsExist, boolean externallyAddedRowsExist) {
         if (editedRowsExist || externallyAddedRowsExist) {
@@ -563,16 +552,13 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
                         "employee_id = :employeeId, " +
                         "comments = :comments, " +
                         "last_editor = :lastEditor " +
-                        "WHERE employee_id = :employeeId AND date = :dateTable";
+                        "WHERE composite_key = :compositeKey";
 
                 Query<?> query = session.createNativeQuery(updateQuery);
                 setQueryParameters(query, editedRow);
 
                 // Set lastEditor parameter
                 query.setParameter("lastEditor", currentUser.getUsername());
-
-                // Execute the update query
-                query.executeUpdate();
 
                 // Commit the transaction
                 transaction.commit();
@@ -581,8 +567,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             }
         }
     }
-
-
 
 
     private void handleCurrentUserNull() {
@@ -669,7 +653,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         }
         if (event.getSource().equals(tc_dateTable)) {
             if (!isValidDateFormat(newValue)) {
-                showAlert("Invalid date format. Please use dd/MM/yyyy.");
+                showAlert("Invalid date format. Please use dd/mm/yyyy.");
                 return;
             }
         }
@@ -686,27 +670,27 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             }
         }
 
-        // Update the specific property based on the edited column
-        updatePropertyBasedOnColumn(editedRow, event.getTableColumn(), newValue);
-
-        // Set last editor to the current user
+        // Set last editor before updating the database
         Employee currentUser = UserSession.getInstance().getCurrentUser();
         if (currentUser != null) {
+            // Update the specific property based on the edited column
+            updatePropertyBasedOnColumn(editedRow, event.getTableColumn(), newValue);
+
+            // Set last editor to the current user
             editedRow.setLastEditor(currentUser.getUsername());
+
+            // Save changes to the CSV file and the database
+            try {
+                uploadCsvFile.updateRowInCsv(editedRow);
+                updateRowInDatabase(editedRow);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             // Handle the case where currentUser is null
             System.err.println("Error: currentUser is null in handleEditCommit");
         }
-
-        // Save changes to the CSV file and the database
-        try {
-            uploadCsvFile.updateRowInCsv(editedRow);
-            updateRowInDatabase(editedRow);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
-
 
 
 

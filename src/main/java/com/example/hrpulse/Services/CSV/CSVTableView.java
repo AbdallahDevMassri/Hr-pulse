@@ -1,7 +1,5 @@
 package com.example.hrpulse.Services.CSV;
 
-import com.example.hrpulse.Services.Objects.Employee;
-import com.example.hrpulse.Session.UserSession;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -127,17 +125,6 @@ public class CSVTableView extends Application {
     private void addNewRow(TableView<CsvRow> tableView) {
         // Create a new row with default values or empty values
         CsvRow newRow = new CsvRow("", "", "", "", "", "", "", "");
-
-        // Set the last editor for the new row
-        Employee currentUser = UserSession.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            newRow.setLastEditor(currentUser.getUsername());
-            System.out.println("addNewRow - lastEditor: " + currentUser.getUsername());
-        } else {
-            System.err.println("Error: currentUser is null in addNewRow");
-            // Add more logging or print statements to identify the issue
-        }
-
         data.add(newRow);
         tableView.scrollTo(newRow); // Scroll to the new row
         tableView.getSelectionModel().select(newRow); // Select the new row for editing

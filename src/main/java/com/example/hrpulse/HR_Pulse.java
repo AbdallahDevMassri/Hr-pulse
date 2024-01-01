@@ -2,8 +2,11 @@ package com.example.hrpulse;
 
 import com.example.hrpulse.Services.Database.DatabaseManager;
 import com.example.hrpulse.Services.Database.DatabaseSessionManager;
+import com.example.hrpulse.Services.Hibernate.HibernateUtil;
+import com.example.hrpulse.Services.Interfaces.Navigators;
 import com.example.hrpulse.Services.Objects.Department;
 import com.example.hrpulse.Services.Objects.Employee;
+import com.example.hrpulse.Controllers.EmployeeController.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,12 +15,14 @@ import javafx.stage.Stage;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+
+import javax.persistence.Entity;
 import java.io.IOException;
 import java.util.List;
 
-public class HR_Pulse extends Application {
-    private static SessionFactory sessionFactory;
-
+@Entity
+public class HR_Pulse extends Application  {
+    public static SessionFactory sessionFactory;
     public static void main(String[] args) {
         launch(args);
     }
@@ -26,7 +31,8 @@ public class HR_Pulse extends Application {
     public void start(Stage stage) throws IOException {
         // Initialize the DatabaseManager when the application starts
         sessionFactory = DatabaseManager.getSessionFactory();
-         // Load the login view
+
+        // Load the login view
         FXMLLoader fxmlLoader = new FXMLLoader(HR_Pulse.class.getResource("login-view.fxml"));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
@@ -36,6 +42,14 @@ public class HR_Pulse extends Application {
         stage.setResizable(false);
         stage.centerOnScreen();
         stage.show();
+
+        List<Department> departments = retrieveDepartments();
+        for (Department department : departments) {
+            System.out.println("Department Name: " + department.getDepartmentName());
+            System.out.println("Description: " + department.getDescription());
+            // Add more attributes if needed
+        }
+
 
         // Close the SessionFactory when the application exits
         stage.setOnCloseRequest(event -> {
@@ -59,50 +73,6 @@ public class HR_Pulse extends Application {
         }
 
     }
-
-    public static List<Employee> retrieveEmployees() {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-
-            Query<Employee> query = session.createQuery("from Employee", Employee.class);
-            List<Employee> employees = query.list();
-
-            session.getTransaction().commit();
-            System.out.println("Retrieved " + employees.size() + " employees.");
-
-            return employees;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Error retrieving employees: " + e.getMessage());
-            return null;
-        }
-    }
-
-    public static boolean deleteEmployeeByEmployeeId(int employeeId) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-
-            // Attempt to retrieve the employee by employeeId
-            Query<Employee> query = session.createQuery("FROM Employee WHERE employeeId = :employeeId", Employee.class);
-            query.setParameter("employeeId", employeeId);
-            Employee employee = query.uniqueResult();
-
-            if (employee != null) {
-                // Employee found, delete it
-                session.delete(employee);
-                session.getTransaction().commit();
-                return true;
-            } else {
-                // Employee not found
-                session.getTransaction().rollback();
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public static void performDatabaseOperations(Department department) {
         DatabaseSessionManager sessionManager = new DatabaseSessionManager(DatabaseManager.getSessionFactory());
 
@@ -118,7 +88,6 @@ public class HR_Pulse extends Application {
         }
 
     }
-
     public static void performDatabaseOperations(Department department, boolean update) {
         DatabaseSessionManager sessionManager = new DatabaseSessionManager(DatabaseManager.getSessionFactory());
 
@@ -144,7 +113,6 @@ public class HR_Pulse extends Application {
             }
         }
     }
-
     public static List<Department> retrieveDepartments() {
         try (Session session = sessionFactory.openSession()) {
             // Begin a transaction
@@ -166,47 +134,21 @@ public class HR_Pulse extends Application {
         }
 
     }
+    public static List<Employee> retrieveEmployees() {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
 
+            Query<Employee> query = session.createQuery("from Employee", Employee.class);
+            List<Employee> employees = query.list();
 
-//    public static void deleteEmployee(Employee) {
-//        boolean deleted = deleteEmployeeByEmployeeId(employee.getEmployeeId());
-//
-//        if (deleted) {
-//            // Display confirmation
-//            System.out.println("Employee deleted successfully.");
-//        } else {
-//            // Display error
-//            System.out.println("Error deleting employee.");
-//        }
-//    }
+            session.getTransaction().commit();
 
-    public static void employeePDO(Employee selectedEmployee, boolean update) {
-        DatabaseSessionManager sessionManager = new DatabaseSessionManager(DatabaseManager.getSessionFactory());
-
-        // Update the employee in the database
-        if (update) {
-            boolean updated = sessionManager.updateEmployee(selectedEmployee);
-
-            if (updated) {
-                // Display confirmation
-                System.out.println("Employee updated successfully.");
-            } else {
-                // Display error
-                System.out.println("Error updating employee.");
-            }
-        } else {
-            boolean removed = sessionManager.removeEmployee(selectedEmployee);
-
-            if (removed) {
-                // Display confirmation
-                System.out.println("Department removed successfully.");
-            } else {
-                // Display error
-                System.out.println("Error removing Department.");
-            }
+            return employees;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
-
 
 
 }

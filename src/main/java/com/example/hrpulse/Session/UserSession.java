@@ -22,10 +22,6 @@ public class UserSession {
         currentUser = user;
     }
 
-    public void setCurrentUserExplicitly(Employee currentUser) {
-        this.currentUser = currentUser;
-    }
-
     public Employee getCurrentUser() {
         return currentUser;
     }

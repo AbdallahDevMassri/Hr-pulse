@@ -16,8 +16,7 @@ public class ManageEmployeeController implements Navigators, EmployeeNavigators 
 
     @FXML
     void backToManagerPage(ActionEvent event) throws IOException {
-        navigateToMainPage(event);
-
+        navigateToManagerPage(event);
     }
 
     @FXML
