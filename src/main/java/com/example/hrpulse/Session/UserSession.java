@@ -6,6 +6,7 @@ public class UserSession {
     private static UserSession instance;
     private Employee currentUser;
 
+
     private UserSession() {
         // Private constructor to prevent instantiation
     }
@@ -21,8 +22,15 @@ public class UserSession {
         currentUser = user;
     }
 
+    public void setCurrentUserExplicitly(Employee currentUser) {
+        this.currentUser = currentUser;
+    }
+
     public Employee getCurrentUser() {
         return currentUser;
     }
+
+
+
 }
 

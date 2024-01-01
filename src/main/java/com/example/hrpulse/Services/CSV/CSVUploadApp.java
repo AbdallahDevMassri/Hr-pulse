@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 
-public class CSVUploadApp extends Application {
+public class  CSVUploadApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }

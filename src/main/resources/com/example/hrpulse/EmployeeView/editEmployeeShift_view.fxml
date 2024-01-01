@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="500" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.EmployeeController.EditEmployeeShiftController">
+<AnchorPane prefHeight="600.0" prefWidth="1255.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.EmployeeController.EditEmployeeShiftController">
     <children>
         <VBox alignment="CENTER" layoutX="400" layoutY="14.0" spacing="20" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="14.0">
             <Label prefHeight="40.0" text="עדכון שעות עובד">
@@ -25,18 +25,18 @@
             <HBox alignment="CENTER_RIGHT" spacing="20" />
         </VBox>
 
-        <TableView fx:id="tableViewCSVData" layoutX="50.0" layoutY="100.0" minWidth="400" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="140.0">
+        <TableView fx:id="tableViewCSVData" layoutX="50.0" layoutY="100.0" minWidth="400" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="140.0">
             <columns>
-                <TableColumn fx:id="tc_totalWorkHrs" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="סה'כ שעות" />
-                <TableColumn fx:id="tc_breakTime" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="זמן הפסקה" />
-                <TableColumn fx:id="tc_exitHour" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="שעת יציאה" />
+                <TableColumn fx:id="tc_lastEditor" maxWidth="200.0" minWidth="92.66666030883789" prefWidth="92.66666030883789" text="כותב ההערה" />
+                <TableColumn fx:id="tc_comments" maxWidth="273.99998474121094" minWidth="150.0" prefWidth="243.9999542236328" text="הערות" />
+                <TableColumn fx:id="tc_totalWorkHrs" maxWidth="216.00009155273438" minWidth="100.0" prefWidth="141.33340454101562" text="סה'כ שעות" />
+                <TableColumn fx:id="tc_breakTime" maxWidth="200.0" minWidth="100.0" prefWidth="122.66668701171875" text="זמן הפסקה" />
+                <TableColumn fx:id="tc_exitHour" maxWidth="200.0" minWidth="100.0" prefWidth="150.0" text="שעת יציאה" />
                 <TableColumn fx:id="tc_enterHour" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="שעת כניסה" />
                 <TableColumn fx:id="tc_dateTable" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="תאריך" />
-                <TableColumn fx:id="tc_employeeId" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="ת.ז" />
+                <TableColumn fx:id="tc_employeeId" maxWidth="200.0" minWidth="73.99993896484375" prefWidth="122.66644287109375" text="ת.ז" />
             </columns>
         </TableView>
-
-
 
         <GridPane layoutX="50.0" layoutY="400.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
             <HBox alignment="CENTER_RIGHT" prefWidth="265.0" spacing="20" />
@@ -66,22 +66,24 @@
             </rowConstraints>
         </GridPane>
 
-        <!-- Add the button to display CSV data -->
-       <!-- <Button layoutX="700.0" layoutY="400.0" onAction="#displayCsvData" text="הצגת נתונים אחרונים" />
-        <HBox alignment="CENTER_RIGHT" layoutX="700.0" layoutY="420.0" spacing="20" /> -->
-        <Button layoutX="852.0" layoutY="400.0" onAction="#uploadCsvFile" text="העלאת קובץ שעות" />
-        <Button layoutX="867.0" layoutY="520.0" mnemonicParsing="false" onAction="#mainPageButtonClicked" prefHeight="40.0" prefWidth="150.0" text="חזור" AnchorPane.leftAnchor="867.0">
+        <Button layoutX="1111.0" layoutY="400.0" onAction="#uploadCsvFile" text="העלאת קובץ שעות" />
+        <Button layoutX="1055.0" layoutY="520.0" mnemonicParsing="false" onAction="#mainPageButtonClicked" prefHeight="40.0" prefWidth="150.0" text="חזור" AnchorPane.leftAnchor="1055.0">
             <font>
                 <Font name="System Bold Italic" size="18.0" />
             </font>
         </Button>
-        <Button layoutX="50.0" layoutY="520.0" mnemonicParsing="false" onAction="#saveButtonClicked" prefHeight="40.0" prefWidth="150.0" text="שמירה">
+
+        <!-- Add the button for loading last saved data from the database -->
+        <Button fx:id="loadLastSavedDataButton" layoutX="925.0" layoutY="400.0" onAction="#loadLastSavedDataIntoTableview" text="היסטוריית שמירה אחרונה" />
+
+        <Button fx:id="saveButton"  layoutX="50.0" layoutY="520.0" mnemonicParsing="false" onAction="#saveButtonClicked" prefHeight="40.0" prefWidth="150.0" text="שמירה">
             <font>
                 <Font name="System Bold Italic" size="18.0" />
             </font>
         </Button>
-        <Label layoutX="920.0" layoutY="108.0" text="ת.ז עובד:" />
-        <TextField fx:id="tf_employeeID" layoutX="759.0" layoutY="104.0" prefWidth="150.0" promptText="הזן ת.ז עובד" />
-      <Button layoutX="696.0" layoutY="104.0" mnemonicParsing="false" text="חפש" />
+        <Button layoutX="50.0" layoutY="560.0" onAction="#addRowButtonClicked" text="Add Row" />
+        <Label layoutX="1181.0" layoutY="109.0" text="ת.ז עובד:" />
+        <TextField fx:id="tf_employeeID" layoutX="1020.0" layoutY="105.0" prefWidth="150.0" promptText="הזן ת.ז עובד" />
+        <Button layoutX="972.0" layoutY="105.0" mnemonicParsing="false" onAction="#searchButtonClicked" text="חפש" />
     </children>
 </AnchorPane>

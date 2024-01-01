@@ -11,9 +11,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public interface EmployeeNavigators {
-//----------------------------------This interface is handling the navigation between the employee page -------------
 
-    // --------- navigate to the main employee view page -------------------------------------
     default void navigateToManageEmployeePage(ActionEvent event) throws IOException {
         Parent ManageEmployeePageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/ManageEmployeeView/manageEmployee_view.fxml")));
         Scene ManageEmployeePageViewScene = new Scene(ManageEmployeePageViewParent);
@@ -23,10 +21,8 @@ public interface EmployeeNavigators {
         mainStage.centerOnScreen();
         mainStage.show();
     }
-
-    //-----------------------------------------------------------------------------------------
     default void navigateToCreateEmployeePage(ActionEvent event) throws IOException {
-        Parent createEmployeeViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/CreateNewEmployeeView/createNewEmployee_view.fxml")));
+        Parent createEmployeeViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/createNewEmployee_view.fxml")));
         Scene createEmployeeViewScene = new Scene(createEmployeeViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(createEmployeeViewScene);
@@ -34,9 +30,8 @@ public interface EmployeeNavigators {
         mainStage.centerOnScreen();
         mainStage.show();
     }
-
-    default void navigateToEditEmployeePage(ActionEvent event) throws IOException {
-        Parent removeEmployeeViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/EditEmployeeView/editEmployee_view.fxml")));
+    default void navigateToRemoveEmployeePage(ActionEvent event) throws IOException {
+        Parent removeEmployeeViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/removeEmployee_view.fxml")));
         Scene removeEmployeeViewScene = new Scene(removeEmployeeViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(removeEmployeeViewScene);
@@ -44,7 +39,15 @@ public interface EmployeeNavigators {
         mainStage.centerOnScreen();
         mainStage.show();
     }
-
+    default void navigateToEditEmployeeRolePage(ActionEvent event) throws IOException {
+        Parent editEmployeeRoleViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/editEmployeeRole_view.fxml")));
+        Scene editEmployeeRoleViewScene = new Scene(editEmployeeRoleViewParent);
+        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        mainStage.setScene(editEmployeeRoleViewScene);
+        mainStage.setTitle("עדכון תפקיד לעובד");
+        mainStage.centerOnScreen();
+        mainStage.show();
+    }
     default void navigateToEditEmployeeShiftPage(ActionEvent event) throws IOException {
         Parent editEmployeeShiftViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/editEmployeeShift_view.fxml")));
         Scene editEmployeeShiftViewScene = new Scene(editEmployeeShiftViewParent);
@@ -54,9 +57,8 @@ public interface EmployeeNavigators {
         mainStage.centerOnScreen();
         mainStage.show();
     }
-
     default void navigateToFeedbackEmployeePage(ActionEvent event) throws IOException {
-        Parent FeedbackEmployeeViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/feedbackEmployeeView/feedBackEmployee_view.fxml")));
+        Parent FeedbackEmployeeViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/feedBackEmployee_view.fxml")));
         Scene FeedbackEmployeeViewScene = new Scene(FeedbackEmployeeViewParent);
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(FeedbackEmployeeViewScene);
@@ -65,5 +67,13 @@ public interface EmployeeNavigators {
         mainStage.show();
 
     }
-
+    default void navigateToReportPage(ActionEvent event) throws IOException {
+        Parent reportViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/EmployeeView/reportEmployees_view.fxml")));
+        Scene reportEmployeeViewScene = new Scene(reportViewParent);
+        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        mainStage.setScene(reportEmployeeViewScene);
+        mainStage.setTitle("דוח עובדים");
+        mainStage.centerOnScreen();
+        mainStage.show();
+    }
 }

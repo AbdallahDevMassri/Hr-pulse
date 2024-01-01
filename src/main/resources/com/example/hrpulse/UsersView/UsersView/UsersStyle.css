@@ -33,7 +33,7 @@
 }
 
 /* Style for "הפקת דוחות" button */
-#production_of_report_btn {
+#displayWorkerButton {
     -fx-background-color: #27AE60;
     -fx-text-fill: white;
     -fx-background-radius: 5;

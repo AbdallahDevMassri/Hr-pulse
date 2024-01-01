@@ -25,7 +25,10 @@ public class ManageEmployeeController implements Navigators, EmployeeNavigators 
         navigateToEditEmployeeShiftPage(event);
     }
 
-
+    @FXML
+    void employeeReportClicked(ActionEvent event) throws IOException {
+    navigateToReportPage(event);
+    }
 
     @FXML
     void feedbackClicked(ActionEvent event) throws IOException {
@@ -33,10 +36,13 @@ public class ManageEmployeeController implements Navigators, EmployeeNavigators 
     }
 
     @FXML
-    void editEmployeeClicked(ActionEvent event) throws IOException {
-        navigateToEditEmployeePage(event);
+    void removeEmployeeClicked(ActionEvent event) throws IOException {
+        navigateToRemoveEmployeePage(event);
     }
 
-
+    @FXML
+    void updateRoleClicked(ActionEvent event) throws IOException {
+        navigateToEditEmployeeRolePage(event);
+    }
 
 }

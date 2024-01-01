@@ -1,4 +1,3 @@
-
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
@@ -15,16 +14,17 @@
         <!-- Enable Hibernate's automatic session context management -->
         <property name="hibernate.current_session_context_class">thread</property>
 
-        <property name="hibernate.archive.autodetection">class</property>
-
-        <!-- Specify the packages to scan for annotated entities -->
-        <property name="hibernate.packageToScan">com.example.hrpulse.Services.Objects</property>
-
         <!-- Enable Hibernate's automatic session management -->
         <property name="hibernate.transaction.coordinator_class">org.hibernate.transaction.JDBCTransactionFactory</property>
 
         <!-- Echo all executed SQL to stdout -->
         <property name="hibernate.show_sql">true</property>
 
+        <!-- Specify the packages to scan for annotated entities -->
+        <property name="hibernate.archive.autodetect">class</property>
+        <property name="hibernate.packageToScan">com.example.hrpulse.Services.CSV</property>
+
+        <!-- Mapping for annotated entity -->
+        <mapping class="com.example.hrpulse.Services.CSV.CsvRow"/>
     </session-factory>
 </hibernate-configuration>

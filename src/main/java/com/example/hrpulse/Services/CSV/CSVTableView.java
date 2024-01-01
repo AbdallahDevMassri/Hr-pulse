@@ -1,10 +1,9 @@
 package com.example.hrpulse.Services.CSV;
 
-import com.example.hrpulse.Services.CSV.CsvService;
-
+import com.example.hrpulse.Services.Objects.Employee;
+import com.example.hrpulse.Session.UserSession;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -19,7 +18,6 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CSVTableView extends Application {
@@ -27,30 +25,72 @@ public class CSVTableView extends Application {
         launch(args);
     }
 
-    private ObservableList<Person> data = FXCollections.observableArrayList();
+     ObservableList<CsvRow> data = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("TableView Example");
+        primaryStage.setTitle("TableView");
 
-        TableView<Person> tableView = new TableView<>();
+        TableView<CsvRow> tableView = new TableView<>();
+        tableView.setEditable(true); // Enable editing
 
-        // Create columns
-        TableColumn<Person, String> nameColumn = new TableColumn<>("Name");
-        nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        nameColumn.setCellFactory(TextFieldTableCell.forTableColumn()); // Allow editing
-        nameColumn.setOnEditCommit(event -> {
-            Person person = event.getTableView().getItems().get(event.getTablePosition().getRow());
-            person.setName(event.getNewValue());
+        TableColumn<CsvRow, String> totalWorkHoursColumn = new TableColumn<>("Total Work Hours");
+        totalWorkHoursColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTotalWorkHours()));
+        totalWorkHoursColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        totalWorkHoursColumn.setOnEditCommit(event -> {
+            event.getRowValue().setTotalWorkHours(event.getNewValue());
         });
 
-        tableView.getColumns().add(nameColumn);
+        TableColumn<CsvRow, String> breakTimeColumn = new TableColumn<>("Break time");
+        breakTimeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBreakTime()));
+        breakTimeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        breakTimeColumn.setOnEditCommit(event -> {
+            event.getRowValue().setBreakTime(event.getNewValue());
+        });
+
+        TableColumn<CsvRow, String> endTimeColumn = new TableColumn<>("End time");
+        endTimeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExitHour()));
+        endTimeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        endTimeColumn.setOnEditCommit(event -> {
+            event.getRowValue().setExitHour(event.getNewValue());
+        });
+
+        TableColumn<CsvRow, String> startTimeColumn = new TableColumn<>("Start time");
+        startTimeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStartHour()));
+        startTimeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        startTimeColumn.setOnEditCommit(event -> {
+            event.getRowValue().setStartHour(event.getNewValue());
+        });
+
+        TableColumn<CsvRow, String> dateColumn = new TableColumn<>("Date");
+        dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDateTable()));
+        dateColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        dateColumn.setOnEditCommit(event -> {
+            event.getRowValue().setDateTable(event.getNewValue());
+        });
+
+        TableColumn<CsvRow, String> empIdColumn = new TableColumn<>("EmployeeID");
+        empIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeId()));
+        empIdColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        empIdColumn.setOnEditCommit(event -> {
+            event.getRowValue().setEmployeeId(event.getNewValue());
+        });
+
+        TableColumn<CsvRow, String> lastEditorColumn = new TableColumn<>("Last Editor");
+        lastEditorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLastEditor()));
+        lastEditorColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        lastEditorColumn.setOnEditCommit(event -> {
+            event.getRowValue().setLastEditor(event.getNewValue());
+        });
+
+        tableView.getColumns().addAll(totalWorkHoursColumn, breakTimeColumn, endTimeColumn, startTimeColumn, dateColumn, empIdColumn, lastEditorColumn);
         tableView.setItems(data);
 
         Button loadButton = new Button("Load CSV");
-        Button saveButton = new Button("Save CSV");
 
-        // Load CSV data into the TableView
+        Button addButton = new Button("Add Row");
+        addButton.setOnAction(e -> addNewRow(tableView));
+
         loadButton.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
@@ -61,7 +101,8 @@ public class CSVTableView extends Application {
                     List<String[]> csvData = CsvService.readCsv(selectedFile.getAbsolutePath());
                     data.clear(); // Clear existing data
                     for (String[] row : csvData) {
-                        data.add(new Person(row[0]));
+                        CsvRow newRow = new CsvRow(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]);
+                        data.add(newRow);
                     }
                 } catch (IOException ex) {
                     showErrorDialog("Error loading CSV", "An error occurred while loading the CSV file.");
@@ -69,31 +110,10 @@ public class CSVTableView extends Application {
             }
         });
 
-        // Save TableView data to a CSV file
-        saveButton.setOnAction(e -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-            File selectedFile = fileChooser.showSaveDialog(primaryStage);
-
-            if (selectedFile != null) {
-                List<String[]> csvData = convertDataToCsvFormat(data);
-                CsvService.writeCsv(selectedFile.getAbsolutePath(), csvData);
-                showInformationDialog("CSV Saved", "CSV data saved successfully.");
-            }
-        });
-
-        VBox vbox = new VBox(tableView, loadButton, saveButton);
-        Scene scene = new Scene(vbox, 300, 250);
+        VBox vbox = new VBox(tableView, loadButton);
+        Scene scene = new Scene(vbox, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    private List<String[]> convertDataToCsvFormat(ObservableList<Person> data) {
-        List<String[]> csvData = new ArrayList<>();
-        for (Person person : data) {
-            csvData.add(new String[]{person.getName()});
-        }
-        return csvData;
     }
 
     private void showErrorDialog(String title, String content) {
@@ -104,31 +124,25 @@ public class CSVTableView extends Application {
         alert.showAndWait();
     }
 
-    private void showInformationDialog(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
+    private void addNewRow(TableView<CsvRow> tableView) {
+        // Create a new row with default values or empty values
+        CsvRow newRow = new CsvRow("", "", "", "", "", "", "", "");
+
+        // Set the last editor for the new row
+        Employee currentUser = UserSession.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            newRow.setLastEditor(currentUser.getUsername());
+            System.out.println("addNewRow - lastEditor: " + currentUser.getUsername());
+        } else {
+            System.err.println("Error: currentUser is null in addNewRow");
+            // Add more logging or print statements to identify the issue
+        }
+
+        data.add(newRow);
+        tableView.scrollTo(newRow); // Scroll to the new row
+        tableView.getSelectionModel().select(newRow); // Select the new row for editing
+        tableView.edit(tableView.getItems().indexOf(newRow), tableView.getColumns().get(0)); // Start editing the first cell
     }
 
-    public static class Person {
-        private final StringProperty name;
 
-        public Person(String name) {
-            this.name = new SimpleStringProperty(name);
-        }
-
-        public String getName() {
-            return name.get();
-        }
-
-        public StringProperty nameProperty() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name.set(name);
-        }
-    }
 }
