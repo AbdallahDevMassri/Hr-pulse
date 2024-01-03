@@ -24,7 +24,7 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
 
     @FXML
     void backToMainClicked(ActionEvent event) throws IOException {
-        navigateToManagerPage(event);
+        navigateToMainPage(event);
     }
 
     @FXML
@@ -38,7 +38,7 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
             Class.forName("com.mysql.jdbc.Driver");
 
             // Establish a connection to the MySQL database
-            Connection connection =DriverManager.getConnection("jdbc:mysql://localhost:3306/hrpulsedb","root","0523239955");
+            Connection connection =DriverManager.getConnection("jdbc:mysql://localhost:3306/pulsedb","root","hrpulse123");
             String reportPath = "EmployeeReport.jrxml";
 
             JasperReport jr =JasperCompileManager.compileReport(reportPath);
@@ -54,7 +54,6 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
     }
 
 }
-
 
 
 

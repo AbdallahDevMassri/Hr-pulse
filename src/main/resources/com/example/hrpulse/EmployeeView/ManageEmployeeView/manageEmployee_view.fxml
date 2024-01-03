@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="594.0" prefWidth="818.0" styleClass="root" stylesheets="@ManageEmployeeStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.EmployeeController.ManageEmployeeController">
+<BorderPane prefHeight="594.0" prefWidth="818.0" styleClass="root" stylesheets="@manageEmployeeStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.EmployeeController.ManageEmployeeController">
    <center>
       <AnchorPane prefHeight="102.0" prefWidth="142.0" BorderPane.alignment="CENTER">
          <children>
@@ -23,7 +23,6 @@
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
                   <Button fx:id="addEmployeeButton" contentDisplay="RIGHT" maxHeight="30.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" mnemonicParsing="false" onAction="#addEmployeeClicked" text="הוספת עובד" GridPane.columnIndex="1">
@@ -31,27 +30,17 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="removeEmployeeButton" contentDisplay="RIGHT" maxHeight="30.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" mnemonicParsing="false" onAction="#removeEmployeeClicked" text="הסרת עובד">
+                  <Button fx:id="editEmployeeButton" contentDisplay="RIGHT" maxHeight="30.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" mnemonicParsing="false" onAction="#editEmployeeClicked" text="עדכון / הסרת עובד">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="editShiftButton" contentDisplay="RIGHT" maxHeight="30.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" mnemonicParsing="false" onAction="#editShiftClicked" text="עדכון משמרת לעובד" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button fx:id="editShiftButton" contentDisplay="RIGHT" maxHeight="30.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" mnemonicParsing="false" onAction="#editShiftClicked" text="עדכון משמרת לעובד" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="feedbackButton" contentDisplay="RIGHT" maxHeight="30.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" mnemonicParsing="false" onAction="#feedbackClicked" text="משוב  לעובד" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="employeeReportButton" contentDisplay="RIGHT" maxHeight="30.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" mnemonicParsing="false" onAction="#employeeReportClicked" text="הצגת דוח  עובד" GridPane.rowIndex="1">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="updateRoleButton" contentDisplay="RIGHT" maxHeight="30.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" mnemonicParsing="false" onAction="#updateRoleClicked" text="עדכון תפקיד " GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Button fx:id="feedbackButton" contentDisplay="RIGHT" maxHeight="30.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" mnemonicParsing="false" onAction="#feedbackClicked" text="משוב  לעובד" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>

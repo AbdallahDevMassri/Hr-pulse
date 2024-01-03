@@ -94,6 +94,14 @@ public class Employee {
         this.employeeRole =employeeRole;
     }
 
+    public Employee(String firstName,String email,String phoneNumber,String password,String employeeRole){
+        this.firstName=firstName;
+        this.email=email;
+        this.phoneNumber=phoneNumber;
+        this.password=password;
+        this.employeeRole =employeeRole;
+    }
+
 
     public boolean isHourly() {
         return isHourly;

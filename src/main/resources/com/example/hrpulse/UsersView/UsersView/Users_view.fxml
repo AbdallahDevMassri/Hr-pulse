@@ -27,7 +27,7 @@
          <children>
             <Button fx:id="shiftHandlingbutton" alignment="CENTER" mnemonicParsing="false" onAction="#manageEmployeeClicked" prefHeight="60.0" prefWidth="120.0" text="ניהול עובדים" />
             <Button fx:id="reportsButton" alignment="CENTER" mnemonicParsing="false" onAction="#NavigateToReportsPage" prefHeight="60.0" prefWidth="130.0" text="ניהול דוחות ובקשות " GridPane.rowIndex="2" />
-            <Button fx:id="displayWorkerButton" alignment="CENTER" mnemonicParsing="false" onAction="#DisplayEmployees" prefHeight="60.0" prefWidth="120.0" text="הפקת דוחות" GridPane.rowIndex="3" />
+            <Button fx:id="production_of_report_btn" alignment="CENTER" mnemonicParsing="false" onAction="#reportsClicked" prefHeight="60.0" prefWidth="120.0" text="הפקת דוחות" GridPane.rowIndex="3" />
             <Button fx:id="EditEmployeeButton" alignment="CENTER" mnemonicParsing="false" onAction="#NavigateToManageDepartment" prefHeight="60.0" prefWidth="120.0" text="ניהול מחלקות" GridPane.rowIndex="1" />
          </children>
          <padding>

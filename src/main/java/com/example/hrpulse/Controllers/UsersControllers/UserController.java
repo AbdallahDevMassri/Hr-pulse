@@ -1,4 +1,4 @@
-package com.example.hrpulse.Controllers.RoleControllers.Manager;
+package com.example.hrpulse.Controllers.UsersControllers;
 
 import com.example.hrpulse.Services.Interfaces.EmployeeNavigators;
 import com.example.hrpulse.Services.Interfaces.Navigators;
@@ -8,7 +8,6 @@ import com.example.hrpulse.Session.UserSession;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
@@ -59,8 +58,8 @@ public class UserController implements Navigators , EmployeeNavigators, ReportsN
 
 
     @FXML
-    void DisplayEmployees(ActionEvent event) throws IOException {
-        navigateToDisplayEmployeesPage(event);
+    void reportsClicked(ActionEvent event) throws IOException {
+        navigateToProductionOfReportsPage(event);
     }
 
     @FXML
@@ -70,7 +69,7 @@ public class UserController implements Navigators , EmployeeNavigators, ReportsN
 
     @FXML
     void NavigateToManageDepartment(ActionEvent event) throws IOException {
-    navigateToManageDepartment(event);
+        navigateToManageDepartment(event);
     }
 
     @FXML

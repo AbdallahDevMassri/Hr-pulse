@@ -25,14 +25,11 @@ public class ManageEmployeeController implements Navigators, EmployeeNavigators 
         navigateToEditEmployeeShiftPage(event);
     }
 
-    @FXML
-    void employeeReportClicked(ActionEvent event) throws IOException {
-    navigateToReportPage(event);
-    }
+
 
     @FXML
     void feedbackClicked(ActionEvent event) throws IOException {
-    navigateToFeedbackEmployeePage(event);
+        navigateToFeedbackEmployeePage(event);
     }
 
     @FXML

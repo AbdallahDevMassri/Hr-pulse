@@ -1,7 +1,6 @@
 package com.example.hrpulse.Controllers;
 
 import com.example.hrpulse.HR_Pulse;
-import com.example.hrpulse.Services.CSV.CsvRow;
 import com.example.hrpulse.Services.Objects.Employee;
 import com.example.hrpulse.Services.Interfaces.Navigators;
 import com.example.hrpulse.Session.UserSession;
@@ -48,7 +47,6 @@ public class loginController implements Navigators {
     private Label wrongLogin;
     private static List<Employee> employeesList = getEmployees();
     private static List<Employee> getEmployees() {
-
         return retrieveEmployees();
     }
 
@@ -61,7 +59,11 @@ public class loginController implements Navigators {
     void userLogin(ActionEvent event) throws IOException {
         String username = tf_UserName.getText().trim().toLowerCase();
         String password = tf_Password.getText().toLowerCase();
+        // get the local employee that we declare if not found it return null .
         Employee employee = employees.get(username);
+        System.out.print("employee");
+        System.out.println(employee);
+        // get the employee from database if not found return null .
         Employee employeeDb = getEmployeeByUsernameAndPassword(username, password);
         System.out.print("employeeDb");
         System.out.println(employeeDb);
@@ -97,5 +99,4 @@ public class loginController implements Navigators {
     }
 
 }
-
 

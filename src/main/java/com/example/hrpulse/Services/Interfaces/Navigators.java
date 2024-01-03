@@ -1,7 +1,4 @@
 package com.example.hrpulse.Services.Interfaces;
-/**
- * this class  is used to handle all the navigators between the pages
- */
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -15,15 +12,7 @@ import java.util.Objects;
 
 public interface Navigators {
 
-    default void openInFullScreen(Stage stage, Scene scene, String title) {
 
-        stage.setScene(scene);
-        stage.setTitle(title);
-        stage.setMaximized(true); // Set the stage to full-screen
-        stage.centerOnScreen();
-        stage.setResizable(true);
-        stage.show();
-    }
 
     default void navigateToLoginPage(ActionEvent event) throws IOException {
 
@@ -78,7 +67,7 @@ public interface Navigators {
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainStage.setScene(editDepartmentPageViewScene);
         // Set the Stage properties for resizable and on Center of the screen
-       mainStage.centerOnScreen();
+        mainStage.centerOnScreen();
         mainStage.setTitle("עדכון נתוני מחלקה");
         mainStage.show();
     }

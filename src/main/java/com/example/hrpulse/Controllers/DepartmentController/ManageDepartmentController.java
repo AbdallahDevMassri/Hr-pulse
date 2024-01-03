@@ -10,7 +10,7 @@ public class ManageDepartmentController implements Navigators {
 
     @FXML
     void navigateToEditDepartment(ActionEvent event) throws IOException {
-    navigateEditDepartment(event);
+        navigateEditDepartment(event);
     }
 
     @FXML
@@ -20,7 +20,7 @@ public class ManageDepartmentController implements Navigators {
 
     @FXML
     void navigateToDepartmentDetails(ActionEvent event) throws IOException {
-    navigateToReportOfDepartment(event);
+        navigateToReportOfDepartment(event);
     }
 
     @FXML

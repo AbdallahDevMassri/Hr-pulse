@@ -49,7 +49,7 @@
                   <Font name="Comic Sans MS Bold Italic" size="14.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="209.0" layoutY="123.0" prefHeight="43.0" prefWidth="114.0" text="שם משתמש : " textAlignment="CENTER">
+            <Label alignment="CENTER" layoutX="209.0" layoutY="123.0" prefHeight="43.0" prefWidth="114.0" text="ת.ז : " textAlignment="CENTER">
                <font>
                   <Font name="Comic Sans MS" size="14.0" />
                </font>
@@ -57,7 +57,7 @@
                   <Glow />
                </effect>
             </Label>
-            <TextField fx:id="tf_UserName" alignment="CENTER" layoutX="73.0" layoutY="132.0" promptText="שם משתמש " />
+            <TextField fx:id="tf_UserName" alignment="CENTER" layoutX="73.0" layoutY="132.0" promptText="ת.ז עובד " />
             <Label alignment="CENTER" layoutX="241.0" layoutY="186.0" text="סיסמה :">
                <font>
                   <Font name="Comic Sans MS" size="14.0" />
