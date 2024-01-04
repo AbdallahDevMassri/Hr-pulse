@@ -30,27 +30,36 @@ public class UserController implements Navigators , EmployeeNavigators, ReportsN
             // Set the text of the label_userName to the user's name
             label_userName.setText("User: " + currentUser.getFirstName());
             // Apply different styles based on the user's role
-            if ("manager".equals(currentUser.getEmployeeRole())) {
+            if ("headOfDepartment".equals(currentUser.getEmployeeRole())) {
                 // Manager role
-                applyManagerStyles();
+                applyheadOfDepartmentStyles();
             } else if ("secretary".equals(currentUser.getEmployeeRole())) {
                 // Secretary role
                 applySecretaryStyles();
+            }else {
+                applyManagerStyles();
             }
         }
     }
 
+    private void applyheadOfDepartmentStyles() {
+
+        borderPane.getStyleClass().removeAll("secretary");
+
+        borderPane.getStyleClass().add("headOfDepartment");
+    }
+
     private void applySecretaryStyles() {
         // Remove existing style classes to prevent conflicts
-        borderPane.getStyleClass().removeAll("manager");
 
+        borderPane.getStyleClass().removeAll("headOfDepartment");
         // Add the secretary style class
         borderPane.getStyleClass().add("secretary");
     }
 
     private void applyManagerStyles() {
         // Remove existing style classes to prevent conflicts
-        borderPane.getStyleClass().removeAll("secretary");
+        borderPane.getStyleClass().removeAll("headOfDepartment");
 
         // Add the manager style class
         borderPane.getStyleClass().add("manager");

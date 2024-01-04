@@ -37,7 +37,7 @@ public class loginController implements Navigators {
     static {
         employees.put("admin_m", new Employee("manager", "Globalvpsm@gmail.com", "0535216838", "1234","manager"));
         employees.put("admin_s", new Employee("secretary", "Globalvpsm@gmail.com", "0535216838", "1234","secretary"));
-        employees.put("admin_h", new Employee("head", "A.v.e@live.com", "0535216838", "1234","head"));
+        employees.put("admin_h", new Employee("head", "A.v.e@live.com", "0535216838", "1234","headOfDepartment"));
     }
     @FXML
     private PasswordField tf_Password;
