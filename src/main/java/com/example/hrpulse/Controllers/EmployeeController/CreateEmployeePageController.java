@@ -161,12 +161,18 @@ public class CreateEmployeePageController implements EmployeeNavigators {
             return;
         }
         int employeeID = 0;
+
         try {
             employeeID = Integer.parseInt(employeeIDText);
+            if(employeeIDText.trim().length() != 8){
+                showErrorDialog("ת.ז חייבת להיות 9 ספרות / רק מספרים");
+                return;
+            }
         } catch (NumberFormatException e) {
-            showErrorDialog("ת.ז  לא חוקית . ");
+            showErrorDialog("ת.ז חייבת להיות 9 ספרות / רק מספרים");
             return;
         }
+
         // Check if the employee ID is unique
         if (!isEmployeeIDUnique(employeeID)) {
             showErrorDialog("ת.ז כבר נמצאת במערכת .");

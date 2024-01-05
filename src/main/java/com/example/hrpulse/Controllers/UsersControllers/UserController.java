@@ -8,15 +8,16 @@ import com.example.hrpulse.Session.UserSession;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-
 import java.io.IOException;
 
 public class UserController implements Navigators , EmployeeNavigators, ReportsNavigators {
-
     @FXML
     private Label label_userName;
+    @FXML
+    private Button reportsButton;
     @FXML
     private BorderPane borderPane;
     public void initialize() {
@@ -32,7 +33,7 @@ public class UserController implements Navigators , EmployeeNavigators, ReportsN
             // Apply different styles based on the user's role
             if ("headOfDepartment".equals(currentUser.getEmployeeRole())) {
                 // Manager role
-                applyheadOfDepartmentStyles();
+                applyHeadOfDepartmentStyles();
             } else if ("secretary".equals(currentUser.getEmployeeRole())) {
                 // Secretary role
                 applySecretaryStyles();
@@ -42,29 +43,38 @@ public class UserController implements Navigators , EmployeeNavigators, ReportsN
         }
     }
 
-    private void applyheadOfDepartmentStyles() {
-
+    private void applyHeadOfDepartmentStyles() {
+        // Remove existing style classes to prevent conflicts
         borderPane.getStyleClass().removeAll("secretary");
-
+        // Add the secretary style class & Hide fields
         borderPane.getStyleClass().add("headOfDepartment");
+        hideHeadOfDepartmentButtons();
+    }
+    //TODO: Hide the unneeded buttons
+    private void hideHeadOfDepartmentButtons() {
+        reportsButton.setVisible(false);
     }
 
     private void applySecretaryStyles() {
         // Remove existing style classes to prevent conflicts
-
         borderPane.getStyleClass().removeAll("headOfDepartment");
-        // Add the secretary style class
+        // Add the secretary style class & Hide fields
         borderPane.getStyleClass().add("secretary");
+        hideSecretaryButtons();
+    }
+  //TODO: Hide the unneeded buttons
+
+    private void hideSecretaryButtons() {
+
     }
 
     private void applyManagerStyles() {
         // Remove existing style classes to prevent conflicts
         borderPane.getStyleClass().removeAll("headOfDepartment");
-
         // Add the manager style class
         borderPane.getStyleClass().add("manager");
-    }
 
+    }
 
     @FXML
     void reportsClicked(ActionEvent event) throws IOException {
@@ -80,7 +90,7 @@ public class UserController implements Navigators , EmployeeNavigators, ReportsN
     void NavigateToManageDepartment(ActionEvent event) throws IOException {
         navigateToManageDepartment(event);
     }
-
+    //TODO:Show error or display a message for the user the button will be used in the next version
     @FXML
     void NavigateToReportsPage(ActionEvent event) throws IOException {
 

@@ -4,7 +4,6 @@ import com.example.hrpulse.Services.Interfaces.EmployeeNavigators;
 import com.example.hrpulse.Services.Interfaces.Navigators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
 import java.io.IOException;
 
 public class ManageEmployeeController implements Navigators, EmployeeNavigators {
@@ -19,13 +18,10 @@ public class ManageEmployeeController implements Navigators, EmployeeNavigators 
         navigateToMainPage(event);
 
     }
-
     @FXML
     void editShiftClicked(ActionEvent event) throws IOException {
         navigateToEditEmployeeShiftPage(event);
     }
-
-
 
     @FXML
     void feedbackClicked(ActionEvent event) throws IOException {

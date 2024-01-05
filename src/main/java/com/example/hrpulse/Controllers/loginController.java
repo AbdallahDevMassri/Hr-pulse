@@ -32,7 +32,7 @@ public class loginController implements Navigators {
         this.hrPulse = hrPulse;
         this.sessionFactory = sessionFactory;
     }
-    private static Map<String, Employee> employees = new HashMap<>();
+    private static final Map<String, Employee> employees = new HashMap<>();
 
     static {
         employees.put("admin_m", new Employee("manager", "Globalvpsm@gmail.com", "0535216838", "1234","manager"));
@@ -45,7 +45,7 @@ public class loginController implements Navigators {
     private TextField tf_UserName;
     @FXML
     private Label wrongLogin;
-    private static List<Employee> employeesList = getEmployees();
+    private static final List<Employee> employeesList = getEmployees();
     private static List<Employee> getEmployees() {
         return retrieveEmployees();
     }
