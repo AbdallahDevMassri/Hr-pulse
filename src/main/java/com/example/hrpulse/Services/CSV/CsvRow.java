@@ -41,9 +41,6 @@ public class CsvRow implements DataModel {
     @Transient
     private String timestamp;
 
-    @Column(name = "last_editor")
-    private String lastEditor;
-
     @Transient
     private String initialTotalWorkHours;
 
@@ -104,7 +101,6 @@ public class CsvRow implements DataModel {
         setDateTable(dateTable);
         setEmployeeId(employeeId);
         setComments((comments != null) ? comments : "");
-        setLastEditor(lastEditor);
         setTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         initializeInitialValues();
     }
@@ -128,13 +124,12 @@ public class CsvRow implements DataModel {
                 this.getDateTable(),
                 this.getEmployeeId(),
                 this.getComments(),
-                this.getLastEditor()
         };
     }
 
     @Override
     public String[] getDataAsArray() {
-        return new String[]{totalWorkHours, breakTime, exitHour, startHour, dateTable, employeeId, comments, lastEditor};
+        return new String[]{totalWorkHours, breakTime, exitHour, startHour, dateTable, employeeId, comments };
     }
 
     @Override
@@ -229,14 +224,6 @@ public class CsvRow implements DataModel {
         this.timestamp = timestamp;
     }
 
-
-    public String getLastEditor() {
-        return lastEditor;
-    }
-
-    public void setLastEditor(String lastEditor) {
-        this.lastEditor = lastEditor;
-    }
 
     public Long getId() {
         return id;

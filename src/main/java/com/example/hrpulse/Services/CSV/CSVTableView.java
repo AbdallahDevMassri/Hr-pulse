@@ -74,14 +74,8 @@ public class CSVTableView extends Application {
             event.getRowValue().setEmployeeId(event.getNewValue());
         });
 
-        TableColumn<CsvRow, String> lastEditorColumn = new TableColumn<>("Last Editor");
-        lastEditorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLastEditor()));
-        lastEditorColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        lastEditorColumn.setOnEditCommit(event -> {
-            event.getRowValue().setLastEditor(event.getNewValue());
-        });
 
-        tableView.getColumns().addAll(totalWorkHoursColumn, breakTimeColumn, endTimeColumn, startTimeColumn, dateColumn, empIdColumn, lastEditorColumn);
+        tableView.getColumns().addAll(totalWorkHoursColumn, breakTimeColumn, endTimeColumn, startTimeColumn, dateColumn, empIdColumn);
         tableView.setItems(data);
 
         Button loadButton = new Button("Load CSV");

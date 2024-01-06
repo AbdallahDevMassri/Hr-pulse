@@ -36,8 +36,7 @@ public class DatabaseManager {
                     if (!isDataExists(sessionFactory, tableName, employeeId, date)) {
                         String insertQuery = generateInsertQuery(tableName);
                         Query query = session.createNativeQuery(insertQuery);
-                        // Use the overloaded method without comments and lastEditor parameters
-                        setQueryParameters(query, rowData, query.getComment(), rowData[3]);
+                        setQueryParameters(query, rowData, query.getComment());
                         query.executeUpdate();
                     }
                 });
@@ -72,7 +71,6 @@ public class DatabaseManager {
     }
 
 
-
     public static boolean isDataExists(SessionFactory sessionFactory, String tableName, String employeeId, String date) {
         try (Session session = sessionFactory.openSession()) {
             String checkExistenceQuery = "SELECT 1 FROM " + tableName + " WHERE employee_id = :employeeId AND date = :date";
@@ -93,7 +91,7 @@ public class DatabaseManager {
             transaction = session.beginTransaction();
             String insertQuery = generateInsertQuery("employeeshiftdata");
             Query query = session.createNativeQuery(insertQuery);
-            setQueryParameters(query, row.toStringArray(), row.getComments(), row.getLastEditor());
+            setQueryParameters(query, row.toStringArray(), row.getComments());
             query.executeUpdate();
             transaction.commit();
         } catch (HibernateException e) {
@@ -104,11 +102,11 @@ public class DatabaseManager {
 
     private static String generateInsertQuery(String tableName) {
         return "INSERT INTO " + tableName +
-                " (total_work_hours, break_time, end_of_shift, start_of_shift, date, employee_id, comments, last_editor) " +
-                "VALUES (:totalWorkHours, :breakTime, :exitHour, :startHour, :dateTable, :employeeId, :comments, :lastEditor)";
+                " (total_work_hours, break_time, end_of_shift, start_of_shift, date, employee_id, comments) " +
+                "VALUES (:totalWorkHours, :breakTime, :exitHour, :startHour, :dateTable, :employeeId, :comments)";
     }
 
-    public static void setQueryParameters(Query query, String[] rowData, String comments, String lastEditor) {
+    public static void setQueryParameters(Query query, String[] rowData, String comments) {
         query.setParameter("totalWorkHours", rowData[0]);
         query.setParameter("breakTime", rowData[1]);
         query.setParameter("exitHour", rowData[2]);
@@ -116,7 +114,7 @@ public class DatabaseManager {
         query.setParameter("dateTable", rowData[4]);
         query.setParameter("employeeId", rowData[5]);
         query.setParameter("comments", comments);
-        query.setParameter("lastEditor", lastEditor);
+
     }
 
     public static void handleDatabaseException(Transaction transaction, HibernateException e) {
