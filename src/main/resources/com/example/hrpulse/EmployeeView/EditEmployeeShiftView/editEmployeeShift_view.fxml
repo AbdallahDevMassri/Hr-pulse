@@ -27,7 +27,6 @@
 
         <TableView fx:id="tableViewCSVData" layoutX="50.0" layoutY="100.0" minWidth="400" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="140.0">
             <columns>
-                <TableColumn fx:id="tc_lastEditor" maxWidth="200.0" minWidth="92.66666030883789" prefWidth="92.66666030883789" text="כותב ההערה" />
                 <TableColumn fx:id="tc_comments" maxWidth="273.99998474121094" minWidth="150.0" prefWidth="243.9999542236328" text="הערות" />
                 <TableColumn fx:id="tc_totalWorkHrs" maxWidth="216.00009155273438" minWidth="100.0" prefWidth="141.33340454101562" text="סה'כ שעות" />
                 <TableColumn fx:id="tc_breakTime" maxWidth="200.0" minWidth="100.0" prefWidth="122.66668701171875" text="זמן הפסקה" />

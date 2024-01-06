@@ -159,6 +159,11 @@ public class CsvRow implements DataModel {
     }
 
 
+    public String generateUniqueKey() {
+        // Assuming both employeeId and dateTable are not null
+        return employeeId + "_" + dateTable;
+    }
+
 
     public String getCompositeKey() {
         return employeeId + "_" + dateTable;
@@ -233,8 +238,13 @@ public class CsvRow implements DataModel {
         this.lastEditor = lastEditor;
     }
 
+    public Long getId() {
+        return id;
+    }
 
-
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getComments() {
         return comments;

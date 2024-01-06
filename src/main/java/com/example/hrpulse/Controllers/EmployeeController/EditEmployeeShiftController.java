@@ -59,8 +59,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     @FXML
     private TableColumn<CsvRow, String> tc_comments;
 
-    @FXML
-    private TableColumn<CsvRow, String> tc_lastEditor;
 
 
     @FXML
@@ -244,6 +242,8 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             }
         });
 
+
+
         deleteColumn.setCellFactory(param -> new TableCell<>() {
             private final Button deleteButton = new Button("Delete");
 
@@ -268,7 +268,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         tableViewCSVData.getColumns().add(deleteColumn);
 
         // Set edit commit handlers for each column
-        setEditCommitHandler(tc_totalWorkHrs);
         setEditCommitHandler(tc_breakTime);
         setEditCommitHandler(tc_exitHour);
         setEditCommitHandler(tc_enterHour);
@@ -316,39 +315,8 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
     @FXML
     private void addRowButtonClicked(ActionEvent event) {
-        // Get the current user from the class-level field
-        Employee currentUser = userSession.getCurrentUser();
-
-        // Check if the current user is null (handle it appropriately)
-        if (currentUser == null) {
-            // Handle the case where currentUser is null
-            System.err.println("Error: currentUser is null in addRowButtonClicked");
-            return;
-        }
-
         // Create a new CsvRow with default values
         CsvRow newRow = new CsvRow("", "", "", "", "", "", "", "");
-
-        // Set the last editor for the new row
-        newRow.setLastEditor(currentUser.getUsername());
-        System.out.println("addRowButtonClicked - lastEditor: " + currentUser.getUsername());
-
-        // Check for duplicates
-        if (isDuplicateRow(newRow)) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Duplicate Entry");
-            alert.setHeaderText("Employee Shift Entry Already Exists");
-            alert.setContentText("A shift entry for the specified employee_id and date already exists. Do you want to overwrite it?");
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                // Delete the existing row with the same employee_id and date
-                deleteExistingRow(newRow);
-            } else {
-                // Do not proceed with addition
-                return;
-            }
-        }
 
         // Add the new row to the TableView
         tableViewCSVData.getItems().add(newRow);
@@ -361,6 +329,9 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         // Track the new row in the map
         editedRowsMap.put(newRow.getCompositeKey(), newRow);
     }
+
+
+
 
     private boolean isDuplicateRow(CsvRow newRow) {
         // Check if a row with the same employee_id and date already exists
@@ -444,36 +415,22 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     // Save button click event
 
     @FXML
-    private void saveButtonClicked(ActionEvent event) {
-        boolean editedRowsExist = !editedRowsMap.isEmpty();
-        boolean externallyAddedRowsExist = uploadCsvFile.hasExternallyAddedRows();
-
+    private void saveButtonClicked(ActionEvent event) throws IOException {
         for (CsvRow row : tableViewCSVData.getItems()) {
-            try {
-                // Update the CSV file with the new data for existing rows
-                if (!uploadCsvFile.isExternallyAddedRow(row)) {
-                    uploadCsvFile.updateRowInCsv(row);
-                }
+            // Update the CSV file with the new data for existing rows
+            if (!uploadCsvFile.isExternallyAddedRow(row)) {
+                uploadCsvFile.updateRowInCsv(row);
+            }
 
-                // Save or update the row in the database
-                if (DatabaseManager.isDataExists(sessionFactory, "employeeshiftdata", row.getEmployeeId(), row.getDateTable())) {
-                    // Existing row, update the database
-                    updateRowInDatabase(row);
-
-                } else {
-                    // New row, insert into the database
-                    // Set last editor and comments in the database only, not in the CSV file
-                    row.setLastEditor(currentUser.getUsername());
-                    row.setComments(row.getComments());
-
-                    DatabaseManager.insertRowIntoDatabase(row);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                // Handle the exception as needed
+            // Save or update the row in the database
+            if (DatabaseManager.isDataExists(sessionFactory, "employeeshiftdata", row.getEmployeeId(), row.getDateTable())) {
+                // Existing row, update the database
+                updateRowInDatabase(row);
+            } else {
+                // New row, insert into the database
+                DatabaseManager.insertRowIntoDatabase(row);
             }
         }
-
 
         // Optionally, you may want to clear the map and handle other cleanup tasks
         editedRowsMap.clear();
@@ -481,6 +438,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
         showAlert("Changes saved to both CSV file and database.");
     }
+
 
 
 
@@ -495,7 +453,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
                 transaction = session.beginTransaction();
 
                 // Use the original ID when updating the comment
-                String updateQuery = "UPDATE CsvRow SET comments = :comments, last_editor = :lastEditor " +
+                String updateQuery = "UPDATE CsvRow SET comments = :comments" +
                         "WHERE id = :id";
 
                 // Creating a query object
@@ -503,7 +461,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
                 // Setting parameters for the query
                 query.setParameter("comments", row.getComments());
-                query.setParameter("lastEditor", row.getLastEditor());
 
 
                 // Commit the transaction
@@ -519,49 +476,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
                 // Handle the exception as needed
             }
         }
-    }
-
-    private void processEditedRowsAndExternallyAddedRows(boolean editedRowsExist, boolean externallyAddedRowsExist) {
-        if (editedRowsExist || externallyAddedRowsExist) {
-            Task<Void> databaseUpdateTask = createDatabaseUpdateTask();
-            setDatabaseUpdateTaskCallbacks(databaseUpdateTask);
-            new Thread(databaseUpdateTask).start();
-        } else {
-            showAlert("No changes made. Nothing to save.");
-        }
-    }
-
-    private Task<Void> createDatabaseUpdateTask() {
-        return new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                try {
-                    processEditedRows();
-                    processExternallyAddedRows();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        };
-    }
-
-
-    private void processEditedRows() {
-        for (CsvRow row : editedRowsMap.values()) {
-            try {
-                // Update the CSV file with the new data
-                uploadCsvFile.updateRowInCsv(row);
-
-                // If the row is not externally added, update it in the database
-                if (!uploadCsvFile.isExternallyAddedRow(row)) {
-                    updateRowInDatabase(row);
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        editedRowsMap.clear(); // Clear the map after updating
     }
 
 
@@ -642,78 +556,18 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     }
 
 
-    private boolean isValidEmployeeId(String employeeId) {
-        return employeeId.matches("\\d{9}");
-    }
-
-    private boolean isValidDateFormat(String date) {
-        try {
-            // Use SimpleDateFormat to parse the date with the specified format
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            sdf.setLenient(false);
-            sdf.parse(date);
-            return true;
-        } catch (ParseException e) {
-            return false;
-        }
-    }
-
-    private boolean isValidComments(String comments) {
-        return comments.length() >= 5;
-    }
-
-    private boolean isValidHourFormat(String hour) {
-        try {
-            // Use SimpleDateFormat to parse the time with the specified format
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-            sdf.setLenient(false);
-            sdf.parse(hour);
-            return true;
-        } catch (ParseException e) {
-            return false;
-        }
-    }
-
-    // Handle edit commit for each column
     @FXML
     private void handleEditCommit(TableColumn.CellEditEvent<CsvRow, String> event, TableColumn<CsvRow, String> column) {
         CsvRow editedRow = event.getRowValue();
         String newValue = event.getNewValue();
 
-        // Validate employeeId and date format for new rows
-        if (event.getSource().equals(tc_employeeId)) {
-            if (!isValidEmployeeId(newValue)) {
-                showAlert("ת.ז (Employee ID) must have 9 numbers.");
-                return;
-            }
-        }
-        if (event.getSource().equals(tc_dateTable)) {
-            if (!isValidDateFormat(newValue)) {
-                showAlert("Invalid date format. Please use dd/mm/yyyy.");
-                return;
-            }
-        }
-        if (event.getSource().equals(tc_comments)) {
-            if (!isValidComments(newValue)) {
-                showAlert("Comments must be at least 5 characters long.");
-                return;
-            }
-        }
-        if (event.getSource().equals(tc_enterHour) || event.getSource().equals(tc_exitHour)) {
-            if (!isValidHourFormat(newValue)) {
-                showAlert("Invalid hour format. Please use HH:mm.");
-                return;
-            }
-        }
+        // Validate employeeId, date format, and other fields as needed...
 
         // Set last editor before updating the database
         Employee currentUser = UserSession.getInstance().getCurrentUser();
         if (currentUser != null) {
             // Update the specific property based on the edited column
             updatePropertyBasedOnColumn(editedRow, event.getTableColumn(), newValue);
-
-            // Set last editor to the current user
-            editedRow.setLastEditor(currentUser.getUsername());
 
             // Save changes to the CSV file and the database
             try {
@@ -749,55 +603,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         }
     }
 
-    private void saveEmployeeIdToDatabase(CsvRow editedRow) {
-        savePropertyToDatabase("employee_id", editedRow.getEmployeeId(), editedRow);
-    }
-
-    private void saveDateTableToDatabase(CsvRow editedRow) {
-        savePropertyToDatabase("date", editedRow.getDateTable(), editedRow);
-    }
-
-    private void saveExitHourToDatabase(CsvRow editedRow) {
-        savePropertyToDatabase("end_of_shift", editedRow.getExitHour(), editedRow);
-    }
-
-    private void saveEnterHourToDatabase(CsvRow editedRow) {
-        savePropertyToDatabase("start_of_shift", editedRow.getStartHour(), editedRow);
-    }
-
-    private void saveBreakTimeToDatabase(CsvRow editedRow) {
-        savePropertyToDatabase("break_time", editedRow.getBreakTime(), editedRow);
-    }
-
-    private void saveTotalWorkHoursToDatabase(CsvRow editedRow) {
-        savePropertyToDatabase("total_work_hours", editedRow.getTotalWorkHours(), editedRow);
-    }
-
-    private void savePropertyToDatabase(String propertyName, String propertyValue, CsvRow editedRow) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = null;
-
-            try {
-                transaction = session.beginTransaction();
-
-                // Construct the update query
-                String updateQuery = String.format("UPDATE employeeshiftdata SET %s = :value, last_editor = :lastEditor WHERE employee_id = :employee_id", propertyName);
-
-                Query<?> query = session.createNativeQuery(updateQuery);
-                query.setParameter("value", propertyValue);
-                query.setParameter("lastEditor", editedRow.getLastEditor());
-
-
-                // Commit the transaction
-                transaction.commit();
-            } catch (Exception e) {
-                if (transaction != null && transaction.isActive()) {
-                    transaction.rollback();
-                }
-                e.printStackTrace();
-            }
-        }
-    }
 
     private void saveChanges(CsvRow editedRow) {
 
