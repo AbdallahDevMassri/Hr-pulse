@@ -38,8 +38,6 @@ public class CsvRow implements DataModel {
     @Column(name = "employee_id", unique = true)  // Ensure uniqueness
     private String employeeId;
 
-    @Transient
-    private String timestamp;
 
     @Transient
     private String initialTotalWorkHours;
@@ -70,8 +68,8 @@ public class CsvRow implements DataModel {
     }
 
     public CsvRow(String totalWorkHours, String breakTime, String exitHour, String startHour,
-                  String dateTable, String employeeId, String comments, String lastEditor) {
-        initializeFields(totalWorkHours, breakTime, exitHour, startHour, dateTable, employeeId, comments, lastEditor);
+                  String dateTable, String employeeId, String comments) {
+        initializeFields(totalWorkHours, breakTime, exitHour, startHour, dateTable, employeeId, comments);
         this.compositeKey = employeeId + "_" + dateTable;
 
     }
@@ -79,21 +77,20 @@ public class CsvRow implements DataModel {
     public CsvRow(String[] rowData) {
         if (rowData.length >= 6) {
             initializeFields(
-                    rowData[0], rowData[1], rowData[2], rowData[3], rowData[4], "", "", ""
-            );
+                    rowData[0], rowData[1], rowData[2], rowData[3], rowData[4], "", "");
         } else {
             System.err.println("Invalid CSV row: " + Arrays.toString(rowData));
         }
     }
 
     public CsvRow(String totalWorkHours, String breakTime, String exitHour, String startHour,
-                  String dateTable, String comments, String lastEditor) {
+                  String dateTable, String comments) {
         this();
-        initializeFields(totalWorkHours, breakTime, exitHour, startHour, dateTable, "", comments, lastEditor);
+        initializeFields(totalWorkHours, breakTime, exitHour, startHour, dateTable, "", comments);
     }
 
     private void initializeFields(String totalWorkHours, String breakTime, String exitHour, String startHour,
-                                  String dateTable, String employeeId, String comments, String lastEditor) {
+                                  String dateTable, String employeeId, String comments) {
         setTotalWorkHours(totalWorkHours);
         setBreakTime(breakTime);
         setExitHour(exitHour);
@@ -101,9 +98,9 @@ public class CsvRow implements DataModel {
         setDateTable(dateTable);
         setEmployeeId(employeeId);
         setComments((comments != null) ? comments : "");
-        setTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         initializeInitialValues();
     }
+
     private void initializeInitialValues() {
         initialTotalWorkHours = getTotalWorkHours();
         initialBreakTime = getBreakTime();
@@ -143,21 +140,6 @@ public class CsvRow implements DataModel {
         setComments(data[6]);
     }
 
-    public boolean isDirty() {
-        return !getTotalWorkHours().equals(initialTotalWorkHours) ||
-                !getBreakTime().equals(initialBreakTime) ||
-                !getExitHour().equals(initialExitHour) ||
-                !getStartHour().equals(initialStartHour) ||
-                !getDateTable().equals(initialDateTable) ||
-                !getEmployeeId().equals(initialEmployeeId) ||
-                (!Objects.equals(getComments(), initialComments) && !"הערה".equals(initialComments));
-    }
-
-
-    public String generateUniqueKey() {
-        // Assuming both employeeId and dateTable are not null
-        return employeeId + "_" + dateTable;
-    }
 
 
     public String getCompositeKey() {
@@ -214,14 +196,6 @@ public class CsvRow implements DataModel {
 
     public void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
     }
 
 

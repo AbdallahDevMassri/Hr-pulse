@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1255.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.EmployeeController.EditEmployeeShiftController">
+<AnchorPane prefHeight="600.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.EmployeeController.EditEmployeeShiftController">
     <children>
         <VBox alignment="CENTER" layoutX="400" layoutY="14.0" spacing="20" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="14.0">
             <Label prefHeight="40.0" text="עדכון שעות עובד">
@@ -65,24 +65,24 @@
             </rowConstraints>
         </GridPane>
 
-        <Button layoutX="1111.0" layoutY="400.0" onAction="#uploadCsvFile" text="העלאת קובץ שעות" />
-        <Button layoutX="1055.0" layoutY="520.0" mnemonicParsing="false" onAction="#mainPageButtonClicked" prefHeight="40.0" prefWidth="150.0" text="חזור" AnchorPane.leftAnchor="1055.0">
+        <Button layoutX="1018.0" layoutY="400.0" onAction="#uploadCsvFile" text="העלאת קובץ שעות" />
+        <Button layoutX="983.0" layoutY="508.0" mnemonicParsing="false" onAction="#mainPageButtonClicked" prefHeight="40.0" prefWidth="150.0" text="חזור" AnchorPane.leftAnchor="983.0">
             <font>
                 <Font name="System Bold Italic" size="18.0" />
             </font>
         </Button>
 
         <!-- Add the button for loading last saved data from the database -->
-        <Button fx:id="loadLastSavedDataButton" layoutX="925.0" layoutY="400.0" onAction="#loadLastSavedDataIntoTableview" text="היסטוריית שמירה אחרונה" />
+        <Button fx:id="loadLastSavedDataButton" layoutX="833.0" layoutY="400.0" onAction="#loadLastSavedDataIntoTableview" text="היסטוריית שמירה אחרונה" />
 
-        <Button fx:id="saveButton"  layoutX="50.0" layoutY="520.0" mnemonicParsing="false" onAction="#saveButtonClicked" prefHeight="40.0" prefWidth="150.0" text="שמירה">
+        <Button fx:id="saveButton" layoutX="50.0" layoutY="508.0" mnemonicParsing="false" onAction="#saveButtonClicked" prefHeight="40.0" prefWidth="150.0" text="שמירה">
             <font>
                 <Font name="System Bold Italic" size="18.0" />
             </font>
         </Button>
-        <Button layoutX="50.0" layoutY="560.0" onAction="#addRowButtonClicked" text="Add Row" />
-        <Label layoutX="1181.0" layoutY="109.0" text="ת.ז עובד:" />
-        <TextField fx:id="tf_employeeID" layoutX="1020.0" layoutY="105.0" prefWidth="150.0" promptText="הזן ת.ז עובד" />
-        <Button layoutX="972.0" layoutY="105.0" mnemonicParsing="false" onAction="#searchButtonClicked" text="חפש" />
+        <Button layoutX="685.0" layoutY="400.0" onAction="#addRowButtonClicked" text="הוספת שורה חדשה" />
+        <Label layoutX="1088.0" layoutY="110.0" text="ת.ז עובד:" />
+        <TextField fx:id="tf_employeeID" layoutX="927.0" layoutY="106.0" prefWidth="150.0" promptText="הזן ת.ז עובד" />
+        <Button layoutX="879.0" layoutY="106.0" mnemonicParsing="false" onAction="#searchButtonClicked" text="חפש" />
     </children>
 </AnchorPane>

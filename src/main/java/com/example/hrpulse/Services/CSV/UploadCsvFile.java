@@ -112,9 +112,6 @@ public class UploadCsvFile {
         CsvService.writeCsv(csvFilePath, updatedCsvData);
     }
 
-    public void clearExternallyAddedRows() {
-        externallyAddedRows.clear();
-    }
 
     public boolean isTableViewLoaded() {
         return isTableViewLoaded;
@@ -133,8 +130,7 @@ public class UploadCsvFile {
         for (String[] row : csvData) {
             if (row.length >= 6) {
                 CsvRow csvRow = new CsvRow(
-                        row[0], row[1], row[2], row[3], row[4], row[5], ""
-                );
+                        row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
                 csvRows.add(csvRow);
             } else {
                 System.err.println("Invalid CSV row: " + Arrays.toString(row));
@@ -158,7 +154,15 @@ public class UploadCsvFile {
         return stringCsvData;
     }
 
+    public void markExternallyAddedRow(CsvRow row) {
+        externallyAddedRows.add(row);
+    }
+
     public boolean isExternallyAddedRow(CsvRow row) {
         return externallyAddedRows.contains(row);
+    }
+
+    public void clearExternallyAddedRows() {
+        externallyAddedRows.clear();
     }
 }

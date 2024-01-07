@@ -87,12 +87,9 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
 
 
-
-
     public EditEmployeeShiftController() {
 
     }
-
 
 
 
@@ -117,7 +114,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
 
 
-
     @FXML
     public void initialize() {
 
@@ -133,7 +129,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             event.getRowValue().setTotalWorkHours(event.getNewValue());
             try {
                 uploadCsvFile.updateRowInCsv(event.getRowValue());
-                saveChanges(editedRow);
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -146,10 +142,10 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         tc_breakTime.setOnEditCommit(event -> {
             CsvRow editedRow = event.getRowValue();
             editedRow.setBreakTime(event.getNewValue());
-           // event.getRowValue().setBreakTime(event.getNewValue());
+            event.getRowValue().setBreakTime(event.getNewValue());
             try {
                 uploadCsvFile.updateRowInCsv(event.getRowValue());
-                saveChanges(editedRow);
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -163,10 +159,10 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         tc_exitHour.setOnEditCommit(event -> {
             CsvRow editedRow = event.getRowValue();
             editedRow.setExitHour(event.getNewValue());
-           // event.getRowValue().setExitHour(event.getNewValue());
+            event.getRowValue().setExitHour(event.getNewValue());
             try {
                 uploadCsvFile.updateRowInCsv(event.getRowValue());
-                saveChanges(editedRow);
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -178,10 +174,10 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         tc_enterHour.setOnEditCommit(event -> {
             CsvRow editedRow = event.getRowValue();
             editedRow.setStartHour(event.getNewValue());
-           // event.getRowValue().setStartHour(event.getNewValue());
+            event.getRowValue().setStartHour(event.getNewValue());
             try {
                 uploadCsvFile.updateRowInCsv(event.getRowValue());
-                saveChanges(editedRow);
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -193,10 +189,8 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         tc_dateTable.setOnEditCommit(event -> {
             CsvRow editedRow = event.getRowValue();
             editedRow.setDateTable(event.getNewValue());
-            // event.getRowValue().setDateTable(event.getNewValue());
             try {
                 uploadCsvFile.updateRowInCsv(event.getRowValue());
-                saveChanges(editedRow);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -208,10 +202,9 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         tc_employeeId.setOnEditCommit(event -> {
             CsvRow editedRow = event.getRowValue();
             editedRow.setEmployeeId(event.getNewValue());
-            // event.getRowValue().setEmployeeId(event.getNewValue());
+             event.getRowValue().setEmployeeId(event.getNewValue());
             try {
                 uploadCsvFile.updateRowInCsv(event.getRowValue());
-                saveChanges(editedRow);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -313,6 +306,9 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         // Create a new CsvRow with default values
         CsvRow newRow = new CsvRow("", "", "", "", "", "", "");
 
+        // Mark the new row as externally added
+        uploadCsvFile.markExternallyAddedRow(newRow);
+
         // Add the new row to the TableView
         tableViewCSVData.getItems().add(newRow);
 
@@ -324,6 +320,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         // Track the new row in the map
         editedRowsMap.put(newRow.getCompositeKey(), newRow);
     }
+
 
     private List<String[]> convertToStringCsv(ObservableList<CsvRow> csvRows) {
         List<String[]> stringCsvData = new ArrayList<>();
@@ -385,23 +382,31 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     @FXML
     private void saveButtonClicked(ActionEvent event) {
         try {
-            for (CsvRow row : tableViewCSVData.getItems()) {
-                // Update the CSV file with the new data for existing rows
-                if (!uploadCsvFile.isExternallyAddedRow(row)) {
-                    uploadCsvFile.updateRowInCsv(row);
-                }
-
-                // Save or update the row in the database
-                if (DatabaseManager.isDataExists(sessionFactory, "employeeshiftdata", row.getEmployeeId(), row.getDateTable())) {
-                    // Existing row, update the database
-                    updateRowInDatabase(row);
+            for (CsvRow row : editedRowsMap.values()) {
+                if (uploadCsvFile.isExternallyAddedRow(row)) {
+                    // This row was externally added, insert into the database
+                    if (isValidRow(row)) {
+                        if (isDuplicateRow(row)) {
+                            // Display alert for duplicate row
+                            showAlert("This date of the employee is already saved. Please delete that row and add a new one with new data.");
+                            return;
+                        } else {
+                            DatabaseManager.insertRowIntoDatabase(row);
+                        }
+                    } else {
+                        return; // Stop processing further rows if any row is invalid
+                    }
                 } else {
-                    // New row, insert into the database
-                    DatabaseManager.insertRowIntoDatabase(row);
+                    // Existing row, update the database
+                    if (!isValidRow(row)) {
+                        return; // Stop processing further rows if any row is invalid
+                    }
+                    updateRowInDatabase(row);
                 }
             }
 
             uploadCsvFile.clearExternallyAddedRows();
+            editedRowsMap.clear();
 
             showAlert("Changes saved to both CSV file and database.");
         } catch (Exception e) {
@@ -410,6 +415,48 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         }
     }
 
+    private boolean isDuplicateRow(CsvRow newRow) {
+        // Check if the combination of employee ID and date already exists in the database
+        return DatabaseManager.isDataExists(sessionFactory, "employeeshiftdata", newRow.getEmployeeId(), newRow.getDateTable());
+    }
+
+
+    private String getInvalidMessage(CsvRow row) {
+        // Check if all the required fields are not empty
+        StringBuilder invalidMessage = new StringBuilder("נא למלא את העמודות הבאות:\n");
+
+        if (row.getTotalWorkHours().isEmpty()) {
+            invalidMessage.append("- סהכ שעות\n");
+        }
+        if (row.getExitHour().isEmpty()) {
+            invalidMessage.append("- שעת יציאה\n");
+        }
+        if (row.getStartHour().isEmpty()) {
+            invalidMessage.append("- שעת כניסה\n");
+        }
+        if (row.getDateTable().isEmpty()) {
+            invalidMessage.append("- תאריך\n");
+        }
+        if (row.getEmployeeId().isEmpty()) {
+            invalidMessage.append("- ת.ז\n");
+        }
+
+        return invalidMessage.toString();
+    }
+
+    private boolean isValidRow(CsvRow row) {
+        // Check if all the required fields are not empty
+        boolean isValid = !row.getTotalWorkHours().isEmpty() &&
+                !row.getExitHour().isEmpty() &&
+                !row.getStartHour().isEmpty() &&
+                !row.getEmployeeId().isEmpty();
+
+        if (!isValid) {
+            showAlert(getInvalidMessage(row));
+        }
+
+        return isValid;
+    }
 
 
 
