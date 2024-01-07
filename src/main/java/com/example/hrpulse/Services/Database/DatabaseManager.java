@@ -1,14 +1,17 @@
 package com.example.hrpulse.Services.Database;
 
 import com.example.hrpulse.Services.CSV.CsvRow;
+import com.example.hrpulse.Services.CSV.CsvService;
 import com.example.hrpulse.Services.Hibernate.HibernateUtil;
 import com.example.hrpulse.Services.Interfaces.DataModel;
+import javafx.collections.ObservableList;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,27 +51,63 @@ public class DatabaseManager {
     }
 
 
-    public static void deleteRowFromDatabase(CsvRow row) {
+    public static void deleteRowFromDatabase(String tableName, String compositeKey) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;
-
             try {
                 transaction = session.beginTransaction();
-
-                String deleteQuery = "DELETE FROM employeeshiftdata WHERE employee_id = :employee_id";
+                String deleteQuery = "DELETE FROM " + tableName + " WHERE compositeKey = :compositeKey";
                 Query<?> query = session.createNativeQuery(deleteQuery);
-                query.setParameter("employee_id", row.getEmployeeId());
+                query.setParameter("compositeKey", compositeKey);
                 query.executeUpdate();
-
                 transaction.commit();
             } catch (Exception e) {
-                if (transaction != null && transaction.isActive()) {
-                    transaction.rollback();
-                }
-                e.printStackTrace();
+                handleTransactionException(transaction, e);
             }
         }
     }
+
+    public static void deleteRowFromDatabaseAndFile(String tableName, String compositeKey, ObservableList<CsvRow> csvData, String csvFilePath) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = null;
+            try {
+                transaction = session.beginTransaction();
+
+                // Delete from the database
+                String deleteQuery = "DELETE FROM " + tableName + " WHERE compositeKey = :compositeKey";
+                Query<?> query = session.createNativeQuery(deleteQuery);
+                query.setParameter("compositeKey", compositeKey);
+                query.executeUpdate();
+
+                // Delete from the CSV file
+                csvData.removeIf(row -> row.getCompositeKey().equals(compositeKey));
+                CsvService.writeCsv(csvFilePath, convertToStringCsv(csvData));
+
+                transaction.commit();
+            } catch (Exception e) {
+                handleTransactionException(transaction, e);
+            }
+        }
+    }
+
+    private static List<String[]> convertToStringCsv(ObservableList<CsvRow> csvRows) {
+        List<String[]> stringCsvData = new ArrayList<>();
+        for (CsvRow row : csvRows) {
+            stringCsvData.add(new String[]{
+                    row.getTotalWorkHours(),
+                    row.getBreakTime(),
+                    row.getExitHour(),
+                    row.getStartHour(),
+                    row.getDateTable(),
+                    row.getEmployeeId(),
+                    row.getComments()
+            });
+        }
+        return stringCsvData;
+    }
+
+
+
 
 
     public static boolean isDataExists(SessionFactory sessionFactory, String tableName, String employeeId, String date) {

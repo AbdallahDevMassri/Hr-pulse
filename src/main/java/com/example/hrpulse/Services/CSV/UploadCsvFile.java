@@ -104,13 +104,18 @@ public class UploadCsvFile {
         for (String[] row : csvData) {
             CsvRow csvRow = new CsvRow(row);
 
-            if (!csvRow.equals(rowToDelete)) {
+            // Check for the composite key (employeeID + dateTable)
+            String compositeKey = csvRow.getCompositeKey();
+            String keyToDelete = rowToDelete.getCompositeKey();
+
+            if (!compositeKey.equals(keyToDelete)) {
                 updatedCsvData.add(row);
             }
         }
 
         CsvService.writeCsv(csvFilePath, updatedCsvData);
     }
+
 
 
     public boolean isTableViewLoaded() {

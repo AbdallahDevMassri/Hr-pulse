@@ -280,31 +280,39 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                // Delete from the database
-                DatabaseManager.deleteRowFromDatabase(selectedRow);
+                // Delete from the database and CSV file
+                DatabaseManager.deleteRowFromDatabaseAndFile("employeeshiftdata", selectedRow.getCompositeKey(), tableViewCSVData.getItems(), uploadCsvFile.getFilePath());
 
-                // Delete from the CSV file
-                uploadCsvFile.deleteRowFromCsv(selectedRow);
-
-                // Remove the row from the TableView
+                // Remove the row from the TableView (this may not be necessary as it's done by the database method)
                 tableViewCSVData.getItems().remove(selectedRow);
 
                 // Clear the selection in the TableView
                 tableViewCSVData.getSelectionModel().clearSelection();
 
+                // Display a success message to the user
+                showAlert("Row deleted successfully.");
+
             } catch (Exception e) {
                 // Log the exception
                 e.printStackTrace();
                 // Handle the error appropriately (show an error message, etc.)
+                showAlert("Error occurred while deleting the row.");
             }
         }
     }
+
 
 
     @FXML
     private void addRowButtonClicked(ActionEvent event) {
         // Create a new CsvRow with default values
         CsvRow newRow = new CsvRow("", "", "", "", "", "", "");
+
+        // Check for duplicate in the TableView
+        if (isDuplicateRowInTableView(newRow)) {
+            showAlert("This date of the employee is already in the TableView. Please edit the existing row instead.");
+            return;
+        }
 
         // Mark the new row as externally added
         uploadCsvFile.markExternallyAddedRow(newRow);
@@ -562,8 +570,19 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         CsvRow editedRow = event.getRowValue();
         String newValue = event.getNewValue();
 
+        // Store the old value before it's changed
+        String oldValue = event.getOldValue();
+
         // Update the specific property based on the edited column
         updatePropertyBasedOnColumn(editedRow, event.getTableColumn(), newValue);
+
+        // Check for duplicate in the TableView
+        if (isDuplicateRowInTableView(editedRow)) {
+            showAlert("This combination of date and employee ID already exists in the TableView. Please edit the existing row instead.");
+            // Rollback the edit to prevent adding a duplicate row
+            tableViewCSVData.getItems().set(event.getTablePosition().getRow(), editedRow);
+            return;
+        }
 
         // Save changes to the CSV file and the database
         try {
@@ -572,8 +591,15 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
+
+    private boolean isDuplicateRowInTableView(CsvRow editedRow) {
+        // Check if the combination of date and employee ID already exists in the TableView
+        return tableViewCSVData.getItems().stream()
+                .anyMatch(row -> row != editedRow && row.getDateTable().equals(editedRow.getDateTable())
+                        && row.getEmployeeId().equals(editedRow.getEmployeeId()));
+    }
+
 
 
     private void updatePropertyBasedOnColumn(CsvRow editedRow, TableColumn<CsvRow, String> editedColumn, String newValue) {

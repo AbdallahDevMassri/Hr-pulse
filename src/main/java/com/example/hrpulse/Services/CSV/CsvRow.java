@@ -18,6 +18,7 @@ public class CsvRow implements DataModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "compositeKey")
     private String compositeKey;
 
     @Column(name = "total_work_hours")
@@ -71,7 +72,6 @@ public class CsvRow implements DataModel {
                   String dateTable, String employeeId, String comments) {
         initializeFields(totalWorkHours, breakTime, exitHour, startHour, dateTable, employeeId, comments);
         this.compositeKey = employeeId + "_" + dateTable;
-
     }
 
     public CsvRow(String[] rowData) {
