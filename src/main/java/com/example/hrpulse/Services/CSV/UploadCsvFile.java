@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.example.hrpulse.HR_Pulse.sessionFactory;
+import static com.example.hrpulse.Services.CSV.CsvService.readCsv;
+import static com.example.hrpulse.Services.CSV.CsvService.writeCsv;
 
 public class UploadCsvFile {
 
@@ -23,6 +25,7 @@ public class UploadCsvFile {
     private String filePath;
     private String pulseDB;
     private boolean isTableViewLoaded = false;
+
 
     private String csvFilePath = "C:\\Users\\User31.8.23\\Desktop\\CSV file for project HR-Pulse\\employees - in-out.csv";
 
@@ -45,9 +48,10 @@ public class UploadCsvFile {
 
         if (selectedFile != null) {
             filePath = selectedFile.getAbsolutePath();
+            csvFilePath = filePath; // Set csvFilePath to the selected file path
 
             try {
-                List<String[]> csvData = CsvService.readCsv(filePath);
+                List<String[]> csvData = readCsv(filePath);
                 ObservableList<CsvRow> csvRows = convertToCsvRows(csvData);
 
                 for (String[] rowData : csvData) {
@@ -68,6 +72,7 @@ public class UploadCsvFile {
         }
     }
 
+
     public void updateRowInCsv(CsvRow updatedRow) throws IOException {
         ObservableList<CsvRow> data = tableView.getItems();
         int index = data.indexOf(updatedRow);
@@ -80,6 +85,12 @@ public class UploadCsvFile {
         }
     }
 
+    public void removeRowFromCsv(CsvRow row) throws IOException {
+        List<String[]> csvData = readCsv(csvFilePath);
+        csvData.removeIf(csvRow -> Arrays.equals(csvRow, row.toArray()));
+        writeCsv(csvFilePath, csvData);
+    }
+
     public void writeDataToCsv(ObservableList<CsvRow> data) throws IOException {
         try (CSVWriter writer = new CSVWriter(new FileWriter(csvFilePath))) {
             for (CsvRow row : data) {
@@ -88,28 +99,29 @@ public class UploadCsvFile {
                         row.getBreakTime(),
                         row.getExitHour(),
                         row.getStartHour(),
-                        row.getDateTable(),
+                        row.getDate(),
                         row.getEmployeeId(),
-                        row.getComments()
                 });
             }
         }
     }
-
-
-
-
     public boolean isTableViewLoaded() {
         return isTableViewLoaded;
     }
 
+    public void removeRowFromCsvAndDatabase(CsvRow row) throws IOException {
+        List<String[]> csvData = readCsv(csvFilePath);
+        csvData.removeIf(csvRow -> Arrays.equals(csvRow, row.toArray()));
+        writeCsv(csvFilePath, csvData);
+        DatabaseManager.deleteRowFromDatabase("employeeshiftdata", row.getEmployeeId(), row.getDate());
+    }
 
     public ObservableList<CsvRow> convertToCsvRows(List<String[]> csvData) {
         ObservableList<CsvRow> csvRows = FXCollections.observableArrayList();
         for (String[] row : csvData) {
-            if (row.length >= 6) {
+            if (row.length >= 5) {
                 CsvRow csvRow = new CsvRow(
-                        row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
+                        row[0], row[1], row[2], row[3], row[4], row[5]);
                 csvRows.add(csvRow);
             } else {
                 System.err.println("Invalid CSV row: " + Arrays.toString(row));

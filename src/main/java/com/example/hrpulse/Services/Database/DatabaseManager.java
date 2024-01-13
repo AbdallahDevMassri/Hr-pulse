@@ -31,18 +31,20 @@ public class DatabaseManager {
 
     public static void saveCSVDataToDatabase(String tableName, List<String[]> csvData) {
         try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+            Transaction transaction = null;
             try {
-                csvData.forEach(rowData -> {
+                transaction = session.beginTransaction();
+
+                for (String[] rowData : csvData) {
                     String employeeId = rowData[5];
                     String date = rowData[4];
+
                     if (!isDataExists(sessionFactory, tableName, employeeId, date)) {
                         String insertQuery = generateInsertQuery(tableName);
-                        Query query = session.createNativeQuery(insertQuery);
-                        setQueryParameters(query, rowData, query.getComment());
-                        query.executeUpdate();
+                        executeInsertQuery(session, insertQuery, rowData);
                     }
-                });
+                }
+
                 transaction.commit();
             } catch (HibernateException e) {
                 handleDatabaseException(transaction, e);
@@ -50,43 +52,43 @@ public class DatabaseManager {
         }
     }
 
-    public static void deleteRowFromDatabaseAndFile(String tableName, String compositeKey, ObservableList<CsvRow> csvData, String csvFilePath) {
+    private static void executeInsertQuery(Session session, String insertQuery, String[] rowData) {
+        try {
+            Query query = session.createNativeQuery(insertQuery);
+
+            // Set the parameters for the query
+            query.setParameter("totalWorkHours", rowData[0]);
+            query.setParameter("breakTime", rowData[1]);
+            query.setParameter("exitHour", rowData[2]);
+            query.setParameter("startHour", rowData[3]);
+            query.setParameter("dateTable", rowData[4]);
+            query.setParameter("employeeId", rowData[5]);
+
+            query.executeUpdate();
+        } catch (HibernateException e) {
+            throw new RuntimeException("Error executing insert query", e);
+        }
+    }
+
+
+    public static void deleteRowFromDatabase(String tableName, String employeeId, String date) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;
             try {
                 transaction = session.beginTransaction();
 
-                // Delete from the database
-                String deleteQuery = "DELETE FROM " + tableName + " WHERE compositeKey = :compositeKey";
+                    String deleteQuery = "DELETE FROM " + tableName + " WHERE employee_id = :employee_id AND date = :date";
                 Query<?> query = session.createNativeQuery(deleteQuery);
-                query.setParameter("compositeKey", compositeKey);
-                query.executeUpdate();
+                query.setParameter("employee_id", employeeId);
+                query.setParameter("date", date);
 
-                // Delete from the CSV file
-                csvData.removeIf(row -> row.getCompositeKey().equals(compositeKey));
-                CsvService.writeCsv(csvFilePath, convertToStringCsv(csvData));
+                query.executeUpdate();
 
                 transaction.commit();
             } catch (Exception e) {
                 handleTransactionException(transaction, e);
             }
         }
-    }
-
-    private static List<String[]> convertToStringCsv(ObservableList<CsvRow> csvRows) {
-        List<String[]> stringCsvData = new ArrayList<>();
-        for (CsvRow row : csvRows) {
-            stringCsvData.add(new String[]{
-                    row.getTotalWorkHours(),
-                    row.getBreakTime(),
-                    row.getExitHour(),
-                    row.getStartHour(),
-                    row.getDateTable(),
-                    row.getEmployeeId(),
-                    row.getComments()
-            });
-        }
-        return stringCsvData;
     }
 
 
@@ -106,19 +108,8 @@ public class DatabaseManager {
 
     private static String generateInsertQuery(String tableName) {
         return "INSERT INTO " + tableName +
-                " (total_work_hours, break_time, end_of_shift, start_of_shift, date, employee_id, comments) " +
-                "VALUES (:totalWorkHours, :breakTime, :exitHour, :startHour, :dateTable, :employeeId, :comments)";
-    }
-
-    public static void setQueryParameters(Query query, String[] rowData, String comments) {
-        query.setParameter("totalWorkHours", rowData[0]);
-        query.setParameter("breakTime", rowData[1]);
-        query.setParameter("exitHour", rowData[2]);
-        query.setParameter("startHour", rowData[3]);
-        query.setParameter("dateTable", rowData[4]);
-        query.setParameter("employeeId", rowData[5]);
-        query.setParameter("comments", comments);
-
+                " (total_work_hours, break_time, end_of_shift, start_of_shift, date, employee_id) " +
+                "VALUES (:totalWorkHours, :breakTime, :exitHour, :startHour, :dateTable, :employeeId)";
     }
 
     public static void handleDatabaseException(Transaction transaction, HibernateException e) {
@@ -147,7 +138,7 @@ public class DatabaseManager {
 
     public static <T extends DataModel> List<T> loadLastSavedData(String tableName, Class<T> clazz) {
         try (Session session = sessionFactory.openSession()) {
-            String selectQuery = "SELECT total_work_hours, break_time, end_of_shift, start_of_shift, date, employee_id, comments " +
+            String selectQuery = "SELECT total_work_hours, break_time, end_of_shift, start_of_shift, date, employee_id " +
                     "FROM " + tableName + " ORDER BY total_work_hours DESC, break_time DESC, " +
                     "end_of_shift DESC, start_of_shift DESC, date DESC, employee_id DESC";
             Query<Object[]> query = session.createNativeQuery(selectQuery);
@@ -158,7 +149,7 @@ public class DatabaseManager {
 
     public static <T extends DataModel> List<T> loadLastSavedDataByEmployeeId(String tableName, Class<T> clazz, String employeeId) {
         try (Session session = sessionFactory.openSession()) {
-            String selectQuery = "SELECT total_work_hours, break_time, end_of_shift, start_of_shift, date, employee_id, comments " +
+            String selectQuery = "SELECT total_work_hours, break_time, end_of_shift, start_of_shift, date, employee_id" +
                     "FROM " + tableName + " WHERE employee_id = :employeeId " +
                     "ORDER BY total_work_hours DESC, break_time DESC, " +
                     "end_of_shift DESC, start_of_shift DESC, date DESC, employee_id DESC";

@@ -19,7 +19,8 @@ import org.hibernate.query.Query;
 import java.io.IOException;
 import java.util.*;
 import static com.example.hrpulse.HR_Pulse.sessionFactory;
-
+import static com.example.hrpulse.Services.CSV.CsvService.readCsv;
+import static com.example.hrpulse.Services.CSV.CsvService.writeCsv;
 
 
 public class EditEmployeeShiftController implements EmployeeNavigators {
@@ -37,14 +38,10 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     private TableColumn<CsvRow, String> tc_enterHour;
 
     @FXML
-    private TableColumn<CsvRow, String> tc_dateTable;
+    private TableColumn<CsvRow, String> tc_date;
 
     @FXML
     private TableColumn<CsvRow, String> tc_employeeId;
-
-    @FXML
-    private TableColumn<CsvRow, String> tc_comments;
-
 
     @FXML
     TableColumn<CsvRow, Void> deleteColumn = new TableColumn<>("Delete");
@@ -176,11 +173,11 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
         });
 
-        tc_dateTable.setCellValueFactory(new PropertyValueFactory<>("dateTable"));
-        tc_dateTable.setCellFactory(TextFieldTableCell.forTableColumn());
-        tc_dateTable.setOnEditCommit(event -> {
+        tc_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        tc_date.setCellFactory(TextFieldTableCell.forTableColumn());
+        tc_date.setOnEditCommit(event -> {
             CsvRow editedRow = event.getRowValue();
-            editedRow.setDateTable(event.getNewValue());
+            editedRow.setDate(event.getNewValue());
             try {
                 uploadCsvFile.updateRowInCsv(event.getRowValue());
             } catch (IOException e) {
@@ -202,23 +199,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             }
 
         });
-
-        tc_comments.setCellValueFactory(new PropertyValueFactory<>("comments"));
-        tc_comments.setCellFactory(TextFieldTableCell.forTableColumn());
-        tc_comments.setOnEditCommit(event -> {
-            String newComment = event.getNewValue();
-            CsvRow editedRow = event.getRowValue();
-
-            if (newComment != null && newComment.length() >= 4) {
-                // Update the comment in the row
-                editedRow.setComments(newComment);
-                System.out.println("Comments set: " + newComment);
-
-                // Save the comment to the database
-                saveCommentToDatabase(editedRow);
-            }
-        });
-
 
 
         deleteColumn.setCellFactory(param -> new TableCell<>() {
@@ -248,9 +228,8 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         setEditCommitHandler(tc_breakTime);
         setEditCommitHandler(tc_exitHour);
         setEditCommitHandler(tc_enterHour);
-        setEditCommitHandler(tc_dateTable);
+        setEditCommitHandler(tc_date);
         setEditCommitHandler(tc_employeeId);
-        setEditCommitHandler(tc_comments);
 
         tableViewCSVData.setEditable(true);
     }
@@ -272,33 +251,23 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                // Delete from the database and CSV file
-                DatabaseManager.deleteRowFromDatabaseAndFile("employeeshiftdata", selectedRow.getCompositeKey(), tableViewCSVData.getItems(), uploadCsvFile.getFilePath());
-
-                // Remove the row from the TableView (this may not be necessary as it's done by the database method)
+                uploadCsvFile.removeRowFromCsvAndDatabase(selectedRow);
                 tableViewCSVData.getItems().remove(selectedRow);
-
-                // Clear the selection in the TableView
                 tableViewCSVData.getSelectionModel().clearSelection();
-
-                // Display a success message to the user
                 showAlert("Row deleted successfully.");
 
             } catch (Exception e) {
-                // Log the exception
                 e.printStackTrace();
-                // Handle the error appropriately (show an error message, etc.)
                 showAlert("Error occurred while deleting the row.");
             }
         }
     }
 
 
-
     @FXML
     private void addRowButtonClicked(ActionEvent event) {
         // Create a new CsvRow with default values
-        CsvRow newRow = new CsvRow("", "", "", "", "", "", "");
+        CsvRow newRow = new CsvRow("g", "", "", "", "", "");
 
         // Check for duplicate in the TableView
         if (isDuplicateRowInTableView(newRow)) {
@@ -330,7 +299,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
                     row.getBreakTime(),
                     row.getExitHour(),
                     row.getStartHour(),
-                    row.getDateTable(),
+                    row.getDate(),
                     row.getEmployeeId(),
             });
         }
@@ -424,7 +393,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
     private boolean isDuplicateRow(CsvRow newRow) {
         // Check if the combination of employee ID and date already exists in the database
-        return DatabaseManager.isDataExists(sessionFactory, "employeeshiftdata", newRow.getEmployeeId(), newRow.getDateTable());
+        return DatabaseManager.isDataExists(sessionFactory, "employeeshiftdata", newRow.getEmployeeId(), newRow.getDate());
     }
 
 
@@ -441,7 +410,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         if (row.getStartHour().isEmpty()) {
             invalidMessage.append("- שעת כניסה\n");
         }
-        if (row.getDateTable().isEmpty()) {
+        if (row.getDate().isEmpty()) {
             invalidMessage.append("- תאריך\n");
         }
         if (row.getEmployeeId().isEmpty()) {
@@ -466,51 +435,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     }
 
 
-
-    private void saveCommentToDatabase(CsvRow row) {
-        // Ensure that you are working within a transactional context
-        try (Session session = sessionFactory.openSession()) {
-            // Begin a transaction
-            Transaction transaction = null;
-
-            try {
-                transaction = session.beginTransaction();
-
-                // Update the comment in the database based on employeeId and date
-                String updateQuery = "UPDATE CsvRow SET comments = :comments WHERE employee_id = :employeeId AND date = :date";
-
-                // Creating a query object
-                Query query = session.createNativeQuery(updateQuery);
-
-                // Setting parameters for the query
-                String comments = (row.getComments() != null) ? row.getComments() : "";
-                query.setParameter("comments", comments);
-
-                query.setParameter("employeeId", row.getEmployeeId());
-                query.setParameter("date", row.getDateTable());
-
-                // Commit the transaction
-                transaction.commit();
-            } catch (Exception e) {
-                // If an exception occurs, rollback the transaction
-                if (transaction != null && transaction.isActive()) {
-                    transaction.rollback();
-                }
-
-                // Handle exceptions, print or log the error
-                e.printStackTrace();
-                // Handle the exception as needed
-            }
-        }
-    }
-
-
-
-
-
-
-
-
     private void updateRowInDatabase(CsvRow editedRow) {
         try (Session session = sessionFactory.openSession()) {
             Employee currentUser = UserSession.getInstance().getCurrentUser();
@@ -531,7 +455,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
                         "start_of_shift = :startHour, " +
                         "date = :dateTable, " +
                         "employee_id = :employeeId, " +
-                        "comments = :comments, " +
                         "WHERE composite_key = :compositeKey";
 
                 Query<?> query = session.createNativeQuery(updateQuery);
@@ -565,9 +488,8 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         query.setParameter("breakTime", row.getBreakTime());
         query.setParameter("exitHour", row.getExitHour());
         query.setParameter("startHour", row.getStartHour());
-        query.setParameter("dateTable", row.getDateTable());
+        query.setParameter("dateTable", row.getDate());
         query.setParameter("employeeId", row.getEmployeeId());
-        query.setParameter("comments", row.getComments());
     }
 
 
@@ -602,7 +524,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     private boolean isDuplicateRowInTableView(CsvRow editedRow) {
         // Check if the combination of date and employee ID already exists in the TableView
         return tableViewCSVData.getItems().stream()
-                .anyMatch(row -> row != editedRow && row.getDateTable().equals(editedRow.getDateTable())
+                .anyMatch(row -> row != editedRow && row.getDate().equals(editedRow.getDate())
                         && row.getEmployeeId().equals(editedRow.getEmployeeId()));
     }
 
@@ -610,12 +532,10 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
     private void updatePropertyBasedOnColumn(CsvRow editedRow, TableColumn<CsvRow, String> editedColumn, String newValue) {
         // Update the specific property based on the edited column
-        if (editedColumn.equals(tc_comments)) {
-            editedRow.setComments(newValue);
-        } else if (editedColumn.equals(tc_employeeId)) {
+        if (editedColumn.equals(tc_employeeId)) {
             editedRow.setEmployeeId(newValue);
-        } else if (editedColumn.equals(tc_dateTable)) {
-            editedRow.setDateTable(newValue);
+        } else if (editedColumn.equals(tc_date)) {
+            editedRow.setDate(newValue);
         } else if (editedColumn.equals(tc_exitHour)) {
             editedRow.setExitHour(newValue);
         } else if (editedColumn.equals(tc_enterHour)) {

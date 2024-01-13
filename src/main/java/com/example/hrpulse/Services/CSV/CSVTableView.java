@@ -61,10 +61,10 @@ public class CSVTableView extends Application {
         });
 
         TableColumn<CsvRow, String> dateColumn = new TableColumn<>("Date");
-        dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDateTable()));
+        dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDate()));
         dateColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         dateColumn.setOnEditCommit(event -> {
-            event.getRowValue().setDateTable(event.getNewValue());
+            event.getRowValue().setDate(event.getNewValue());
         });
 
         TableColumn<CsvRow, String> empIdColumn = new TableColumn<>("EmployeeID");
@@ -73,6 +73,7 @@ public class CSVTableView extends Application {
         empIdColumn.setOnEditCommit(event -> {
             event.getRowValue().setEmployeeId(event.getNewValue());
         });
+
 
 
         tableView.getColumns().addAll(totalWorkHoursColumn, breakTimeColumn, endTimeColumn, startTimeColumn, dateColumn, empIdColumn);
@@ -93,7 +94,7 @@ public class CSVTableView extends Application {
                     List<String[]> csvData = CsvService.readCsv(selectedFile.getAbsolutePath());
                     data.clear(); // Clear existing data
                     for (String[] row : csvData) {
-                        CsvRow newRow = new CsvRow(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
+                        CsvRow newRow = new CsvRow(row[0], row[1], row[2], row[3], row[4], row[5]);
                         data.add(newRow);
                     }
                 } catch (IOException ex) {
@@ -118,12 +119,14 @@ public class CSVTableView extends Application {
 
     private void addNewRow(TableView<CsvRow> tableView) {
         // Create a new row with default values or empty values
-        CsvRow newRow = new CsvRow("", "", "", "", "", "", "");
+        CsvRow newRow = new CsvRow("", "", "", "", "", "");
         data.add(newRow);
         tableView.scrollTo(newRow); // Scroll to the new row
         tableView.getSelectionModel().select(newRow); // Select the new row for editing
         tableView.edit(tableView.getItems().indexOf(newRow), tableView.getColumns().get(0)); // Start editing the first cell
     }
+
+
 
 
 }

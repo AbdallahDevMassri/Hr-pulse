@@ -29,7 +29,7 @@ public class CsvRow implements DataModel {
     private String startHour;
 
     @Column(name = "date")
-    private String dateTable;
+    private String date;
 
     @Column(name = "employee_id", unique = true)  // Ensure uniqueness
     private String employeeId;
@@ -56,43 +56,40 @@ public class CsvRow implements DataModel {
     @Transient
     private String initialComments;
 
-    @Column(name = "comments")
-    private String comments;
 
     public CsvRow() {
         // Default constructor
     }
 
     public CsvRow(String totalWorkHours, String breakTime, String exitHour, String startHour,
-                  String dateTable, String employeeId, String comments) {
-        initializeFields(totalWorkHours, breakTime, exitHour, startHour, dateTable, employeeId, comments);
-        this.compositeKey = employeeId + "_" + dateTable;
+                  String date, String employeeId) {
+        initializeFields(totalWorkHours, breakTime, exitHour, startHour, date, employeeId);
+        this.compositeKey = employeeId + "_" + date;
     }
 
     public CsvRow(String[] rowData) {
-        if (rowData.length >= 6) {
+        if (rowData.length >= 5) {
             initializeFields(
-                    rowData[0], rowData[1], rowData[2], rowData[3], rowData[4], "", "");
+                    rowData[0], rowData[1], rowData[2], rowData[3], rowData[4], "");
         } else {
             System.err.println("Invalid CSV row: " + Arrays.toString(rowData));
         }
     }
 
     public CsvRow(String totalWorkHours, String breakTime, String exitHour, String startHour,
-                  String dateTable, String comments) {
+                  String date) {
         this();
-        initializeFields(totalWorkHours, breakTime, exitHour, startHour, dateTable, "", comments);
+        initializeFields(totalWorkHours, breakTime, exitHour, startHour, date, "");
     }
 
     private void initializeFields(String totalWorkHours, String breakTime, String exitHour, String startHour,
-                                  String dateTable, String employeeId, String comments) {
+                                  String dateTable, String employeeId) {
         setTotalWorkHours(totalWorkHours);
         setBreakTime(breakTime);
         setExitHour(exitHour);
         setStartHour(startHour);
-        setDateTable(dateTable);
+        setDate(dateTable);
         setEmployeeId(employeeId);
-        setComments((comments != null) ? comments : "");
         initializeInitialValues();
     }
 
@@ -101,27 +98,13 @@ public class CsvRow implements DataModel {
         initialBreakTime = getBreakTime();
         initialExitHour = getExitHour();
         initialStartHour = getStartHour();
-        initialDateTable = getDateTable();
+        initialDateTable = getDate();
         initialEmployeeId = getEmployeeId();
-        initialComments = getComments() != null ? getComments() : "";
-    }
-
-
-    public String[] toStringArray() {
-        return new String[]{
-                this.getTotalWorkHours(),
-                this.getBreakTime(),
-                this.getExitHour(),
-                this.getStartHour(),
-                this.getDateTable(),
-                this.getEmployeeId(),
-                this.getComments(),
-        };
     }
 
     @Override
     public String[] getDataAsArray() {
-        return new String[]{totalWorkHours, breakTime, exitHour, startHour, dateTable, employeeId, comments };
+        return new String[]{totalWorkHours, breakTime, exitHour, startHour, date, employeeId };
     }
 
     @Override
@@ -130,15 +113,25 @@ public class CsvRow implements DataModel {
         setBreakTime(data[1]);
         setExitHour(data[2]);
         setStartHour(data[3]);
-        setDateTable(data[4]);
+        setDate(data[4]);
         setEmployeeId(data[5]);
-        setComments(data[6]);
+    }
+
+    public String[] toArray() {
+        return new String[]{
+                totalWorkHours,
+                breakTime,
+                exitHour,
+                startHour,
+                date,
+                employeeId,
+        };
     }
 
 
 
     public String getCompositeKey() {
-        return employeeId + "_" + dateTable;
+        return employeeId + "_" + date;
     }
 
     public void setCompositeKey(String compositeKey) {
@@ -177,12 +170,12 @@ public class CsvRow implements DataModel {
         this.startHour = startHour;
     }
 
-    public String getDateTable() {
-        return dateTable;
+    public String getDate() {
+        return date;
     }
 
-    public void setDateTable(String dateTable) {
-        this.dateTable = dateTable;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getEmployeeId() {
@@ -193,7 +186,6 @@ public class CsvRow implements DataModel {
         this.employeeId = employeeId;
     }
 
-
     public Long getId() {
         return id;
     }
@@ -202,16 +194,5 @@ public class CsvRow implements DataModel {
         this.id = id;
     }
 
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        if (comments == null) {
-            this.comments = "";
-        } else {
-            this.comments = comments;
-        }
-    }
 
 }
