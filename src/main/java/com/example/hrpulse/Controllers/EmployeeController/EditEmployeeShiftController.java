@@ -512,7 +512,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     }
 
 
-    @FXML
     private void handleEditCommit(TableColumn.CellEditEvent<CsvRow, String> event, TableColumn<CsvRow, String> column) {
         CsvRow editedRow = event.getRowValue();
         String newValue = event.getNewValue();
@@ -520,8 +519,21 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         // Store the old value before it's changed
         String oldValue = event.getOldValue();
 
+        // Validate date and hours formats only for specific columns
+        if (column.equals(tc_date) && !isValidDateFormat(newValue)) {
+            // Rollback the edit if validation fails for date
+            tableViewCSVData.getItems().set(event.getTablePosition().getRow(), editedRow);
+            return;
+        }
+
+        if ((column.equals(tc_enterHour) || column.equals(tc_exitHour)) && !isValidHoursFormat(newValue)) {
+            // Rollback the edit if validation fails for start/end hours
+            tableViewCSVData.getItems().set(event.getTablePosition().getRow(), editedRow);
+            return;
+        }
+
         // Update the specific property based on the edited column
-        updatePropertyBasedOnColumn(editedRow, event.getTableColumn(), newValue);
+        updatePropertyBasedOnColumn(editedRow, column, newValue);
 
         // Check for duplicate in the TableView
         if (isDuplicateRowInTableView(editedRow)) {
@@ -540,6 +552,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         }
     }
 
+
     private boolean isDuplicateRowInTableView(CsvRow editedRow) {
         // Check if the combination of date and employee ID already exists in the TableView
         return tableViewCSVData.getItems().stream()
@@ -547,6 +560,32 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
                         && row.getEmployeeId().equals(editedRow.getEmployeeId()));
     }
 
+    private boolean isValidDateFormat(String date) {
+        // Define the expected date format
+        String dateFormatPattern = "\\d{2}/\\d{2}/\\d{4}";
+
+        // Check if the date matches the expected format
+        if (!date.matches(dateFormatPattern)) {
+            showAlert("Invalid date format. Please use the format dd/mm/yyyy.");
+            return false;
+        }
+
+        return true;
+    }
+
+
+    private boolean isValidHoursFormat(String hours) {
+        // Define the expected hours format
+        String hoursFormatPattern = "\\d{1,2}:\\d{2}";
+
+        // Check if the hours match the expected format
+        if (!hours.matches(hoursFormatPattern)) {
+            showAlert("Invalid hours format. Please use the format h:mm.");
+            return false;
+        }
+
+        return true;
+    }
 
 
     private void updatePropertyBasedOnColumn(CsvRow editedRow, TableColumn<CsvRow, String> editedColumn, String newValue) {
