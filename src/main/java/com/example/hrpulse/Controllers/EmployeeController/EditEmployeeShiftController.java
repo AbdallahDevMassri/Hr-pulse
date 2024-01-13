@@ -5,27 +5,19 @@ import com.example.hrpulse.Services.CSV.UploadCsvFile;
 import com.example.hrpulse.Services.Interfaces.EmployeeNavigators;
 import com.example.hrpulse.Services.Objects.Employee;
 import com.example.hrpulse.Session.UserSession;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import com.example.hrpulse.Services.Database.DatabaseManager;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-
 import java.io.IOException;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
-
 import static com.example.hrpulse.HR_Pulse.sessionFactory;
 
 
@@ -386,42 +378,49 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
 
     // Save button click event
-
     @FXML
     private void saveButtonClicked(ActionEvent event) {
         try {
-            for (CsvRow row : editedRowsMap.values()) {
-                if (uploadCsvFile.isExternallyAddedRow(row)) {
-                    // This row was externally added, insert into the database
-                    if (isValidRow(row)) {
-                        if (isDuplicateRow(row)) {
-                            // Display alert for duplicate row
-                            showAlert("This date of the employee is already saved. Please delete that row and add a new one with new data.");
-                            return;
-                        } else {
-                            DatabaseManager.insertRowIntoDatabase(row);
-                        }
-                    } else {
-                        return; // Stop processing further rows if any row is invalid
+            boolean allExternallyAddedRowsValid = true;
+
+            // Check if externally added rows exist
+            if (DatabaseManager.isDatabaseEmpty("employeeshiftdata")) {
+                saveAllDataToDatabase();
+            }else if (!uploadCsvFile.isExternallyAddedRowsEmpty()) {
+                for (CsvRow row : uploadCsvFile.getExternallyAddedRows()) {
+                    if (!isValidRow(row) || isDuplicateRow(row)) {
+                        allExternallyAddedRowsValid = false;
+                        showAlert("Invalid or duplicate data found. Please correct and try again.");
+                        break;
                     }
+                }
+
+                if (allExternallyAddedRowsValid) {
+                    // Clear externally added rows and edited rows map
+                    uploadCsvFile.clearExternallyAddedRows();
+                    editedRowsMap.clear();
                 } else {
-                    // Existing row, update the database
-                    if (!isValidRow(row)) {
-                        return; // Stop processing further rows if any row is invalid
-                    }
-                    updateRowInDatabase(row);
+                    // If there are invalid rows, do not proceed with saving
+                    return;
                 }
             }
 
-            uploadCsvFile.clearExternallyAddedRows();
-            editedRowsMap.clear();
+            // Save all data to CSV file
+            uploadCsvFile.writeDataToCsv(tableViewCSVData.getItems());
+
+            // Save all data to Database
+            DatabaseManager.saveCSVDataToDatabase("employeeshiftdata", convertToStringCsv(tableViewCSVData.getItems()));
 
             showAlert("Changes saved to both CSV file and database.");
+
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Error occurred while saving changes.");
         }
     }
+
+
+
 
     private boolean isDuplicateRow(CsvRow newRow) {
         // Check if the combination of employee ID and date already exists in the database
@@ -477,16 +476,18 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             try {
                 transaction = session.beginTransaction();
 
-                // Use the original ID when updating the comment
-                String updateQuery = "UPDATE CsvRow SET comments = :comments" +
-                        "WHERE id = :id";
+                // Update the comment in the database based on employeeId and date
+                String updateQuery = "UPDATE CsvRow SET comments = :comments WHERE employee_id = :employeeId AND date = :date";
 
                 // Creating a query object
                 Query query = session.createNativeQuery(updateQuery);
 
                 // Setting parameters for the query
-                query.setParameter("comments", row.getComments());
+                String comments = (row.getComments() != null) ? row.getComments() : "";
+                query.setParameter("comments", comments);
 
+                query.setParameter("employeeId", row.getEmployeeId());
+                query.setParameter("date", row.getDateTable());
 
                 // Commit the transaction
                 transaction.commit();
@@ -502,6 +503,11 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             }
         }
     }
+
+
+
+
+
 
 
 
@@ -621,36 +627,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         }
     }
 
-
-    private void saveChanges(CsvRow editedRow) {
-
-        // Use the composite key for tracking
-        editedRowsMap.put(editedRow.getCompositeKey(), editedRow);
-
-        // Database operation
-        DatabaseManager.insertRowIntoDatabase(editedRow);
-        System.out.println("Changes saved for the row with composite key: " + editedRow.getCompositeKey());
-    }
-
-
-    private void setDatabaseUpdateTaskCallbacks(Task<Void> databaseUpdateTask) {
-        databaseUpdateTask.setOnSucceeded(e -> {
-            Platform.runLater(() -> {
-                System.out.println("Database update task succeeded. Refreshing TableView.");
-                tableViewCSVData.refresh();
-                editedRows.clear();
-                uploadCsvFile.clearExternallyAddedRows();
-            });
-        });
-
-        databaseUpdateTask.setOnFailed(e -> {
-            Throwable exception = databaseUpdateTask.getException();
-            if (exception != null) {
-                System.out.println("Database update task failed with exception: " + exception.getMessage());
-                exception.printStackTrace();
-            }
-        });
-    }
 
     // Save all data to the database
     private void saveAllDataToDatabase() {

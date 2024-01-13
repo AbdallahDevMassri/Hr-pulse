@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.example.hrpulse.HR_Pulse.sessionFactory;
-import static com.example.hrpulse.Services.Database.DatabaseManager.isDataExists;
 
 public class UploadCsvFile {
 
@@ -81,7 +80,7 @@ public class UploadCsvFile {
         }
     }
 
-    private void writeDataToCsv(ObservableList<CsvRow> data) throws IOException {
+    public void writeDataToCsv(ObservableList<CsvRow> data) throws IOException {
         try (CSVWriter writer = new CSVWriter(new FileWriter(csvFilePath))) {
             for (CsvRow row : data) {
                 writer.writeNext(new String[]{
@@ -97,24 +96,6 @@ public class UploadCsvFile {
         }
     }
 
-    public void deleteRowFromCsv(CsvRow rowToDelete) throws IOException {
-        List<String[]> csvData = CsvService.readCsv(csvFilePath);
-        List<String[]> updatedCsvData = new ArrayList<>();
-
-        for (String[] row : csvData) {
-            CsvRow csvRow = new CsvRow(row);
-
-            // Check for the composite key (employeeID + dateTable)
-            String compositeKey = csvRow.getCompositeKey();
-            String keyToDelete = rowToDelete.getCompositeKey();
-
-            if (!compositeKey.equals(keyToDelete)) {
-                updatedCsvData.add(row);
-            }
-        }
-
-        CsvService.writeCsv(csvFilePath, updatedCsvData);
-    }
 
 
 
@@ -122,13 +103,6 @@ public class UploadCsvFile {
         return isTableViewLoaded;
     }
 
-    public boolean hasExternallyAddedRows() {
-        return !externallyAddedRows.isEmpty();
-    }
-
-    public List<CsvRow> getExternallyAddedRows() {
-        return new ArrayList<>(externallyAddedRows);
-    }
 
     public ObservableList<CsvRow> convertToCsvRows(List<String[]> csvData) {
         ObservableList<CsvRow> csvRows = FXCollections.observableArrayList();
@@ -144,20 +118,6 @@ public class UploadCsvFile {
         return csvRows;
     }
 
-    private List<String[]> convertToStringCsv(ObservableList<CsvRow> csvRows) {
-        List<String[]> stringCsvData = new ArrayList<>();
-        for (CsvRow row : csvRows) {
-            stringCsvData.add(new String[]{
-                    row.getTotalWorkHours(),
-                    row.getBreakTime(),
-                    row.getExitHour(),
-                    row.getStartHour(),
-                    row.getDateTable(),
-                    row.getEmployeeId()
-            });
-        }
-        return stringCsvData;
-    }
 
     public void markExternallyAddedRow(CsvRow row) {
         externallyAddedRows.add(row);
@@ -165,6 +125,14 @@ public class UploadCsvFile {
 
     public boolean isExternallyAddedRow(CsvRow row) {
         return externallyAddedRows.contains(row);
+    }
+
+    public List<CsvRow> getExternallyAddedRows() {
+        return new ArrayList<>(externallyAddedRows);
+    }
+
+    public boolean isExternallyAddedRowsEmpty() {
+        return externallyAddedRows.isEmpty();
     }
 
     public void clearExternallyAddedRows() {

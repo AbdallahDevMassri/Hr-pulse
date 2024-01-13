@@ -78,30 +78,6 @@ public class HR_Pulse extends Application {
         }
     }
 
-    public static boolean deleteEmployeeByEmployeeId(int employeeId) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-
-            // Attempt to retrieve the employee by employeeId
-            Query<Employee> query = session.createQuery("FROM Employee WHERE employeeId = :employeeId", Employee.class);
-            query.setParameter("employeeId", employeeId);
-            Employee employee = query.uniqueResult();
-
-            if (employee != null) {
-                // Employee found, delete it
-                session.delete(employee);
-                session.getTransaction().commit();
-                return true;
-            } else {
-                // Employee not found
-                session.getTransaction().rollback();
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     public static void performDatabaseOperations(Department department) {
         DatabaseSessionManager sessionManager = new DatabaseSessionManager(DatabaseManager.getSessionFactory());
@@ -166,19 +142,6 @@ public class HR_Pulse extends Application {
         }
 
     }
-
-
-//    public static void deleteEmployee(Employee) {
-//        boolean deleted = deleteEmployeeByEmployeeId(employee.getEmployeeId());
-//
-//        if (deleted) {
-//            // Display confirmation
-//            System.out.println("Employee deleted successfully.");
-//        } else {
-//            // Display error
-//            System.out.println("Error deleting employee.");
-//        }
-//    }
 
     public static void employeePDO(Employee selectedEmployee, boolean update) {
         DatabaseSessionManager sessionManager = new DatabaseSessionManager(DatabaseManager.getSessionFactory());

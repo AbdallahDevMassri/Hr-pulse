@@ -1,14 +1,9 @@
 package com.example.hrpulse.Services.CSV;
 
 import com.example.hrpulse.Services.Interfaces.DataModel;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Objects;
-import java.util.UUID;
+
 
 @Entity
 @Table(name = "employeeshiftdata")
@@ -212,6 +207,11 @@ public class CsvRow implements DataModel {
     }
 
     public void setComments(String comments) {
-        this.comments = comments;
+        if (comments == null) {
+            this.comments = "";
+        } else {
+            this.comments = comments;
+        }
     }
+
 }

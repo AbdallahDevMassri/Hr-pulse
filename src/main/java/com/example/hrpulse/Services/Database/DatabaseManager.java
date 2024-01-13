@@ -50,23 +50,6 @@ public class DatabaseManager {
         }
     }
 
-
-    public static void deleteRowFromDatabase(String tableName, String compositeKey) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = null;
-            try {
-                transaction = session.beginTransaction();
-                String deleteQuery = "DELETE FROM " + tableName + " WHERE compositeKey = :compositeKey";
-                Query<?> query = session.createNativeQuery(deleteQuery);
-                query.setParameter("compositeKey", compositeKey);
-                query.executeUpdate();
-                transaction.commit();
-            } catch (Exception e) {
-                handleTransactionException(transaction, e);
-            }
-        }
-    }
-
     public static void deleteRowFromDatabaseAndFile(String tableName, String compositeKey, ObservableList<CsvRow> csvData, String csvFilePath) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;
@@ -107,9 +90,6 @@ public class DatabaseManager {
     }
 
 
-
-
-
     public static boolean isDataExists(SessionFactory sessionFactory, String tableName, String employeeId, String date) {
         try (Session session = sessionFactory.openSession()) {
             String checkExistenceQuery = "SELECT 1 FROM " + tableName + " WHERE employee_id = :employeeId AND date = :date";
@@ -120,21 +100,6 @@ public class DatabaseManager {
         } catch (HibernateException e) {
             handleHibernateException(e);
             return false;
-        }
-    }
-
-
-    public static void insertRowIntoDatabase(CsvRow row) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            String insertQuery = generateInsertQuery("employeeshiftdata");
-            Query query = session.createNativeQuery(insertQuery);
-            setQueryParameters(query, row.toStringArray(), row.getComments());
-            query.executeUpdate();
-            transaction.commit();
-        } catch (HibernateException e) {
-            handleDatabaseException(transaction, e);
         }
     }
 
