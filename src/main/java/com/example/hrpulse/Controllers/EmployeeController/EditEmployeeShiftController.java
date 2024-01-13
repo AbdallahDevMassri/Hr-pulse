@@ -429,9 +429,28 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
         if (!isValid) {
             showAlert(getInvalidMessage(row));
+            return false;
         }
 
-        return isValid;
+        // Check if the employee ID exists in the employee table
+        if (!employeeExists(row.getEmployeeId())) {
+            showAlert("Employee with ID " + row.getEmployeeId() + " does not exist in the employee table - please delete the row and try again.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean employeeExists(String employeeId) {
+        // Check if the employee ID exists in the employee table
+        try (Session session = sessionFactory.openSession()) {
+            Query<Employee> query = session.createQuery("FROM Employee WHERE employee_id = :employeeId", Employee.class);
+            query.setParameter("employeeId", employeeId);
+            return query.uniqueResult() != null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
