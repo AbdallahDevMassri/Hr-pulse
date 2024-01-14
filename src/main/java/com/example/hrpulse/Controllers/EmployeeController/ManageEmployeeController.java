@@ -6,6 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import java.io.IOException;
 
+/**
+ * The `ManageEmployeeController` class manages the user interface for managing employees.
+ */
+
 public class ManageEmployeeController implements Navigators, EmployeeNavigators {
 
     @FXML

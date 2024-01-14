@@ -10,9 +10,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.TextAlignment;
 import javafx.util.Callback;
 
+/**
+ * The `DepartmentCellFactory` class is a custom cell factory for rendering Department objects in a ListView.
+ */
 public class DepartmentCellFactory implements Callback<ListView<Department>, ListCell<Department>> {
     @Override
     public ListCell<Department> call(ListView<Department> param) {
@@ -45,7 +47,7 @@ public class DepartmentCellFactory implements Callback<ListView<Department>, Lis
                     hbox.setAlignment(Pos.CENTER);
 
                     setGraphic(hbox);
-                    setStyle("-fx-border-color: gray; -fx-border-width: 0 0 1 0;"); // Add a bottom border line
+                    setStyle("-fx-border-color: gray; -fx-border-width: 0 0 1 0;"); // Add a bottom borderline
                 }
             }
         };

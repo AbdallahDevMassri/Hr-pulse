@@ -1,9 +1,7 @@
 package com.example.hrpulse.Services.CSV;
 
 
-import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,8 +9,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Utility class for reading and writing CSV files using OpenCSV library.
+ */
 public class CsvService {
 
+    /**
+     * Reads CSV data from the specified file path.
+     *
+     * @param csvFilePath The path of the CSV file to read.
+     * @return A list of String arrays representing the CSV data.
+     * @throws IOException If an I/O error occurs.
+     */
     public static List<String[]> readCsv(String csvFilePath) throws IOException {
         List<String[]> csvData = new ArrayList<>();
         if (csvFilePath.isEmpty()) {
@@ -35,7 +43,12 @@ public class CsvService {
         return csvData;
     }
 
-
+    /**
+     * Writes CSV data to the specified file.
+     *
+     * @param filePath The path of the CSV file to write.
+     * @param csvData  The list of String arrays representing the CSV data.
+     */
     public static void writeCsv(String filePath, List<String[]> csvData) {
         try (CSVWriter writer = new CSVWriter(new FileWriter(filePath))) {
             writer.writeAll(csvData);
@@ -43,8 +56,8 @@ public class CsvService {
             throw new RuntimeException(e);
         }
     }
-
 }
+
 
 
 

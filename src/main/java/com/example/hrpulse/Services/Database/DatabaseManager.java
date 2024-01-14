@@ -1,40 +1,57 @@
 package com.example.hrpulse.Services.Database;
 
-import com.example.hrpulse.Services.CSV.CsvRow;
-import com.example.hrpulse.Services.CSV.CsvService;
 import com.example.hrpulse.Services.Hibernate.HibernateUtil;
 import com.example.hrpulse.Services.Interfaces.DataModel;
-import javafx.collections.ObservableList;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The DatabaseManager class handles interactions with the database using Hibernate.
+ * It provides methods for saving, deleting, and querying data in the database.
+ */
 public class DatabaseManager {
+
+    // The Hibernate SessionFactory, responsible for managing database sessions.
     private static final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
+    /**
+     * Gets the Hibernate SessionFactory instance.
+     *
+     * @return The SessionFactory instance.
+     */
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 
+    /**
+     * Closes the Hibernate SessionFactory if it is open.
+     */
     public static void closeSessionFactory() {
         if (sessionFactory != null && !sessionFactory.isClosed()) {
             sessionFactory.close();
         }
     }
 
+    /**
+     * Saves CSV data to the specified database table.
+     *
+     * @param tableName The name of the database table.
+     * @param csvData   The CSV data to be saved.
+     */
     public static void saveCSVDataToDatabase(String tableName, List<String[]> csvData) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;
             try {
                 transaction = session.beginTransaction();
 
+                // Iterate through CSV data and insert new records if they don't exist
                 for (String[] rowData : csvData) {
                     String employeeId = rowData[5];
                     String date = rowData[4];
@@ -52,6 +69,13 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * Executes an insert query with the provided data.
+     *
+     * @param session    The Hibernate session.
+     * @param insertQuery The insert query.
+     * @param rowData     The data to be inserted.
+     */
     private static void executeInsertQuery(Session session, String insertQuery, String[] rowData) {
         try {
             Query query = session.createNativeQuery(insertQuery);
@@ -70,14 +94,20 @@ public class DatabaseManager {
         }
     }
 
-
+    /**
+     * Deletes a row from the specified database table.
+     *
+     * @param tableName   The name of the database table.
+     * @param employeeId  The employee ID of the row to be deleted.
+     * @param date        The date of the row to be deleted.
+     */
     public static void deleteRowFromDatabase(String tableName, String employeeId, String date) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = null;
             try {
                 transaction = session.beginTransaction();
 
-                    String deleteQuery = "DELETE FROM " + tableName + " WHERE employee_id = :employee_id AND date = :date";
+                String deleteQuery = "DELETE FROM " + tableName + " WHERE employee_id = :employee_id AND date = :date";
                 Query<?> query = session.createNativeQuery(deleteQuery);
                 query.setParameter("employee_id", employeeId);
                 query.setParameter("date", date);
@@ -91,7 +121,15 @@ public class DatabaseManager {
         }
     }
 
-
+    /**
+     * Checks if data with the given employee ID and date exists in the specified table.
+     *
+     * @param sessionFactory The Hibernate SessionFactory.
+     * @param tableName      The name of the database table.
+     * @param employeeId     The employee ID to check.
+     * @param date           The date to check.
+     * @return True if data exists, false otherwise.
+     */
     public static boolean isDataExists(SessionFactory sessionFactory, String tableName, String employeeId, String date) {
         try (Session session = sessionFactory.openSession()) {
             String checkExistenceQuery = "SELECT 1 FROM " + tableName + " WHERE employee_id = :employeeId AND date = :date";
@@ -105,17 +143,34 @@ public class DatabaseManager {
         }
     }
 
-
+    /**
+     * Generates an insert query for the specified table.
+     *
+     * @param tableName The name of the database table.
+     * @return The insert query.
+     */
     private static String generateInsertQuery(String tableName) {
         return "INSERT INTO " + tableName +
                 " (total_work_hours, break_time, end_of_shift, start_of_shift, date, employee_id) " +
                 "VALUES (:totalWorkHours, :breakTime, :exitHour, :startHour, :dateTable, :employeeId)";
     }
 
+    /**
+     * Handles exceptions related to database operations.
+     *
+     * @param transaction The database transaction.
+     * @param e            The exception.
+     */
     public static void handleDatabaseException(Transaction transaction, HibernateException e) {
         handleTransactionException(transaction, e);
     }
 
+    /**
+     * Handles exceptions related to transactions.
+     *
+     * @param transaction The database transaction.
+     * @param e            The exception.
+     */
     private static void handleTransactionException(Transaction transaction, Exception e) {
         if (transaction != null && transaction.isActive()) {
             transaction.rollback();
@@ -123,10 +178,21 @@ public class DatabaseManager {
         handleHibernateException(e);
     }
 
+    /**
+     * Handles general Hibernate exceptions.
+     *
+     * @param e The exception.
+     */
     public static void handleHibernateException(Exception e) {
         e.printStackTrace(); // Log or handle the exception appropriately
     }
 
+    /**
+     * Checks if the specified database table is empty.
+     *
+     * @param tableName The name of the database table.
+     * @return True if the table is empty, false otherwise.
+     */
     public static boolean isDatabaseEmpty(String tableName) {
         try (Session session = sessionFactory.openSession()) {
             String countQuery = "SELECT COUNT(*) FROM " + tableName;
@@ -136,6 +202,14 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * Loads the last saved data from the specified table.
+     *
+     * @param tableName The name of the database table.
+     * @param clazz     The class of the DataModel.
+     * @param <T>       The type of the DataModel.
+     * @return A list of DataModel objects representing the last saved data.
+     */
     public static <T extends DataModel> List<T> loadLastSavedData(String tableName, Class<T> clazz) {
         try (Session session = sessionFactory.openSession()) {
             String selectQuery = "SELECT total_work_hours, break_time, end_of_shift, start_of_shift, date, employee_id " +
@@ -147,10 +221,19 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * Loads the last saved data for a specific employee from the specified table.
+     *
+     * @param tableName  The name of the database table.
+     * @param clazz      The class of the DataModel.
+     * @param employeeId The employee ID to filter the data.
+     * @param <T>        The type of the DataModel.
+     * @return A list of DataModel objects representing the last saved data for the specified employee.
+     */
     public static <T extends DataModel> List<T> loadLastSavedDataByEmployeeId(String tableName, Class<T> clazz, String employeeId) {
         try (Session session = sessionFactory.openSession()) {
             String selectQuery = "SELECT total_work_hours, break_time, end_of_shift, start_of_shift, date, employee_id" +
-                    "FROM " + tableName + " WHERE employee_id = :employeeId " +
+                    " FROM " + tableName + " WHERE employee_id = :employeeId " +
                     "ORDER BY total_work_hours DESC, break_time DESC, " +
                     "end_of_shift DESC, start_of_shift DESC, date DESC, employee_id DESC";
             Query<Object[]> query = session.createNativeQuery(selectQuery);
@@ -160,10 +243,19 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * Converts a list of object arrays to a list of DataModel objects.
+     *
+     * @param resultList The list of object arrays.
+     * @param clazz      The class of the DataModel.
+     * @param <T>        The type of the DataModel.
+     * @return A list of DataModel objects.
+     */
     private static <T extends DataModel> List<T> convertToObjectList(List<Object[]> resultList, Class<T> clazz) {
         return resultList.stream()
                 .map(row -> {
                     try {
+                        // Create an instance of the DataModel and initialize it with CSV data
                         T instance = clazz.getDeclaredConstructor().newInstance();
                         instance.initializeFromCsvData(Arrays.copyOf(row, row.length, String[].class));
                         return instance;

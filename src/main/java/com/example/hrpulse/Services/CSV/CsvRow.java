@@ -4,6 +4,10 @@ import com.example.hrpulse.Services.Interfaces.DataModel;
 import javax.persistence.*;
 import java.util.Arrays;
 
+/**
+ * Represents a row of the employee shift information.
+ * Implements the DataModel interface.
+ */
 
 @Entity
 @Table(name = "employeeshiftdata")
@@ -34,54 +38,71 @@ public class CsvRow implements DataModel {
     @Column(name = "employee_id", unique = true)  // Ensure uniqueness
     private String employeeId;
 
-
-    @Transient
-    private String initialTotalWorkHours;
-
-    @Transient
-    private String initialBreakTime;
-
-    @Transient
-    private String initialExitHour;
-
-    @Transient
-    private String initialStartHour;
-
-    @Transient
-    private String initialDateTable;
-
-    @Transient
-    private String initialEmployeeId;
-
-    @Transient
-    private String initialComments;
-
-
+    /**
+     * Default constructor.
+     */
     public CsvRow() {
         // Default constructor
     }
 
+    /**
+     * Parameterized constructor for initializing CsvRow with specified values.
+     * Sets the compositeKey based on employeeId and date.
+     *
+     * @param totalWorkHours The total work hours.
+     * @param breakTime      The break time.
+     * @param exitHour       The end of shift hour.
+     * @param startHour      The start of shift hour.
+     * @param date           The date of the shift.
+     * @param employeeId     The employee ID.
+     */
     public CsvRow(String totalWorkHours, String breakTime, String exitHour, String startHour,
                   String date, String employeeId) {
         initializeFields(totalWorkHours, breakTime, exitHour, startHour, date, employeeId);
         this.compositeKey = employeeId + "_" + date;
     }
 
+    /**
+     * Constructor for creating CsvRow from a String array.
+     * Initializes fields with values from the array.
+     * Prints an error message for invalid CSV row data.
+     *
+     * @param rowData The String array containing CSV row data.
+     */
     public CsvRow(String[] rowData) {
         if (rowData.length >= 5) {
-            initializeFields(
-                    rowData[0], rowData[1], rowData[2], rowData[3], rowData[4], "");
+            initializeFields(rowData[0], rowData[1], rowData[2], rowData[3], rowData[4], "");
         } else {
             System.err.println("Invalid CSV row: " + Arrays.toString(rowData));
         }
     }
 
+    /**
+     * Constructor for creating CsvRow with specified values and an empty employeeId.
+     * Initializes fields and sets the compositeKey based on employeeId and date.
+     *
+     * @param totalWorkHours The total work hours.
+     * @param breakTime      The break time.
+     * @param exitHour       The end of shift hour.
+     * @param startHour      The start of shift hour.
+     * @param date           The date of the shift.
+     */
     public CsvRow(String totalWorkHours, String breakTime, String exitHour, String startHour,
                   String date) {
         this();
         initializeFields(totalWorkHours, breakTime, exitHour, startHour, date, "");
     }
 
+    /**
+     * Initializes the CsvRow fields with the provided values and sets initial values for tracking changes.
+     *
+     * @param totalWorkHours The total work hours.
+     * @param breakTime      The break time.
+     * @param exitHour       The end of shift hour.
+     * @param startHour      The start of shift hour.
+     * @param dateTable      The date of the shift.
+     * @param employeeId     The employee ID.
+     */
     private void initializeFields(String totalWorkHours, String breakTime, String exitHour, String startHour,
                                   String dateTable, String employeeId) {
         setTotalWorkHours(totalWorkHours);
@@ -90,23 +111,19 @@ public class CsvRow implements DataModel {
         setStartHour(startHour);
         setDate(dateTable);
         setEmployeeId(employeeId);
-        initializeInitialValues();
     }
 
-    private void initializeInitialValues() {
-        initialTotalWorkHours = getTotalWorkHours();
-        initialBreakTime = getBreakTime();
-        initialExitHour = getExitHour();
-        initialStartHour = getStartHour();
-        initialDateTable = getDate();
-        initialEmployeeId = getEmployeeId();
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String[] getDataAsArray() {
-        return new String[]{totalWorkHours, breakTime, exitHour, startHour, date, employeeId };
+        return new String[]{totalWorkHours, breakTime, exitHour, startHour, date, employeeId};
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initializeFromCsvData(String[] data) {
         setTotalWorkHours(data[0]);
@@ -117,6 +134,9 @@ public class CsvRow implements DataModel {
         setEmployeeId(data[5]);
     }
 
+    /**
+     * Converts the CsvRow to a String array.
+     */
     public String[] toArray() {
         return new String[]{
                 totalWorkHours,

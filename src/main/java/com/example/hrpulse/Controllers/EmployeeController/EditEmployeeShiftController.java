@@ -19,9 +19,12 @@ import org.hibernate.query.Query;
 import java.io.IOException;
 import java.util.*;
 import static com.example.hrpulse.HR_Pulse.sessionFactory;
-import static com.example.hrpulse.Services.CSV.CsvService.readCsv;
-import static com.example.hrpulse.Services.CSV.CsvService.writeCsv;
 
+/**
+ *
+ * Controller class for Employee Shift Data.
+ *
+ */
 
 public class EditEmployeeShiftController implements EmployeeNavigators {
 
@@ -47,7 +50,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     TableColumn<CsvRow, Void> deleteColumn = new TableColumn<>("Delete");
 
 
-
     @FXML
     private TableView<CsvRow> tableViewCSVData;
 
@@ -62,26 +64,27 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     @FXML
     private Button saveButton;
 
-    private Set<CsvRow> editedRows = new HashSet<>();
-
     private String csvFilePath;
 
-    private boolean externallyAddedRowsExist;
 
     // Keep track of edited rows and their IDs
     private Map<String, CsvRow> editedRowsMap = new HashMap<>();
 
     UserSession userSession = UserSession.getInstance();
-    Employee currentUser = userSession.getCurrentUser();
 
 
-
+    /**
+     * Initializes the EditEmployeeShiftController.
+     */
     public EditEmployeeShiftController() {
 
     }
 
-
-
+    /**
+     * Handles the upload CSV file action.
+     *
+     * @param event The ActionEvent triggered by the upload button.
+     */
     @FXML
     void uploadCsvFile(ActionEvent event) {
         // Get the current user from UserSession
@@ -94,21 +97,26 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             return;
         }
 
-
-        uploadCsvFile.upload(); // Remove the argument
+        uploadCsvFile.upload();
 
         // Set the CSV file path in the controller
         setCsvFilePath(uploadCsvFile.getFilePath());
     }
 
 
-
+    /**
+     * Initializes the controller and sets up event handlers.
+     */
     @FXML
     public void initialize() {
 
-        loadLastSavedDataButton.setOnAction(this::loadLastSavedDataIntoTableview); // Set action for the button
+        // Set action for the last saved button
+        loadLastSavedDataButton.setOnAction(this::loadLastSavedDataIntoTableview);
 
+        // Initialize UploadCsvFile with TableView and data type
         uploadCsvFile = new UploadCsvFile(tableViewCSVData, "employeeshiftdata");
+
+        // Setup column cell value factories and edit commit handlers
 
         tc_totalWorkHrs.setCellValueFactory(new PropertyValueFactory<>("totalWorkHours"));
         tc_totalWorkHrs.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -191,7 +199,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         tc_employeeId.setOnEditCommit(event -> {
             CsvRow editedRow = event.getRowValue();
             editedRow.setEmployeeId(event.getNewValue());
-             event.getRowValue().setEmployeeId(event.getNewValue());
+            event.getRowValue().setEmployeeId(event.getNewValue());
             try {
                 uploadCsvFile.updateRowInCsv(event.getRowValue());
             } catch (IOException e) {
@@ -200,11 +208,12 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
         });
 
-
+        // Setup delete column with a delete button
         deleteColumn.setCellFactory(param -> new TableCell<>() {
             private final Button deleteButton = new Button("Delete");
 
             {
+                // Set action for the delete button
                 deleteButton.setOnAction(event -> {
                     CsvRow selectedRow = getTableView().getItems().get(getIndex());
                     handleDeleteButton(selectedRow);
@@ -214,6 +223,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
+                // Display the delete button if the row is not empty
                 if (empty) {
                     setGraphic(null);
                 } else {
@@ -222,6 +232,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             }
         });
 
+        // Add the delete column to the TableView
         tableViewCSVData.getColumns().add(deleteColumn);
 
         // Set edit commit handlers for each column
@@ -231,26 +242,38 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         setEditCommitHandler(tc_date);
         setEditCommitHandler(tc_employeeId);
 
+        // Enable TableView editing
         tableViewCSVData.setEditable(true);
     }
 
-
+    /**
+     * Sets up the edit commit handler for a TableColumn.
+     *
+     * @param column The TableColumn for which the edit commit handler is set up.
+     */
     private void setEditCommitHandler(TableColumn<CsvRow, String> column) {
         column.setCellFactory(TextFieldTableCell.forTableColumn());
         column.setOnEditCommit(event -> handleEditCommit(event, column));
         column.setEditable(true);
     }
 
-
+    /**
+     * Handles the delete button action for a selected row.
+     *
+     * @param selectedRow The CsvRow selected for deletion.
+     */
     private void handleDeleteButton(CsvRow selectedRow) {
+        // Display a confirmation dialog before deleting the row
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Row");
         alert.setHeaderText(null);
         alert.setContentText("Are you sure you want to delete this row?");
 
+        // Process the user's choice from the confirmation dialog
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
+                // Remove the row from CSV and database, then update TableView
                 uploadCsvFile.removeRowFromCsvAndDatabase(selectedRow);
                 tableViewCSVData.getItems().remove(selectedRow);
                 tableViewCSVData.getSelectionModel().clearSelection();
@@ -263,7 +286,11 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         }
     }
 
-
+    /**
+     * Handles the action when the add row button is clicked.
+     *
+     * @param event The ActionEvent triggered by the add row button.
+     */
     @FXML
     private void addRowButtonClicked(ActionEvent event) {
         // Create a new CsvRow with default values
@@ -290,7 +317,12 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         editedRowsMap.put(newRow.getCompositeKey(), newRow);
     }
 
-
+    /**
+     * Converts ObservableList of CsvRow to a List of String arrays for CSV processing.
+     *
+     * @param csvRows The ObservableList of CsvRow to be converted.
+     * @return List of String arrays representing the CSV data.
+     */
     private List<String[]> convertToStringCsv(ObservableList<CsvRow> csvRows) {
         List<String[]> stringCsvData = new ArrayList<>();
         for (CsvRow row : csvRows) {
@@ -306,24 +338,29 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         return stringCsvData;
     }
 
-
-
+    /**
+     * Sets the CSV file path in the controller.
+     *
+     * @param csvFilePath The path to the CSV file.
+     */
     public void setCsvFilePath(String csvFilePath) {
         this.csvFilePath = csvFilePath;
     }
 
-
-
-    // Load last saved data from the database into TableView
+    /**
+     * Loads the last saved data from the database into the TableView.
+     *
+     * @param actionEvent The ActionEvent triggered by the load last saved data button.
+     */
     @FXML
     private void loadLastSavedDataIntoTableview(ActionEvent actionEvent) {
         if (!uploadCsvFile.isTableViewLoaded()) {
+            // Load last saved data from the database
             List<CsvRow> lastSavedData = DatabaseManager.loadLastSavedData("employeeshiftdata", CsvRow.class);
             if (lastSavedData.isEmpty()) {
                 showAlert("No last saved data found in the database.");
             } else {
-
-                // Check if the database is empty
+                // Check if the database is empty and save all data to it
                 if (DatabaseManager.isDatabaseEmpty("employeeshiftdata")) {
                     saveAllDataToDatabase();
                 } else {
@@ -337,6 +374,11 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         }
     }
 
+    /**
+     * Displays an information alert with the given message.
+     *
+     * @param message The message to be displayed in the alert.
+     */
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");
@@ -346,7 +388,11 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     }
 
 
-    // Save button click event
+    /**
+     * Handles the save button click event.
+     *
+     * @param event The ActionEvent triggered by the save button.
+     */
     @FXML
     private void saveButtonClicked(ActionEvent event) {
         try {
@@ -355,8 +401,9 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             // Check if externally added rows exist
             if (DatabaseManager.isDatabaseEmpty("employeeshiftdata")) {
                 saveAllDataToDatabase();
-            }else if (!uploadCsvFile.isExternallyAddedRowsEmpty()) {
+            } else if (!uploadCsvFile.isExternallyAddedRowsEmpty()) {
                 for (CsvRow row : uploadCsvFile.getExternallyAddedRows()) {
+                    // Check validity and duplicates for externally added rows
                     if (!isValidRow(row) || isDuplicateRow(row)) {
                         allExternallyAddedRowsValid = false;
                         showAlert("Invalid or duplicate data found. Please correct and try again.");
@@ -388,15 +435,23 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         }
     }
 
-
-
-
+    /**
+     * Checks if a given CsvRow is a duplicate in the database.
+     *
+     * @param newRow The CsvRow to check for duplication.
+     * @return True if the row is a duplicate, false otherwise.
+     */
     private boolean isDuplicateRow(CsvRow newRow) {
         // Check if the combination of employee ID and date already exists in the database
         return DatabaseManager.isDataExists(sessionFactory, "employeeshiftdata", newRow.getEmployeeId(), newRow.getDate());
     }
 
-
+    /**
+     * Retrieves a formatted message indicating the invalid fields in a CsvRow.
+     *
+     * @param row The CsvRow to check for invalid fields.
+     * @return A formatted message indicating the invalid fields.
+     */
     private String getInvalidMessage(CsvRow row) {
         // Check if all the required fields are not empty
         StringBuilder invalidMessage = new StringBuilder("נא למלא את העמודות הבאות:\n");
@@ -420,6 +475,12 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         return invalidMessage.toString();
     }
 
+    /**
+     * Checks if a CsvRow is valid by ensuring all required fields are not empty and the employee ID exists.
+     *
+     * @param row The CsvRow to check for validity.
+     * @return True if the row is valid, false otherwise.
+     */
     private boolean isValidRow(CsvRow row) {
         // Check if all the required fields are not empty
         boolean isValid = !row.getTotalWorkHours().isEmpty() &&
@@ -441,6 +502,12 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         return true;
     }
 
+    /**
+     * Checks if an employee with the given ID exists in the employee table.
+     *
+     * @param employeeId The ID of the employee to check for existence.
+     * @return True if the employee exists, false otherwise.
+     */
     private boolean employeeExists(String employeeId) {
         // Check if the employee ID exists in the employee table
         try (Session session = sessionFactory.openSession()) {
@@ -454,6 +521,11 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     }
 
 
+    /**
+     * Updates the specified CsvRow in the database with the edited values.
+     *
+     * @param editedRow The CsvRow with the edited values.
+     */
     private void updateRowInDatabase(CsvRow editedRow) {
         try (Session session = sessionFactory.openSession()) {
             Employee currentUser = UserSession.getInstance().getCurrentUser();
@@ -473,13 +545,11 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
                         "end_of_shift = :exitHour, " +
                         "start_of_shift = :startHour, " +
                         "date = :dateTable, " +
-                        "employee_id = :employeeId, " +
+                        "employee_id = :employeeId " +
                         "WHERE composite_key = :compositeKey";
 
                 Query<?> query = session.createNativeQuery(updateQuery);
                 setQueryParameters(query, editedRow);
-
-
 
                 // Commit the transaction
                 transaction.commit();
@@ -489,12 +559,21 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         }
     }
 
-
+    /**
+     * Handles the case where the current user is null during an update operation.
+     * Prints an error message to the console.
+     */
     private void handleCurrentUserNull() {
         // Handle the case where currentUser is null (perhaps log an error or throw an exception)
         System.err.println("Error: currentUser is null in updateRowInDatabase");
     }
 
+    /**
+     * Handles exceptions that occur during a database transaction, including rolling back the transaction if needed.
+     *
+     * @param transaction The transaction being executed.
+     * @param e           The exception that occurred.
+     */
     private void handleTransactionException(Transaction transaction, Exception e) {
         if (transaction != null && transaction.isActive()) {
             transaction.rollback();
@@ -502,6 +581,12 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         e.printStackTrace();
     }
 
+    /**
+     * Sets the parameters of the given database query using the values from the CsvRow.
+     *
+     * @param query The database query.
+     * @param row   The CsvRow containing the values.
+     */
     private void setQueryParameters(Query<?> query, CsvRow row) {
         query.setParameter("totalWorkHours", row.getTotalWorkHours());
         query.setParameter("breakTime", row.getBreakTime());
@@ -511,7 +596,13 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         query.setParameter("employeeId", row.getEmployeeId());
     }
 
-
+    /**
+     * Handles the commit of an edit event on a TableView cell.
+     * Validates the new value, rolls back the edit if needed, and updates the CSV file and database.
+     *
+     * @param event  The CellEditEvent triggered by the edit.
+     * @param column The TableColumn being edited.
+     */
     private void handleEditCommit(TableColumn.CellEditEvent<CsvRow, String> event, TableColumn<CsvRow, String> column) {
         CsvRow editedRow = event.getRowValue();
         String newValue = event.getNewValue();
@@ -552,7 +643,12 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         }
     }
 
-
+    /**
+     * Checks if a CsvRow is a duplicate in the TableView.
+     *
+     * @param editedRow The CsvRow being checked for duplication.
+     * @return True if the row is a duplicate, false otherwise.
+     */
     private boolean isDuplicateRowInTableView(CsvRow editedRow) {
         // Check if the combination of date and employee ID already exists in the TableView
         return tableViewCSVData.getItems().stream()
@@ -560,6 +656,12 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
                         && row.getEmployeeId().equals(editedRow.getEmployeeId()));
     }
 
+    /**
+     * Checks if the provided date string is in a valid date format (dd/mm/yyyy).
+     *
+     * @param date The date string to validate.
+     * @return True if the date is in a valid format, false otherwise.
+     */
     private boolean isValidDateFormat(String date) {
         // Define the expected date format
         String dateFormatPattern = "\\d{2}/\\d{2}/\\d{4}";
@@ -573,7 +675,12 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         return true;
     }
 
-
+    /**
+     * Checks if the provided hours string is in a valid hours format (h:mm).
+     *
+     * @param hours The hours string to validate.
+     * @return True if the hours are in a valid format, false otherwise.
+     */
     private boolean isValidHoursFormat(String hours) {
         // Define the expected hours format
         String hoursFormatPattern = "\\d{1,2}:\\d{2}";
@@ -587,7 +694,13 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         return true;
     }
 
-
+    /**
+     * Updates the specific property of a CsvRow based on the edited TableColumn and new value.
+     *
+     * @param editedRow    The CsvRow being updated.
+     * @param editedColumn The TableColumn being edited.
+     * @param newValue     The new value for the property.
+     */
     private void updatePropertyBasedOnColumn(CsvRow editedRow, TableColumn<CsvRow, String> editedColumn, String newValue) {
         // Update the specific property based on the edited column
         if (editedColumn.equals(tc_employeeId)) {
@@ -605,19 +718,30 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         }
     }
 
-
-    // Save all data to the database
+    /**
+     * Saves all data from the TableView to the database.
+     */
     private void saveAllDataToDatabase() {
         ObservableList<CsvRow> csvRows = tableViewCSVData.getItems();
         DatabaseManager.saveCSVDataToDatabase("employeeshiftdata", convertToStringCsv(csvRows));
     }
 
-
+    /**
+     * Handles the button click event to navigate to the main employee management page.
+     *
+     * @param event The ActionEvent triggered by the button click.
+     * @throws IOException If an I/O exception occurs during navigation.
+     */
     @FXML
     void mainPageButtonClicked(ActionEvent event) throws IOException {
         navigateToManageEmployeePage(event);
     }
 
+    /**
+     * Handles the button click event to perform a search based on the entered employee ID.
+     *
+     * @param event The ActionEvent triggered by the button click.
+     */
     @FXML
     private void searchButtonClicked(ActionEvent event) {
         String employeeId = tf_employeeID.getText().trim();
@@ -629,7 +753,11 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         }
     }
 
-
+    /**
+     * Loads the last saved data from the database based on the provided employee ID into the TableView.
+     *
+     * @param employeeId The employee ID for which to load the data.
+     */
     private void loadLastSavedDataByEmployeeIdIntoTableview(String employeeId) {
         List<CsvRow> data = DatabaseManager.loadLastSavedDataByEmployeeId("employeeshiftdata", CsvRow.class, employeeId);
 
@@ -640,6 +768,4 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             tableViewCSVData.setItems(dataModels);
         }
     }
-
-
 }

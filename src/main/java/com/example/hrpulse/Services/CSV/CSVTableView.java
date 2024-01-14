@@ -18,17 +18,22 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * JavaFX's application for displaying and editing CSV data in a TableView.
+ */
 public class CSVTableView extends Application {
     public static void main(String[] args) {
         launch(args);
     }
 
-     ObservableList<CsvRow> data = FXCollections.observableArrayList();
+    // ObservableList for TableView data
+    ObservableList<CsvRow> data = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("TableView");
 
+        // TableView setup
         TableView<CsvRow> tableView = new TableView<>();
         tableView.setEditable(true); // Enable editing
 
@@ -75,22 +80,27 @@ public class CSVTableView extends Application {
         });
 
 
-
+        // Adding columns to the TableView
         tableView.getColumns().addAll(totalWorkHoursColumn, breakTimeColumn, endTimeColumn, startTimeColumn, dateColumn, empIdColumn);
+        // Set data to the TableView
         tableView.setItems(data);
 
+        // Buttons for actions
         Button loadButton = new Button("Load CSV");
-
         Button addButton = new Button("Add Row");
+
+        // Set actions for buttons
         addButton.setOnAction(e -> addNewRow(tableView));
 
         loadButton.setOnAction(e -> {
+            // FileChooser setup
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
 
             if (selectedFile != null) {
                 try {
+                    // Read CSV data and update the TableView
                     List<String[]> csvData = CsvService.readCsv(selectedFile.getAbsolutePath());
                     data.clear(); // Clear existing data
                     for (String[] row : csvData) {
@@ -103,12 +113,19 @@ public class CSVTableView extends Application {
             }
         });
 
+        // Layout setup
         VBox vbox = new VBox(tableView, loadButton);
         Scene scene = new Scene(vbox, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
+    /**
+     * Display an error dialog with the specified title and content.
+     *
+     * @param title   The title of the error dialog.
+     * @param content The content of the error dialog.
+     */
     private void showErrorDialog(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -117,6 +134,11 @@ public class CSVTableView extends Application {
         alert.showAndWait();
     }
 
+    /**
+     * Add a new row to the TableView.
+     *
+     * @param tableView The TableView to which the row should be added.
+     */
     private void addNewRow(TableView<CsvRow> tableView) {
         // Create a new row with default values or empty values
         CsvRow newRow = new CsvRow("", "", "", "", "", "");
@@ -125,8 +147,5 @@ public class CSVTableView extends Application {
         tableView.getSelectionModel().select(newRow); // Select the new row for editing
         tableView.edit(tableView.getItems().indexOf(newRow), tableView.getColumns().get(0)); // Start editing the first cell
     }
-
-
-
 
 }

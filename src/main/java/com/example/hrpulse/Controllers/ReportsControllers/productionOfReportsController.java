@@ -7,15 +7,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.io.IOException;
 
+/**
+ * The `productionOfReportsController` class manages the user interface for generating reports.
+ */
 public class productionOfReportsController implements Navigators, ReportsNavigators {
 
     @FXML
     private Button back_btn;
+
     @FXML
     private Button department_reports_btn;
 
@@ -24,26 +29,38 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
 
     @FXML
     void backToMainClicked(ActionEvent event) throws IOException {
+        // Method to handle the "Back to Main" button click
         navigateToMainPage(event);
     }
 
     @FXML
     void departmentReportsClicked(ActionEvent event) {
-
+        // Method to handle the "Department Reports" button click
+        // Implement your logic for department reports here
     }
 
     @FXML
     void employeeRepotsClicked(ActionEvent event) {
         try {
+            // Load the MySQL JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
 
             // Establish a connection to the MySQL database
-            Connection connection =DriverManager.getConnection("jdbc:mysql://localhost:3306/pulsedb","root","hrpulse123");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/pulsedb", "root", "hrpulse123");
+
+            // Path to the JRXML file (JasperReports XML template)
             String reportPath = "EmployeeReport.jrxml";
 
-            JasperReport jr =JasperCompileManager.compileReport(reportPath);
-            JasperPrint jp =JasperFillManager.fillReport(jr,null,connection);
-            JasperViewer.viewReport(jp,false);
+            // Compile the JRXML file into a JasperReport object
+            JasperReport jr = JasperCompileManager.compileReport(reportPath);
+
+            // Fill the report with data and create a JasperPrint object
+            JasperPrint jp = JasperFillManager.fillReport(jr, null, connection);
+
+            // View the JasperPrint object using JasperViewer
+            JasperViewer.viewReport(jp, false);
+
+            // Close the database connection
             connection.close();
 
         } catch (ClassNotFoundException | SQLException e) {
@@ -52,9 +69,4 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
             throw new RuntimeException(e);
         }
     }
-
 }
-
-
-
-

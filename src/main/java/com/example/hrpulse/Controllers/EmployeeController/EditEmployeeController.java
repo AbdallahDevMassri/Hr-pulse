@@ -14,9 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
 
-
+/**
+ * The EditEmployeeController handles the logic for editing employee details.
+ */
 public class EditEmployeeController implements EmployeeNavigators {
 
+    // Constructors to allow for different ways of initializing the controller
     private HR_Pulse hrPulse;
     private SessionFactory sessionFactory;
 
@@ -74,6 +77,7 @@ public class EditEmployeeController implements EmployeeNavigators {
 
     @FXML
     public void initialize() {
+        // Initialization logic for the controller
         employeeList = retrieveEmployees();
         List<String> employeFullName = retrieveEmployeesNames(employeeList);
         cb_retriveEmployee.getItems().addAll(employeFullName);
@@ -115,6 +119,7 @@ public class EditEmployeeController implements EmployeeNavigators {
 
     }
 
+    // Method to fill the employee details in the form
     private void fillEmployeeDetails(String fullName) {
         // Extract the first name and last name from the full name
         String[] names = fullName.split(" ");
@@ -140,6 +145,7 @@ public class EditEmployeeController implements EmployeeNavigators {
         tf_sneefBankCode.setText(String.valueOf(selectedEmployee.getBankInfo().getBankSneefCode()));
     }
 
+    // Method to find an employee by first name and last name
     private Employee findEmployeeByName(String firstName, String lastName) {
         for (Employee employee : employeeList) {
             if (employee.getFirstName().equals(firstName) && employee.getLastName().equals(lastName)) {
@@ -149,6 +155,7 @@ public class EditEmployeeController implements EmployeeNavigators {
         return null; // Employee not found
     }
 
+    // Method to retrieve employee names for the choice box
     private List<String> retrieveEmployeesNames(List<Employee> employeeList) {
         List<String> employeeName = new ArrayList<>();
         for (Employee employee : employeeList
@@ -158,10 +165,8 @@ public class EditEmployeeController implements EmployeeNavigators {
         return employeeName;
     }
 
-    @FXML
-    public void backToManageEmployee(ActionEvent actionEvent) throws IOException {
-        navigateToManageEmployeePage(actionEvent);
-    }
+
+    // Method to handle employee deletion
 
     public void deletebtnclick(ActionEvent actionEvent) {
 
@@ -183,6 +188,7 @@ public class EditEmployeeController implements EmployeeNavigators {
         }
     }
 
+    // Method to handle saving updated employee details
     public void saveBtnClicked(ActionEvent actionEvent) {
         String fullName = cb_retriveEmployee.getValue();
         if (fullName != null) {
@@ -217,6 +223,7 @@ public class EditEmployeeController implements EmployeeNavigators {
         }
     }
 
+    // Method to navigate back to the manage employee page
     public void backbtn(ActionEvent actionEvent) throws IOException {
         navigateToManageEmployeePage(actionEvent);
     }

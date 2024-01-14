@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "employees")
@@ -66,8 +65,6 @@ public class Employee {
     @Column(name = "salaryPerMonth")
     private Double salaryPerMonth;
 
-    @Column(name = "timestamp")
-    private LocalDateTime timestamp;
 
     @Transient
     private String username;
@@ -91,7 +88,7 @@ public class Employee {
         this.email=email;
         this.phoneNumber=phoneNumber;
         this.password=password;
-        this.employeeRole =employeeRole;
+        this.employeeRole = employeeRole;
     }
 
     public Employee(String firstName,String email,String phoneNumber,String password,String employeeRole){
@@ -245,18 +242,6 @@ public class Employee {
         this.salaryPerMonth = salaryPerMonth;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Override
-    public String toString() {
-        return getUsername();
-    }
 
 
 }

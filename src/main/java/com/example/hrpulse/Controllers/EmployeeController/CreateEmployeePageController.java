@@ -19,12 +19,13 @@ import static com.example.hrpulse.Controllers.DepartmentController.EditDepartmen
 import static com.example.hrpulse.HR_Pulse.retrieveDepartments;
 import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
 
-
+/**
+ * The CreateEmployeePageController handles the logic for creating a new employee.
+ */
 public class CreateEmployeePageController implements EmployeeNavigators {
 
-    //----------------------------------------these constructors is to allow for different ways of initializing the controller-----------------------------------------------------------------------
+    // Constructors to allow for different ways of initializing the controller
     private HR_Pulse hrPulse;
-    // Inject the SessionFactory
     private SessionFactory sessionFactory;
 
     public CreateEmployeePageController() {
@@ -42,7 +43,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         this.sessionFactory = sessionFactory;
     }
 
-    //---------------------------------------------------------------------------------------------------------------
+    // FXML elements injected from the corresponding FXML file
     @FXML
     private TextField tf_firstName;
     @FXML
@@ -84,6 +85,9 @@ public class CreateEmployeePageController implements EmployeeNavigators {
 
     @FXML
     void initialize() {
+        // Initialization logic for the controller
+
+
         // Add a change listener to cb_isPerMoth
         cb_isPerMoth.selectedProperty().addListener((observable, oldValue, newValue) -> {
             // Disable or enable cb_isHourly and tf_salaryPerHour based on newValue
@@ -131,8 +135,9 @@ public class CreateEmployeePageController implements EmployeeNavigators {
 
     @FXML
     void saveButtonClicked(ActionEvent event) {
-        // Collect data from input fields
-        // Validate first name
+        // Logic for saving employee data
+        //      Collect data from input fields
+        //  Validate first name
         String firstName = tf_firstName.getText().trim();
         if (firstName.isEmpty()) {
             showErrorDialog("נא הכנס שם עובד ");
@@ -229,7 +234,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         }
 
         boolean isPerMonth = cb_isPerMoth.isSelected();
-        //-----------------------------------------------------------------------
+        //------------------------------------------------------------------------
         String salaryPerMonthText = tf_perMonth.getText();
         Double salaryPerMonth = 0.0;
         try {
@@ -245,7 +250,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         } catch (NumberFormatException e) {
 
         }
-        //------------------------BankNumber validate--------------------------------
+        //------------------------------------------------------------------------
         String bankNumberText = tf_bankNumber.getText();
         int bankNumber = 0;
         try {
@@ -253,7 +258,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         } catch (NumberFormatException e) {
 
         }
-        //--------------------------------------------------------
+        //------------------------------------------------------------------------
         String acountNumber = tf_acountNumber.getText();
         //-----------------validate that sneef has just a numbers
         String sneefBankCodeText = tf_sneefBankCode.getText();
@@ -263,7 +268,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         } catch (NumberFormatException e) {
 
         }
-        //--------------------------------------------------------
+        //------------------------------------------------------------------------
 
 
         // Create an Employee object
@@ -314,6 +319,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
 
     }
 
+    // Method to retrieve a department by its name
     private Department getDepartmentByName(String departmentName) {
         // declare a list of departments
         List<Department> allDepartments;
@@ -347,6 +353,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         alert.showAndWait();
     }
 
+    // Method to check if an employee ID is unique
     private boolean isEmployeeIDUnique(int employeeID) {
 
         List<Employee> employees;
@@ -358,6 +365,8 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         }
         return true; // Replace with your actual logic
     }
+
+    // Method to clear input fields after saving
     private void clearInputFields() {
         tf_firstName.clear();
         tf_lastName.clear();
