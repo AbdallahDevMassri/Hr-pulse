@@ -33,7 +33,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button fx:id="employee_repots_btn" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onAction="#employeeRepotsClicked" text="דוחות עובדים " />
+                <Button fx:id="employee_reports_btn" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onAction="#employeeRepotsClicked" text="דוחות עובדים " />
                 <Button fx:id="department_reports_btn" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onAction="#departmentReportsClicked" text="דוחות מחלקות " GridPane.rowIndex="1" />
             </children>
             <padding>

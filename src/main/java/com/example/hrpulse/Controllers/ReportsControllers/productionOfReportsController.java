@@ -25,7 +25,7 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
     private Button department_reports_btn;
 
     @FXML
-    private Button employee_repots_btn;
+    private Button employee_reports_btn;
 
     @FXML
     void backToMainClicked(ActionEvent event) throws IOException {

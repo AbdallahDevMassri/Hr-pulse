@@ -56,21 +56,12 @@ public class Department {
         employees.add(employee);
     }
 
-    public void removeEmployee(Employee employee) {
-        // Remove an employee from the department's 'employees' list
-        // ...
-    }
 
     public List<Employee> getEmployees() {
         // Return the list of employees in this department
         return employees;
     }
 
-    public double calculateTotalDepartmentBudget() {
-        // Calculate and return the total department budget (sum of employee salaries)
-        // ...
-        return 0;
-    }
 
     @Override
     public String toString() {
