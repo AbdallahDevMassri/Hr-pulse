@@ -22,10 +22,11 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
     private Button back_btn;
 
     @FXML
-    private Button department_reports_btn;
+    private Button employee_reports_btn;
 
     @FXML
-    private Button employee_reports_btn;
+    private Button shiftEmployee_reports_btn;
+
 
     @FXML
     void backToMainClicked(ActionEvent event) throws IOException {
@@ -34,10 +35,10 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
     }
 
     @FXML
-    void departmentReportsClicked(ActionEvent event) {
-        // Method to handle the "Department Reports" button click
-        // Implement your logic for department reports here
+    void shiftEmployeeReportsClicked(ActionEvent event) throws IOException {
+        navigateToMonthlyShiftEmployee(event);
     }
+
 
     @FXML
     void employeeRepotsClicked(ActionEvent event) {

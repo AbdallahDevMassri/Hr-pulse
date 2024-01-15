@@ -34,7 +34,7 @@
             </rowConstraints>
             <children>
                 <Button fx:id="employee_reports_btn" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onAction="#employeeRepotsClicked" text="דוחות עובדים " />
-                <Button fx:id="department_reports_btn" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onAction="#departmentReportsClicked" text="דוחות מחלקות " GridPane.rowIndex="1" />
+                <Button fx:id="shiftEmployee_reports_btn" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onAction="#shiftEmployeeReportsClicked" text="דוח שעות עובד " GridPane.rowIndex="1" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

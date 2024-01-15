@@ -37,9 +37,6 @@ public class ReportDepartmentController implements Navigators {
         this.sessionFactory = sessionFactory;
     }
 
-    private List<Department> departmens;
-    private List<Employee> employees;
-
     @FXML
     private ListView<Department> lv_departments;
     @FXML
@@ -49,14 +46,14 @@ public class ReportDepartmentController implements Navigators {
     private Button countEmployeesButton;
     private ObservableList<Department> departmentList = FXCollections.observableArrayList();
     public void initialize() {
-        employees =retrieveEmployees();// import the static method from HR_PULSE
-        departmens= retrieveDepartments(); // import the static method from HR_PULSE
-        departmentList.addAll(departmens);
+        List<Employee> employees = retrieveEmployees();// import the static method from HR_PULSE
+        List<Department> departments = retrieveDepartments(); // import the static method from HR_PULSE
+        departmentList.addAll(departments);
         lv_departments.setItems(departmentList);
 
         Company myCompany = Company.getMyCompany();
         if (myCompany != null) {
-            for (Department department : departmens) {
+            for (Department department : departments) {
                 myCompany.addDepartment(department);
                 System.out.println(department);
             }

@@ -8,9 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import org.hibernate.SessionFactory;
-
 import java.io.IOException;
-import java.util.List;
+
 
 public class CreateNewDepartmentController implements Navigators {
 
@@ -50,7 +49,6 @@ public class CreateNewDepartmentController implements Navigators {
         department.setDepartmentName(departmentName);
         department.setDescription(description);
         hrPulse.performDatabaseOperations(department);
-
 
         showConfirmationDialog("נתוני המחלקה התווספו בהצלחה .");
 

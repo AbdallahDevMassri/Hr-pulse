@@ -20,4 +20,14 @@ public interface ReportsNavigators {
         mainStage.centerOnScreen();
         mainStage.show();
     }
+
+    default void navigateToMonthlyShiftEmployee(ActionEvent event) throws IOException {
+        Parent MonthlyShiftEmployeeViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/productionOfReports_view/productionOfReports/MonthlyShiftEmployee_report.fxml")));
+        Scene MonthlyShiftEmployeeViewScene = new Scene(MonthlyShiftEmployeeViewParent);
+        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        mainStage.setScene(MonthlyShiftEmployeeViewScene);
+        mainStage.setTitle("הפקת דוחות");
+        mainStage.centerOnScreen();
+        mainStage.show();
+    }
 }
