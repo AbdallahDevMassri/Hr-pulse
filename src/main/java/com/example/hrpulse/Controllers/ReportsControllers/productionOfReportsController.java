@@ -47,10 +47,10 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
             Class.forName("com.mysql.jdbc.Driver");
 
             // Establish a connection to the MySQL database
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/pulsedb", "root", "hrpulse123");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hrpulsedb", "root", "0523239955");
 
-            // Path to the JRXML file (JasperReports XML template)
-            String reportPath = "EmployeeReport.jrxml";
+            // Path to the JR XML file (JasperReports XML template)
+            String reportPath = "EmployeeReport.jr xml";
 
             // Compile the JRXML file into a JasperReport object
             JasperReport jr = JasperCompileManager.compileReport(reportPath);
@@ -64,9 +64,7 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
             // Close the database connection
             connection.close();
 
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException(e);
-        } catch (JRException e) {
+        } catch (ClassNotFoundException | SQLException | JRException e) {
             throw new RuntimeException(e);
         }
     }

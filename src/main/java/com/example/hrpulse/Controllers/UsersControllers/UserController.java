@@ -108,6 +108,7 @@ public class UserController implements Navigators, EmployeeNavigators, ReportsNa
     @FXML
     void NavigateToReportsPage(ActionEvent event) throws IOException {
         // TODO: Method to handle the "Reports Page" button click
+
         // Show error or display a message for the user; this button will be used in the next version
     }
 

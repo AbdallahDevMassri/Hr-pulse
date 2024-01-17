@@ -1,15 +1,102 @@
 package com.example.hrpulse.Controllers.ReportsControllers;
 
+import com.example.hrpulse.HR_Pulse;
 import com.example.hrpulse.Services.Interfaces.ReportsNavigators;
+import com.example.hrpulse.Services.Objects.Employee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import org.hibernate.SessionFactory;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListCell;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.List;
+
+import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
 
 public class MonthlyShiftEmployeeController implements ReportsNavigators {
+    private HR_Pulse hrPulse;
+    private SessionFactory sessionFactory;
+
+    public MonthlyShiftEmployeeController() {
+    }
+
+    public MonthlyShiftEmployeeController(HR_Pulse hrPulse) {
+        this.hrPulse = hrPulse;
+        this.sessionFactory = null;
+    }
+
+    public MonthlyShiftEmployeeController(HR_Pulse hrPulse, SessionFactory sessionFactory) {
+        this.hrPulse = hrPulse;
+        this.sessionFactory = sessionFactory;
+    }
+
     @FXML
-    private ChoiceBox<?> cb_retriveEmployee;
+    private ChoiceBox<Integer> cb_monthSelect;
+
+    @FXML
+    private ListView<Employee> lv_retrieveEmployees;
+    private Integer selectedMonth;
+    private Employee selectedEmployee;
+    private ObservableList<Employee> employeeObservableList;
+
+
+    @FXML
+    public void initialize() {
+        // Populate the ChoiceBox with months
+        ObservableList<Integer> months = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+        cb_monthSelect.setItems(months);
+
+        // Initialize the employee list
+        List<Employee> employeeList = retrieveEmployees();
+        employeeObservableList = FXCollections.observableArrayList(employeeList);
+
+        // Set up the ListView to display the employee details
+        lv_retrieveEmployees.setItems(employeeObservableList);
+        lv_retrieveEmployees.setCellFactory(param -> new ListCell<Employee>() {
+            @Override
+            protected void updateItem(Employee item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(String.format("שם פרטי: %-15s | שם משפחה: %-15s | ת.ז: %s",
+                            item.getFirstName(), item.getLastName(), item.getEmployeeId()));
+                }
+            }
+        });
+        // Set up the layout direction to right-to-left
+        lv_retrieveEmployees.setStyle("-fx-alignment: CENTER-LEFT;");
+
+        // Set up the selection model for the ListView
+        lv_retrieveEmployees.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            selectedEmployee = newValue;
+        });
+
+        // Set up the selection model for the ChoiceBox
+        cb_monthSelect.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            selectedMonth = newValue;
+        });
+    }
+
+    public Integer getSelectedMonth() {
+        return selectedMonth;
+    }
+
+    public Employee getSelectedEmployee() {
+        return selectedEmployee;
+    }
 
     @FXML
     void back_btn(ActionEvent event) throws IOException {
@@ -18,6 +105,47 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
 
     @FXML
     void showListClicked(ActionEvent event) {
+        try {
+            // Load the MySQL JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
 
+            // Establish a connection to the MySQL database
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hrpulsedb", "root", "0523239955");
+            // Path to the JR XML file (JasperReports XML template)
+            String reportPath = "EmployeeShiftReport.jrxml";
+
+            JasperDesign jd = JRXmlLoader.load(reportPath);
+            Integer employeeId= getSelectedEmployee().getEmployeeId();
+
+            String sql = "SELECT e.id AS employee_id, " +
+                    "e.first_name, " +
+                    "e.last_name, " +
+                    "esd.start_of_shift, " +
+                    "esd.end_of_shift, " +
+                    "esd.total_work_hours " +
+                    "FROM employees e " +
+                    "JOIN employeeshiftdata esd ON e.employee_id = esd.employee_id " +
+                    "WHERE e.employee_id = " + employeeId +
+                    " AND MONTH(STR_TO_DATE(esd.date, '%d/%m/%Y')) = " + selectedMonth;
+
+            JRDesignQuery newQuery = new JRDesignQuery();
+            newQuery.setText(sql);
+            jd.setQuery(newQuery);
+
+            // Compile the JRXML file into a JasperReport object
+            JasperReport jr = JasperCompileManager.compileReport(jd);
+
+            // Fill the report with data and create a JasperPrint object
+            JasperPrint jp = JasperFillManager.fillReport(jr, null, connection);
+
+            // View the JasperPrint object using JasperViewer
+            JasperViewer.viewReport(jp, false);
+
+            // Close the database connection
+            connection.close();
+
+        } catch (ClassNotFoundException | SQLException | JRException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -8,6 +8,7 @@ module com.example.hrpulse {
     requires java.naming;
     requires java.persistence;
     requires jasperreports;
+    requires mysql.connector.j;
 
 
     opens com.example.hrpulse to javafx.fxml;
