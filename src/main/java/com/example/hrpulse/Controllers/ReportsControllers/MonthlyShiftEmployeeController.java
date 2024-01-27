@@ -5,8 +5,7 @@ import com.example.hrpulse.Services.Interfaces.ReportsNavigators;
 import com.example.hrpulse.Services.Objects.Employee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -15,7 +14,6 @@ import net.sf.jasperreports.view.JasperViewer;
 import org.hibernate.SessionFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ListCell;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -105,6 +103,12 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
 
     @FXML
     void showListClicked(ActionEvent event) {
+
+        if (selectedMonth == null) {
+            showAlert("Please select a month before continuing.");
+            return;
+        }
+
         try {
             // Load the MySQL JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
@@ -121,6 +125,7 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
             String sql = "SELECT e.id AS employee_id, " +
                     "e.first_name, " +
                     "e.last_name, " +
+                    "esd.date, " +
                     "esd.start_of_shift, " +
                     "esd.end_of_shift, " +
                     "esd.total_work_hours " +
@@ -149,6 +154,12 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
         } catch (ClassNotFoundException | SQLException | JRException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    // Helper method to show an alert
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        alert.showAndWait();
     }
 
 }
