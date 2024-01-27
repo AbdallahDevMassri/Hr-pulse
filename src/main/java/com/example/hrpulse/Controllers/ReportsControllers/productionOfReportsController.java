@@ -47,10 +47,10 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
             Class.forName("com.mysql.jdbc.Driver");
 
             // Establish a connection to the MySQL database
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hrpulsedb", "root", "0523239955");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/pulsedb", "root", "hrpulse123");
 
             // Path to the JR XML file (JasperReports XML template)
-            String reportPath = "EmployeeReport.jr xml";
+            String reportPath = "emo2.jrxml";
 
             // Compile the JRXML file into a JasperReport object
             JasperReport jr = JasperCompileManager.compileReport(reportPath);

@@ -110,12 +110,13 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
             Class.forName("com.mysql.jdbc.Driver");
 
             // Establish a connection to the MySQL database
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hrpulsedb", "root", "0523239955");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/pulsedb", "root", "hrpulse123");
+
             // Path to the JR XML file (JasperReports XML template)
-            String reportPath = "EmployeeShiftReport.jrxml";
+            String reportPath = "emo2.jrxml";
 
             JasperDesign jd = JRXmlLoader.load(reportPath);
-            Integer employeeId= getSelectedEmployee().getEmployeeId();
+            Integer employeeId = getSelectedEmployee().getEmployeeId();
 
             String sql = "SELECT e.id AS employee_id, " +
                     "e.first_name, " +
@@ -125,8 +126,9 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
                     "esd.total_work_hours " +
                     "FROM employees e " +
                     "JOIN employeeshiftdata esd ON e.employee_id = esd.employee_id " +
-                    "WHERE e.employee_id = " + employeeId +
-                    " AND MONTH(STR_TO_DATE(esd.date, '%d/%m/%Y')) = " + selectedMonth;
+                    "WHERE e.employee_id = " + employeeId;
+
+            // Your updated SQL query goes here
 
             JRDesignQuery newQuery = new JRDesignQuery();
             newQuery.setText(sql);
@@ -148,4 +150,5 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
             throw new RuntimeException(e);
         }
     }
+
 }
