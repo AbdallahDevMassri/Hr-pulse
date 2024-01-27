@@ -207,8 +207,9 @@
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4d8f3062-cac2-4852-9341-fcb0999be7f7"/>
 					</reportElement>
 					<textElement textAlignment="Center"/>
-					<textFieldExpression><![CDATA[$F{formatted_date}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{formatted_date})]]></textFieldExpression>
 				</textField>
+
 
 			</frame>
 			<line>

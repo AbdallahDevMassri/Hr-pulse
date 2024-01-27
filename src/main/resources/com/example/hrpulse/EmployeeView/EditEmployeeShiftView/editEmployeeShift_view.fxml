@@ -25,14 +25,14 @@
             <HBox alignment="CENTER_RIGHT" spacing="20" />
         </VBox>
 
-        <TableView fx:id="tableViewCSVData" layoutX="50.0" layoutY="100.0" minWidth="400" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="140.0">
+        <TableView fx:id="tableViewCSVData" layoutX="51.0" layoutY="100.0" minWidth="400" prefHeight="260.0" prefWidth="1085.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="51.0" AnchorPane.topAnchor="140.0">
             <columns>
-                <TableColumn fx:id="tc_totalWorkHrs" maxWidth="216.00009155273438" minWidth="100.0" prefWidth="141.33340454101562" text="סה'כ שעות" />
-                <TableColumn fx:id="tc_breakTime" maxWidth="200.0" minWidth="100.0" prefWidth="122.66668701171875" text="זמן הפסקה" />
-                <TableColumn fx:id="tc_exitHour" maxWidth="200.0" minWidth="100.0" prefWidth="150.0" text="שעת יציאה" />
-                <TableColumn fx:id="tc_enterHour" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="שעת כניסה" />
-                <TableColumn fx:id="tc_date" maxWidth="200.0" minWidth="150.0" prefWidth="150.0" text="תאריך" />
-                <TableColumn fx:id="tc_employeeId" maxWidth="200.0" minWidth="73.99993896484375" prefWidth="122.66644287109375" text="ת.ז" />
+                <TableColumn fx:id="tc_totalWorkHrs" maxWidth="305.0" minWidth="100.0" prefWidth="192.0" text="סה'כ שעות" />
+                <TableColumn fx:id="tc_breakTime" maxWidth="367.0" minWidth="100.0" prefWidth="183.0" text="זמן הפסקה" />
+                <TableColumn fx:id="tc_exitHour" maxWidth="427.0" minWidth="100.0" prefWidth="163.0" text="שעת יציאה" />
+                <TableColumn fx:id="tc_enterHour" maxWidth="371.0" minWidth="86.0" prefWidth="156.0" text="שעת כניסה" />
+                <TableColumn fx:id="tc_date" maxWidth="351.0" minWidth="127.0" prefWidth="141.0" text="תאריך" />
+                <TableColumn fx:id="tc_employeeId" maxWidth="362.0" minWidth="73.99993896484375" prefWidth="151.0" text="ת.ז" />
             </columns>
         </TableView>
 

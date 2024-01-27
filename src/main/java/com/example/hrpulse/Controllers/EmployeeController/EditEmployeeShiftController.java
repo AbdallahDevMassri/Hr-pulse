@@ -210,7 +210,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
         // Setup delete column with a delete button
         deleteColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button deleteButton = new Button("Delete");
+            private final Button deleteButton = new Button("מחיקה");
 
             {
                 // Set action for the delete button
@@ -265,9 +265,9 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     private void handleDeleteButton(CsvRow selectedRow) {
         // Display a confirmation dialog before deleting the row
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Row");
+        alert.setTitle("מחק שורה");
         alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to delete this row?");
+        alert.setContentText("האם אתה בטוח שברצונך למחוק שורה זו?");
 
         // Process the user's choice from the confirmation dialog
         Optional<ButtonType> result = alert.showAndWait();
@@ -277,11 +277,11 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
                 uploadCsvFile.removeRowFromCsvAndDatabase(selectedRow);
                 tableViewCSVData.getItems().remove(selectedRow);
                 tableViewCSVData.getSelectionModel().clearSelection();
-                showAlert("Row deleted successfully.");
+                showAlert("השורה ננמחקה בהצלחה.");
 
             } catch (Exception e) {
                 e.printStackTrace();
-                showAlert("Error occurred while deleting the row.");
+                showAlert("שגיאה בניסיון למחיקת שורה");
             }
         }
     }
@@ -294,11 +294,11 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     @FXML
     private void addRowButtonClicked(ActionEvent event) {
         // Create a new CsvRow with default values
-        CsvRow newRow = new CsvRow("g", "", "", "", "", "");
+        CsvRow newRow = new CsvRow("", "", "", "", "", "");
 
         // Check for duplicate in the TableView
         if (isDuplicateRowInTableView(newRow)) {
-            showAlert("This date of the employee is already in the TableView. Please edit the existing row instead.");
+            showAlert("התאריך הזה כבר קיים, אנא שנה תאריך או מחק ישן והכנס שורה חדשה");
             return;
         }
 
@@ -358,7 +358,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             // Load last saved data from the database
             List<CsvRow> lastSavedData = DatabaseManager.loadLastSavedData("employeeshiftdata", CsvRow.class);
             if (lastSavedData.isEmpty()) {
-                showAlert("No last saved data found in the database.");
+                showAlert("לא נמצאו נתונים אחרונים להצגה מהמסד נתונים");
             } else {
                 // Check if the database is empty and save all data to it
                 if (DatabaseManager.isDatabaseEmpty("employeeshiftdata")) {
@@ -370,7 +370,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
                 }
             }
         } else {
-            showAlert("TableView is already loaded. Cannot load last saved data.");
+            showAlert("לא ניתן להציג נתונים אחרונים כי הטבלה כבר בשימוש");
         }
     }
 
@@ -406,7 +406,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
                     // Check validity and duplicates for externally added rows
                     if (!isValidRow(row) || isDuplicateRow(row)) {
                         allExternallyAddedRowsValid = false;
-                        showAlert("Invalid or duplicate data found. Please correct and try again.");
+                        showAlert("נתונים שגויים או שיש כפילות בנתונים, אנא בדוק ושנה בהתאם");
                         break;
                     }
                 }
@@ -427,11 +427,11 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
             // Save all data to Database
             DatabaseManager.saveCSVDataToDatabase("employeeshiftdata", convertToStringCsv(tableViewCSVData.getItems()));
 
-            showAlert("Changes saved to both CSV file and database.");
+            showAlert("הנתונים נשמרו במסד הנתונים ובקובץ החיצוני בהצלחה.");
 
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error occurred while saving changes.");
+            showAlert("נוצרה שגיאה במהלך שמירת הנתונים, נסה שנית");
         }
     }
 
@@ -495,7 +495,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
         // Check if the employee ID exists in the employee table
         if (!employeeExists(row.getEmployeeId())) {
-            showAlert("Employee with ID " + row.getEmployeeId() + " does not exist in the employee table - please delete the row and try again.");
+            showAlert( "עובד עם ת.ז הנ'ל: " +  row.getEmployeeId() + " לא נמצא במערכת, אנא מחק שורה ונסה שנית ");
             return false;
         }
 
@@ -629,6 +629,8 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         // Check for duplicate in the TableView
         if (isDuplicateRowInTableView(editedRow)) {
             showAlert("This combination of date and employee ID already exists in the TableView. Please edit the existing row instead.");
+            showAlert("העובד הזה כבר רשום במערכת בתאריך הזה, אנא ערוך לתאריך אחר או מחק את התאריך הקודם כדי לעדכן תאריך/מידע זהה והמשך בפעולות.");
+
             // Rollback the edit to prevent adding a duplicate row
             tableViewCSVData.getItems().set(event.getTablePosition().getRow(), editedRow);
             return;
@@ -668,7 +670,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
         // Check if the date matches the expected format
         if (!date.matches(dateFormatPattern)) {
-            showAlert("Invalid date format. Please use the format dd/mm/yyyy.");
+            showAlert("dd/mm/yyyy :פורמט תאריך שגוי, אנא הכנס בפורמט הבא: dd/mm/yyyy");
             return false;
         }
 
@@ -687,7 +689,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
         // Check if the hours match the expected format
         if (!hours.matches(hoursFormatPattern)) {
-            showAlert("Invalid hours format. Please use the format h:mm.");
+            showAlert(" פורמט שעות שגוי, אנא הכנס בפורמט הבא: h:mm");
             return false;
         }
 
@@ -749,7 +751,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         if (!employeeId.isEmpty() && employeeId.matches("\\d+")) {
             loadLastSavedDataByEmployeeIdIntoTableview(employeeId);
         } else {
-            showAlert("Invalid employee ID. Please enter a numeric value.");
+            showAlert("ת.ז עובד שגוי - אנא הכנס מספר בעל 9 ספרות");
         }
     }
 
@@ -762,7 +764,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
         List<CsvRow> data = DatabaseManager.loadLastSavedDataByEmployeeId("employeeshiftdata", CsvRow.class, employeeId);
 
         if (data.isEmpty()) {
-            showAlert("No data found for the specified employee ID.");
+            showAlert("לא נמצאו נתונים לעובד הנ'ל.");
         } else {
             ObservableList<CsvRow> dataModels = FXCollections.observableArrayList(data);
             tableViewCSVData.setItems(dataModels);

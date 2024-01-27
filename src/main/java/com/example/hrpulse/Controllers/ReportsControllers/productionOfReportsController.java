@@ -50,7 +50,7 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/pulsedb", "root", "hrpulse123");
 
             // Path to the JR XML file (JasperReports XML template)
-            String reportPath = "emo2.jrxml";
+            String reportPath = "EmployeeReport.jrxml";
 
             // Compile the JRXML file into a JasperReport object
             JasperReport jr = JasperCompileManager.compileReport(reportPath);

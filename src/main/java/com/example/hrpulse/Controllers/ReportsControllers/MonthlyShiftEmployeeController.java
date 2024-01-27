@@ -6,6 +6,7 @@ import com.example.hrpulse.Services.Objects.Employee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -67,8 +68,22 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(String.format("שם פרטי: %-15s | שם משפחה: %-15s | ת.ז: %s",
-                            item.getFirstName(), item.getLastName(), item.getEmployeeId()));
+                    GridPane gridPane = new GridPane();
+                    gridPane.setHgap(10);
+
+                    Label firstNameLabel = new Label("שם פרטי:");
+                    Label lastNameLabel = new Label("שם משפחה:");
+                    Label idLabel = new Label("ת.ז:");
+
+                    Label firstNameValue = new Label(item.getFirstName());
+                    Label lastNameValue = new Label(item.getLastName());
+                    Label idValue = new Label(String.valueOf(item.getEmployeeId()));
+
+                    gridPane.addColumn(0, firstNameLabel, lastNameLabel, idLabel);
+                    gridPane.addColumn(1, firstNameValue, lastNameValue, idValue);
+
+                    setText(null);
+                    setGraphic(gridPane);
                 }
             }
         });
@@ -102,7 +117,7 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
     @FXML
     void showListClicked(ActionEvent event) {
         if (selectedMonth == null || selectedEmployee == null) {
-            showAlert("Please select both a month and an employee before continuing.");
+            showAlert("אנא בחר עובד  או חודש בכדי להמשיך");
             return;
         }
 
@@ -139,6 +154,7 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
 
                 // Execute the query
                 ResultSet resultSet = pstmt.executeQuery();
+
 
                 JRDesignQuery newQuery = new JRDesignQuery();
                 newQuery.setText(sql);

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.ReportsControllers.productionOfReportsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.ReportsControllers.productionOfReportsController">
     <top>
         <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="20.0" maxWidth="100.0" minHeight="20.0" minWidth="100.0" text="הפקת דוחות" BorderPane.alignment="CENTER" />
     </top>
@@ -33,8 +33,8 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button fx:id="employee_reports_btn" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onAction="#employeeRepotsClicked" text="דוחות עובדים " />
-                <Button fx:id="shiftEmployee_reports_btn" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onAction="#shiftEmployeeReportsClicked" text="דוח שעות עובד " GridPane.rowIndex="1" />
+                <Button fx:id="employee_reports_btn" maxHeight="30.0" maxWidth="175.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onAction="#employeeRepotsClicked" prefHeight="30.0" prefWidth="175.0" text="דוח פרטי העובדים בחברה " />
+                <Button fx:id="shiftEmployee_reports_btn" maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" onAction="#shiftEmployeeReportsClicked" text="דוח שעות חודשי של עובד " GridPane.rowIndex="1" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

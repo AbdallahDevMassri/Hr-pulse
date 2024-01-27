@@ -12,7 +12,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.ReportsControllers.MonthlyShiftEmployeeController" nodeOrientation="RIGHT_TO_LEFT">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="745.0"
+            xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.ReportsControllers.MonthlyShiftEmployeeController"
+            nodeOrientation="RIGHT_TO_LEFT">
+
     <bottom>
         <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <buttons>
@@ -45,6 +48,7 @@
             </padding>
         </ButtonBar>
     </bottom>
+
     <top>
         <HBox alignment="CENTER_LEFT" spacing="20.0" BorderPane.alignment="CENTER">
             <children>
@@ -61,7 +65,9 @@
             </padding>
         </HBox>
     </top>
+
     <center>
         <ListView fx:id="lv_retrieveEmployees" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" />
+
     </center>
 </BorderPane>
