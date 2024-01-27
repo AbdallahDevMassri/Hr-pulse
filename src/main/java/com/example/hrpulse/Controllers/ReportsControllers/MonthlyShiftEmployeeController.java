@@ -16,9 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
@@ -103,9 +101,8 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
 
     @FXML
     void showListClicked(ActionEvent event) {
-
-        if (selectedMonth == null) {
-            showAlert("Please select a month before continuing.");
+        if (selectedMonth == null || selectedEmployee == null) {
+            showAlert("Please select both a month and an employee before continuing.");
             return;
         }
 
@@ -120,41 +117,50 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
             String reportPath = "emo2.jrxml";
 
             JasperDesign jd = JRXmlLoader.load(reportPath);
-            Integer employeeId = getSelectedEmployee().getEmployeeId();
+            Integer employeeId = selectedEmployee.getEmployeeId();
 
-            String sql = "SELECT e.id AS employee_id, " +
+            // Modified SQL query to include the selected month
+            String sql = "SELECT e.employee_id AS employee_id, " +
                     "e.first_name, " +
                     "e.last_name, " +
-                    "esd.date, " +
+                    "STR_TO_DATE(esd.date, '%d/%m/%Y') AS formatted_date, " +
                     "esd.start_of_shift, " +
                     "esd.end_of_shift, " +
                     "esd.total_work_hours " +
                     "FROM employees e " +
                     "JOIN employeeshiftdata esd ON e.employee_id = esd.employee_id " +
-                    "WHERE e.employee_id = " + employeeId;
+                    "WHERE e.employee_id = ? AND MONTH(STR_TO_DATE(esd.date, '%d/%m/%Y')) = ?";
 
-            // Your updated SQL query goes here
 
-            JRDesignQuery newQuery = new JRDesignQuery();
-            newQuery.setText(sql);
-            jd.setQuery(newQuery);
+            // Using prepared statement to avoid SQL injection
+            try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+                pstmt.setInt(1, employeeId);
+                pstmt.setInt(2, selectedMonth);
 
-            // Compile the JRXML file into a JasperReport object
-            JasperReport jr = JasperCompileManager.compileReport(jd);
+                // Execute the query
+                ResultSet resultSet = pstmt.executeQuery();
 
-            // Fill the report with data and create a JasperPrint object
-            JasperPrint jp = JasperFillManager.fillReport(jr, null, connection);
+                JRDesignQuery newQuery = new JRDesignQuery();
+                newQuery.setText(sql);
+                jd.setQuery(newQuery);
 
-            // View the JasperPrint object using JasperViewer
-            JasperViewer.viewReport(jp, false);
+                // Compile the JRXML file into a JasperReport object
+                JasperReport jr = JasperCompileManager.compileReport(jd);
 
-            // Close the database connection
-            connection.close();
+                // Fill the report with data and create a JasperPrint object
+                JasperPrint jp = JasperFillManager.fillReport(jr, null, new JRResultSetDataSource(resultSet));
 
+                // View the JasperPrint object using JasperViewer
+                JasperViewer.viewReport(jp, false);
+
+                // Close the database connection
+                connection.close();
+            }
         } catch (ClassNotFoundException | SQLException | JRException e) {
             throw new RuntimeException(e);
         }
     }
+
 
     // Helper method to show an alert
     private void showAlert(String message) {

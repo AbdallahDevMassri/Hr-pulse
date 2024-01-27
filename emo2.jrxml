@@ -28,9 +28,10 @@
 		<property name="com.jaspersoft.studio.field.label" value="start_of_shift"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="employeeshiftdata"/>
 	</field>
-	<field name="date" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="date"/>
-		<property name="com.jaspersoft.studio.field.label" value="date"/>
+
+	<field name="formatted_date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="formatted_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="formatted_date"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="employeeshiftdata"/>
 	</field>
 	<field name="last_name" class="java.lang.String">
@@ -206,8 +207,9 @@
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4d8f3062-cac2-4852-9341-fcb0999be7f7"/>
 					</reportElement>
 					<textElement textAlignment="Center"/>
-					<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{formatted_date}]]></textFieldExpression>
 				</textField>
+
 			</frame>
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="10" y="16" width="545" height="1" uuid="2b97af27-2a1e-491f-a0f4-b2549a3510ee"/>
