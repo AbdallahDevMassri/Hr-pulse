@@ -62,7 +62,6 @@ public class Department {
         return employees;
     }
 
-
     @Override
     public String toString() {
         return "Department{" +

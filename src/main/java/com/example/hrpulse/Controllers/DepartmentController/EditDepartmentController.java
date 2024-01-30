@@ -7,24 +7,33 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.hibernate.SessionFactory;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.hrpulse.HR_Pulse.retrieveDepartments;
 
+/**
+ * The `EditDepartmentController` class handles the logic for editing and removing departments.
+ */
 public class EditDepartmentController implements Navigators {
     private HR_Pulse hrPulse;
     private SessionFactory sessionFactory;
-    public EditDepartmentController(){}
-    public EditDepartmentController(HR_Pulse hrPulse){
+
+    public EditDepartmentController() {
+    }
+
+    public EditDepartmentController(HR_Pulse hrPulse) {
         this.hrPulse = hrPulse;
-        this.sessionFactory =null;
+        this.sessionFactory = null;
     }
-    public EditDepartmentController(HR_Pulse hrPulse, SessionFactory sessionFactory){
-        this.hrPulse=hrPulse;
-        this.sessionFactory=sessionFactory;
+
+    public EditDepartmentController(HR_Pulse hrPulse, SessionFactory sessionFactory) {
+        this.hrPulse = hrPulse;
+        this.sessionFactory = sessionFactory;
     }
+
     @FXML
     private Button btn_editButton;
 
@@ -46,8 +55,11 @@ public class EditDepartmentController implements Navigators {
     @FXML
     private TextField tf_departmentDescription;
 
-    private List<Department> departments; // the  list of departments
+    private List<Department> departments; // the list of departments
 
+    /**
+     * Initializes the controller.
+     */
     @FXML
     public void initialize() {
         departments = retrieveDepartments();
@@ -106,11 +118,17 @@ public class EditDepartmentController implements Navigators {
         btn_removeButton.setVisible(false);
     }
 
+    /**
+     * Handles the back button click event, navigating back to the manage department page.
+     */
     @FXML
     void backButtonClicked(ActionEvent event) throws IOException {
         navigateToManageDepartment(event);
     }
 
+    /**
+     * Handles the edit button click event, updating the selected department.
+     */
     @FXML
     void editButtonClicked(ActionEvent event) {
         String selectedDepartmentName = cb_departmentShow.getValue();
@@ -133,15 +151,17 @@ public class EditDepartmentController implements Navigators {
                 cb_departmentShow.getItems().addAll(departmentNames);
 
                 // Display confirmation
-                System.out.println("Department updated successfully.");
+                showConfirmationDialog("Removed successfully!", "המחלקה הוסרה בהצלחה !");
             } else {
                 // Display error
-                System.out.println("Error updating department.");
+                showErrorDialog("Error", "שגיאה במחיקת המחלקה !");
             }
         }
     }
 
-
+    /**
+     * Handles the remove button click event, removing the selected department.
+     */
     @FXML
     void removeButtonClicked(ActionEvent event) {
         String selectedDepartmentName = cb_departmentShow.getValue();
@@ -160,15 +180,14 @@ public class EditDepartmentController implements Navigators {
                 cb_departmentShow.getItems().addAll(departmentNames);
 
                 // Display confirmation
-                showConfirmationDialog("Removed successfully !","המחלקה הוסרה בהצלחה !");
-
+                showConfirmationDialog("Removed successfully!", "המחלקה הוסרה בהצלחה !");
             } else {
                 // Display error
-                showErrorDialog("Error","שגיאה במחיקת המחלקה !");
-
+                showErrorDialog("Error", "שגיאה במחיקת המחלקה !");
             }
         }
     }
+
     // Define the retrieveDepartmentNames method
     public static List<String> retrieveDepartmentNames(List<Department> departments) {
         List<String> departmentNames = new ArrayList<>();
@@ -179,8 +198,9 @@ public class EditDepartmentController implements Navigators {
 
         return departmentNames;
     }
+
     // Helper method to show a confirmation dialog
-    private void showConfirmationDialog(String title,String message ) {
+    private void showConfirmationDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -189,12 +209,11 @@ public class EditDepartmentController implements Navigators {
     }
 
     // Helper method to show an error dialog
-    private void showErrorDialog(String title,String message) {
+    private void showErrorDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
-
 }

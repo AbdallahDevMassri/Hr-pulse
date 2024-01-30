@@ -27,7 +27,7 @@
                <GridPane.margin>
                   <Insets right="40.0" />
                </GridPane.margin></Button>
-            <Button fx:id="reportsButton" alignment="CENTER" mnemonicParsing="false" onAction="#NavigateToReportsPage" prefHeight="60.0" prefWidth="130.0" text="ניהול דוחות ובקשות " GridPane.rowIndex="2">
+            <Button fx:id="reportsButton" alignment="CENTER" mnemonicParsing="false" onAction="#NavigateToReportsPage" prefHeight="60.0" prefWidth="252.0" text="ניהול דוחות ובקשות (Future Feature)" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets right="40.0" />
                </GridPane.margin></Button>

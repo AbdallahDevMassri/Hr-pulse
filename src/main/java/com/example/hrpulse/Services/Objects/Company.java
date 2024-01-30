@@ -7,7 +7,6 @@ public class Company {
     private List<Department> departments= new ArrayList<>();
     private List<Employee>employees=new ArrayList<>();
     private Company() {
-        // Any initialization code can go here
     }
 public static Company getMyCompany(){
     if (myCompany == null) {

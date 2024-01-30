@@ -58,7 +58,7 @@
             <Label text="מספר סניף : " GridPane.columnIndex="1" GridPane.rowIndex="15" />
             <TextField fx:id="tf_sneefBankCode" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="15" />
             <Label text="מספר חשבון" GridPane.columnIndex="1" GridPane.rowIndex="16" />
-            <TextField fx:id="tf_acountNumber" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="16" />
+            <TextField fx:id="tf_accountNumber" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="16" />
             <GridPane GridPane.rowIndex="1">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="10.0" prefWidth="450.0" />
@@ -103,6 +103,23 @@
                </rowConstraints>
                <children>
                   <TextField fx:id="tf_employeeID" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                  <Label text="*" textFill="#f2290a" GridPane.halignment="RIGHT">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <GridPane GridPane.rowIndex="4">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="452.0" minWidth="10.0" prefWidth="452.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="321.0" minWidth="10.0" prefWidth="200.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <TextField fx:id="tf_email" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
                   <Label text="*" textFill="#f2290a" GridPane.halignment="RIGHT">
                      <font>
                         <Font size="18.0" />
@@ -169,7 +186,6 @@
             </GridPane>
             <Label text="נסיעות חודשי :" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
             <TextField fx:id="tf_salaryToTravel" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.halignment="RIGHT" GridPane.rowIndex="13" />
-            <TextField fx:id="tf_email" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="4" />
             <DatePicker fx:id="dp_dateOfBirth" maxWidth="200.0" prefHeight="25.0" prefWidth="627.0" GridPane.rowIndex="9" />
             <GridPane GridPane.rowIndex="7">
                <columnConstraints>

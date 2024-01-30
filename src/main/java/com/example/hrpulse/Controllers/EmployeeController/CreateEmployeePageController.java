@@ -6,9 +6,7 @@ import com.example.hrpulse.Services.Objects.Department;
 import com.example.hrpulse.Services.Objects.Employee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import org.hibernate.SessionFactory;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -79,7 +77,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
     @FXML
     private TextField tf_bankNumber;
     @FXML
-    private TextField tf_acountNumber;
+    private TextField tf_accountNumber;
     @FXML
     private TextField tf_sneefBankCode;
 
@@ -169,7 +167,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
 
         try {
             employeeID = Integer.parseInt(employeeIDText);
-            if(employeeIDText.trim().length() != 8){
+            if(employeeIDText.trim().length() != 9){
                 showErrorDialog("ת.ז חייבת להיות 9 ספרות / רק מספרים");
                 return;
             }
@@ -259,7 +257,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
 
         }
         //------------------------------------------------------------------------
-        String acountNumber = tf_acountNumber.getText();
+        String acountNumber = tf_accountNumber.getText();
         //-----------------validate that sneef has just a numbers
         String sneefBankCodeText = tf_sneefBankCode.getText();
         int sneefBankCode = 0;
@@ -385,7 +383,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         tf_perMonth.clear();
         tf_salaryToTravel.clear();
         tf_bankNumber.clear();
-        tf_acountNumber.clear();
+        tf_accountNumber.clear();
         tf_sneefBankCode.clear();
     }
 }

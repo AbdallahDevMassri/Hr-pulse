@@ -16,9 +16,11 @@ import javafx.util.Callback;
  * The `DepartmentCellFactory` class is a custom cell factory for rendering Department objects in a ListView.
  */
 public class DepartmentCellFactory implements Callback<ListView<Department>, ListCell<Department>> {
+
     @Override
     public ListCell<Department> call(ListView<Department> param) {
         return new ListCell<Department>() {
+
             @Override
             protected void updateItem(Department department, boolean empty) {
                 super.updateItem(department, empty);
@@ -26,24 +28,28 @@ public class DepartmentCellFactory implements Callback<ListView<Department>, Lis
                 if (department == null || empty) {
                     setText(null);
                 } else {
-                    // Customize the cell rendering here
+                    // Customize the cell rendering
+
+                    // Label for department name
                     Label departmentLabel = new Label("  שם מחלקה " + department.getDepartmentName());
                     departmentLabel.setAlignment(Pos.CENTER_RIGHT);
 
+                    // Label for department description
                     Label descriptionLabel = new Label(" תיאור מחלקה " + department.getDescription());
                     descriptionLabel.setAlignment(Pos.CENTER_RIGHT);
 
+                    // Label for employee count
                     int employeeCount = department.getEmployees().size();
                     Label countLabel = new Label(" כמות העובדים " + employeeCount);
                     countLabel.setAlignment(Pos.CENTER_RIGHT);
 
+                    // Button to show employees
                     Button showEmployeesButton = new Button(" הצגת העובדים ");
                     showEmployeesButton.setOnAction(event -> showEmployeesDialog(department));
 
                     // Create a horizontal layout for labels and the button
                     HBox hbox = new HBox(10);
-
-                    hbox.getChildren().addAll(showEmployeesButton, countLabel, descriptionLabel,departmentLabel);
+                    hbox.getChildren().addAll(showEmployeesButton, countLabel, descriptionLabel, departmentLabel);
                     hbox.setAlignment(Pos.CENTER);
 
                     setGraphic(hbox);
@@ -53,6 +59,11 @@ public class DepartmentCellFactory implements Callback<ListView<Department>, Lis
         };
     }
 
+    /**
+     * Displays an information dialog with the list of employees in the given department.
+     *
+     * @param department The department for which to show the employees.
+     */
     private void showEmployeesDialog(Department department) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Employees in " + department.getDepartmentName());

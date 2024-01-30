@@ -26,6 +26,9 @@ public class UserController implements Navigators, EmployeeNavigators, ReportsNa
     private Button reportsButton;
 
     @FXML
+    private Button EditEmployeeButton;
+
+    @FXML
     private BorderPane borderPane;
 
     /**
@@ -47,7 +50,7 @@ public class UserController implements Navigators, EmployeeNavigators, ReportsNa
             } else if ("secretary".equals(currentUser.getEmployeeRole())) {
                 // Secretary role
                 applySecretaryStyles();
-            } else {
+            } else if ("manager".equals(currentUser.getEmployeeRole())) {
                 // Manager role
                 applyManagerStyles();
             }
@@ -64,6 +67,7 @@ public class UserController implements Navigators, EmployeeNavigators, ReportsNa
 
     private void hideHeadOfDepartmentButtons() {
         reportsButton.setVisible(false);
+        EditEmployeeButton.setVisible(false);
         // TODO: Add logic to hide other buttons specific to Head of Department
     }
 
@@ -76,6 +80,7 @@ public class UserController implements Navigators, EmployeeNavigators, ReportsNa
     }
 
     private void hideSecretaryButtons() {
+        EditEmployeeButton.setVisible(false);
         // TODO: Add logic to hide buttons specific to Secretary
     }
 

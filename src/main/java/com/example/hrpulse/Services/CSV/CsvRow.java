@@ -64,7 +64,7 @@ public class CsvRow implements DataModel {
 
     /**
      * Constructor for creating CsvRow from a String array.
-     * Initializes fields with values from the array.
+     * Initialize fields with values from the array.
      * Prints an error message for invalid CSV row data.
      *
      * @param rowData The String array containing CSV row data.

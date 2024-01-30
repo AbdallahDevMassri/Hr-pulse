@@ -11,6 +11,7 @@ import java.util.Objects;
 
 public interface ReportsNavigators {
 
+    // ------------------------------ProductionOfReports navigator ------------------------
     default void navigateToProductionOfReportsPage(ActionEvent event) throws IOException {
         Parent ReportPageViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/productionOfReports_view/productionOfReports/productionOfReports_view.fxml")));
         Scene ReportPageViewScene = new Scene(ReportPageViewParent);
@@ -21,6 +22,7 @@ public interface ReportsNavigators {
         mainStage.show();
     }
 
+    // ------------------------------MonthlyShift navigator ------------------------
     default void navigateToMonthlyShiftEmployee(ActionEvent event) throws IOException {
         Parent MonthlyShiftEmployeeViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/productionOfReports_view/productionOfReports/MonthlyShiftEmployee_report.fxml")));
         Scene MonthlyShiftEmployeeViewScene = new Scene(MonthlyShiftEmployeeViewParent);

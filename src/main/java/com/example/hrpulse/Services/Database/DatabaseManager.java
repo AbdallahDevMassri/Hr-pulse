@@ -39,6 +39,10 @@ public class DatabaseManager {
         }
     }
 
+
+
+
+
     /**
      * Saves CSV data to the specified database table.
      *
@@ -265,4 +269,5 @@ public class DatabaseManager {
                 })
                 .collect(Collectors.toList());
     }
+
 }
