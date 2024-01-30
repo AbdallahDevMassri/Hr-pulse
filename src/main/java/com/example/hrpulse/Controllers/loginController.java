@@ -1,6 +1,6 @@
 package com.example.hrpulse.Controllers;
 
-import com.example.hrpulse.HR_Pulse;
+import com.example.hrpulse.Services.Database.DatabaseManager;
 import com.example.hrpulse.Services.Objects.Employee;
 import com.example.hrpulse.Services.Interfaces.Navigators;
 import com.example.hrpulse.Session.UserSession;
@@ -17,26 +17,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
+import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveEmployees;
 
 /**
  * The `loginController` class manages the user interface for the login functionality.
  */
 public class loginController implements Navigators {
-    private HR_Pulse hrPulse;
+    private DatabaseManager databaseManager;
     private SessionFactory sessionFactory;
 
     public loginController() {
         // Default constructor
     }
 
-    public loginController(HR_Pulse hrPulse) {
-        this.hrPulse = hrPulse;
+    public loginController(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
         this.sessionFactory = null;
     }
 
-    public loginController(HR_Pulse hrPulse, SessionFactory sessionFactory) {
-        this.hrPulse = hrPulse;
+    public loginController(DatabaseManager databaseManager, SessionFactory sessionFactory) {
+        this.databaseManager = databaseManager;
         this.sessionFactory = sessionFactory;
     }
 

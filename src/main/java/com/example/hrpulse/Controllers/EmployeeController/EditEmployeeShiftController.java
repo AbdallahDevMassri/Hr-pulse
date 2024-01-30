@@ -18,6 +18,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import java.io.IOException;
 import java.util.*;
+
 import static com.example.hrpulse.HR_Pulse.sessionFactory;
 
 /**
@@ -628,7 +629,6 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
         // Check for duplicate in the TableView
         if (isDuplicateRowInTableView(editedRow)) {
-            showAlert("This combination of date and employee ID already exists in the TableView. Please edit the existing row instead.");
             showAlert("העובד הזה כבר רשום במערכת בתאריך הזה, אנא ערוך לתאריך אחר או מחק את התאריך הקודם כדי לעדכן תאריך/מידע זהה והמשך בפעולות.");
 
             // Rollback the edit to prevent adding a duplicate row
@@ -670,7 +670,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
 
         // Check if the date matches the expected format
         if (!date.matches(dateFormatPattern)) {
-            showAlert("dd/mm/yyyy :פורמט תאריך שגוי, אנא הכנס בפורמט הבא: dd/mm/yyyy");
+            showAlert("dd/mm/yyyy :פורמט תאריך שגוי, אנא הכנס בפורמט הבא");
             return false;
         }
 

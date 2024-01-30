@@ -27,6 +27,5 @@ module com.example.hrpulse {
     opens com.example.hrpulse.Services.CSV;
     exports com.example.hrpulse.Services.Objects;
     exports com.example.hrpulse.Services.Database to com.example.hrpulse.Services.CSV;
-
-
+    opens com.example.hrpulse.Services.Database;
 }

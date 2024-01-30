@@ -1,6 +1,7 @@
 package com.example.hrpulse.Controllers.EmployeeController;
 
 
+import com.example.hrpulse.Services.Database.DatabaseManager;
 import com.example.hrpulse.Services.Interfaces.EmployeeNavigators;
 import com.example.hrpulse.Services.Objects.Employee;
 import com.example.hrpulse.HR_Pulse;
@@ -12,7 +13,8 @@ import org.hibernate.SessionFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
+
+import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveEmployees;
 
 /**
  * The EditEmployeeController handles the logic for editing employee details.
@@ -20,19 +22,20 @@ import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
 public class EditEmployeeController implements EmployeeNavigators {
 
     // Constructors to allow for different ways of initializing the controller
-    private HR_Pulse hrPulse;
+    private DatabaseManager databaseManager;
+
     private SessionFactory sessionFactory;
 
     public EditEmployeeController() {
     }
 
-    public EditEmployeeController(HR_Pulse hrPulse) {
-        this.hrPulse = hrPulse;
+    public EditEmployeeController(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
         this.sessionFactory = null;
     }
 
-    public EditEmployeeController(HR_Pulse hrPulse, SessionFactory sessionFactory) {
-        this.hrPulse = hrPulse;
+    public EditEmployeeController(DatabaseManager databaseManager, SessionFactory sessionFactory) {
+        this.databaseManager = databaseManager;
         this.sessionFactory = sessionFactory;
     }
 
@@ -180,7 +183,7 @@ public class EditEmployeeController implements EmployeeNavigators {
             // Find the employee with the given first name and last name
             Employee selectedEmployee = findEmployeeByName(firstName, lastName);
 
-            hrPulse.employeePDO(selectedEmployee, false);
+            databaseManager.employeePDO(selectedEmployee, false);
 
             // Clear the choice box and hide the grid pane
             cb_retriveEmployee.setValue(null);
@@ -215,7 +218,7 @@ public class EditEmployeeController implements EmployeeNavigators {
             selectedEmployee.getBankInfo().setBankSneefCode(Integer.parseInt(tf_sneefBankCode.getText()));
 
 
-            hrPulse.employeePDO(selectedEmployee, true);
+            databaseManager.employeePDO(selectedEmployee, true);
 
             // Clear the choice box and hide the grid pane
             cb_retriveEmployee.setValue(null);

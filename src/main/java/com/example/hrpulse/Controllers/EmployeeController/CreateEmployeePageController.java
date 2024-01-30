@@ -1,6 +1,6 @@
 package com.example.hrpulse.Controllers.EmployeeController;
 
-import com.example.hrpulse.HR_Pulse;
+import com.example.hrpulse.Services.Database.DatabaseManager;
 import com.example.hrpulse.Services.Interfaces.EmployeeNavigators;
 import com.example.hrpulse.Services.Objects.Department;
 import com.example.hrpulse.Services.Objects.Employee;
@@ -14,8 +14,9 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import static com.example.hrpulse.Controllers.DepartmentController.EditDepartmentController.retrieveDepartmentNames;
-import static com.example.hrpulse.HR_Pulse.retrieveDepartments;
-import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
+import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveDepartments;
+import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveEmployees;
+
 
 /**
  * The CreateEmployeePageController handles the logic for creating a new employee.
@@ -23,21 +24,21 @@ import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
 public class CreateEmployeePageController implements EmployeeNavigators {
 
     // Constructors to allow for different ways of initializing the controller
-    private HR_Pulse hrPulse;
+    private DatabaseManager databaseManager;
     private SessionFactory sessionFactory;
 
     public CreateEmployeePageController() {
         // Default constructor
     }
 
-    public CreateEmployeePageController(HR_Pulse hrPulse) {
-        this.hrPulse = hrPulse;
+    public CreateEmployeePageController(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
         // Initialize the controller here if needed
         this.sessionFactory = null; // Or initialize it if needed
     }
 
-    public CreateEmployeePageController(HR_Pulse hrPulse, SessionFactory sessionFactory) {
-        this.hrPulse = hrPulse;
+    public CreateEmployeePageController(DatabaseManager databaseManager, SessionFactory sessionFactory) {
+        this.databaseManager = databaseManager;
         this.sessionFactory = sessionFactory;
     }
 
@@ -309,7 +310,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
 //        selectedDepartment.addEmployee(employee);
         // Save the data to the database using HR_Pulse's method
 
-        hrPulse.performDatabaseOperations(employee);
+        databaseManager.performDatabaseOperations(employee);
 
         // Optionally, display a confirmation message
         showConfirmationDialog("נתוני העובד התווספו בהצלחה .");

@@ -31,7 +31,7 @@ public class UploadCsvFile {
     private boolean isTableViewLoaded = false;
 
     // Default CSV file path
-    private String csvFilePath = "C:\\Users\\User31.8.23\\Desktop\\CSV file for project HR-Pulse\\employees - in-out.csv";
+    private String csvFilePath = "C:\\CSV file for project HR-Pulse\\employees - in-out.csv";
 
     private ObservableList<CsvRow> additionalRows = FXCollections.observableArrayList();
     private List<CsvRow> externallyAddedRows = new ArrayList<>();

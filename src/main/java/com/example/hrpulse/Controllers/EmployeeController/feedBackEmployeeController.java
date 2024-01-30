@@ -1,6 +1,6 @@
 package com.example.hrpulse.Controllers.EmployeeController;
 
-import com.example.hrpulse.HR_Pulse;
+import com.example.hrpulse.Services.Database.DatabaseManager;
 import com.example.hrpulse.Services.Interfaces.EmployeeNavigators;
 import com.example.hrpulse.Services.Objects.Employee;
 import com.example.hrpulse.Session.UserSession;
@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
+import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveEmployees;
+
 
 /**
  * The `feedBackEmployeeController` class manages the user interface for providing feedback to employees.
@@ -26,7 +27,7 @@ import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
 public class feedBackEmployeeController implements EmployeeNavigators {
 
     // Constructors to allow for different ways of initializing the controller
-    private HR_Pulse hrPulse;
+    private DatabaseManager databaseManager;
     private SessionFactory sessionFactory;
 
     @FXML

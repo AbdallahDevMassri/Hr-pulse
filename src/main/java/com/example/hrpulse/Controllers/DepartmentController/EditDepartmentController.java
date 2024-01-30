@@ -1,6 +1,6 @@
 package com.example.hrpulse.Controllers.DepartmentController;
 
-import com.example.hrpulse.HR_Pulse;
+import com.example.hrpulse.Services.Database.DatabaseManager;
 import com.example.hrpulse.Services.Interfaces.Navigators;
 import com.example.hrpulse.Services.Objects.Department;
 import javafx.event.ActionEvent;
@@ -12,25 +12,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.hrpulse.HR_Pulse.retrieveDepartments;
+import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveDepartments;
 
 /**
  * The `EditDepartmentController` class handles the logic for editing and removing departments.
  */
 public class EditDepartmentController implements Navigators {
-    private HR_Pulse hrPulse;
+    private DatabaseManager databaseManager;
     private SessionFactory sessionFactory;
 
     public EditDepartmentController() {
     }
 
-    public EditDepartmentController(HR_Pulse hrPulse) {
-        this.hrPulse = hrPulse;
+    public EditDepartmentController(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
         this.sessionFactory = null;
     }
 
-    public EditDepartmentController(HR_Pulse hrPulse, SessionFactory sessionFactory) {
-        this.hrPulse = hrPulse;
+    public EditDepartmentController(DatabaseManager databaseManager, SessionFactory sessionFactory) {
+        this.databaseManager = databaseManager;
         this.sessionFactory = sessionFactory;
     }
 
@@ -142,7 +142,7 @@ public class EditDepartmentController implements Navigators {
                 selectedDepartment.setDescription(tf_departmentDescription.getText());
 
                 // Call the method in HR_Pulse to update the department
-                HR_Pulse.performDatabaseOperations(selectedDepartment, true);
+                com.example.hrpulse.Services.Database.DatabaseManager.performDatabaseOperations(selectedDepartment, true);
 
                 // Refresh the choice box
                 departments = retrieveDepartments();
@@ -171,7 +171,7 @@ public class EditDepartmentController implements Navigators {
 
             if (selectedDepartment != null) {
                 // Call the method in HR_Pulse to remove the department
-                HR_Pulse.performDatabaseOperations(selectedDepartment, false);
+                com.example.hrpulse.Services.Database.DatabaseManager.performDatabaseOperations(selectedDepartment, false);
 
                 // Refresh the choice box
                 departments = retrieveDepartments();

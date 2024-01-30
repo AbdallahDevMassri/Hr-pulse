@@ -1,6 +1,6 @@
 package com.example.hrpulse.Controllers.DepartmentController;
 
-import com.example.hrpulse.HR_Pulse;
+import com.example.hrpulse.Services.Database.DatabaseManager;
 import com.example.hrpulse.Services.Interfaces.Navigators;
 import com.example.hrpulse.Services.Objects.Department;
 import javafx.event.ActionEvent;
@@ -17,20 +17,20 @@ import java.io.IOException;
 public class CreateNewDepartmentController implements Navigators {
 
     // Constructors to allow for different ways of initializing the controller
-    private HR_Pulse hrPulse;
+    private DatabaseManager databaseManager;
     private SessionFactory sessionFactory;
 
     public CreateNewDepartmentController() {
 
     }
 
-    public CreateNewDepartmentController(HR_Pulse hrPulse) {
-        this.hrPulse = hrPulse;
+    public CreateNewDepartmentController(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
         this.sessionFactory = null;
     }
 
-    public CreateNewDepartmentController(HR_Pulse hrPulse, SessionFactory sessionFactory) {
-        this.hrPulse = hrPulse;
+    public CreateNewDepartmentController(DatabaseManager databaseManager, SessionFactory sessionFactory) {
+        this.databaseManager = databaseManager;
         this.sessionFactory = sessionFactory;
     }
 
@@ -62,7 +62,7 @@ public class CreateNewDepartmentController implements Navigators {
         department.setDescription(description);
 
         // Perform database operations to save the department
-        hrPulse.performDatabaseOperations(department);
+        databaseManager.performDatabaseOperations(department);
 
         // Show a confirmation dialog
         showConfirmationDialog("נתוני המחלקה התווספו בהצלחה .");

@@ -1,6 +1,6 @@
 package com.example.hrpulse.Controllers.DepartmentController;
 
-import com.example.hrpulse.HR_Pulse;
+import com.example.hrpulse.Services.Database.DatabaseManager;
 import com.example.hrpulse.Services.Interfaces.Navigators;
 import com.example.hrpulse.Services.Objects.Company;
 import com.example.hrpulse.Services.Objects.Department;
@@ -16,36 +16,32 @@ import org.hibernate.SessionFactory;
 import java.io.IOException;
 import java.util.List;
 
-import static com.example.hrpulse.HR_Pulse.retrieveDepartments;
-import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
+import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveDepartments;
+import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveEmployees;
 
 /**
  * The `ReportDepartmentController` class manages the UI for reporting department details.
  */
 public class ReportDepartmentController implements Navigators {
 
-    private HR_Pulse hrPulse;
+    private DatabaseManager databaseManager;
     private SessionFactory sessionFactory;
 
     public ReportDepartmentController() {
     }
 
-    public ReportDepartmentController(HR_Pulse hrPulse) {
-        this.hrPulse = hrPulse;
+    public ReportDepartmentController(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
         this.sessionFactory = null;
     }
 
-    public ReportDepartmentController(HR_Pulse hrPulse, SessionFactory sessionFactory) {
-        this.hrPulse = hrPulse;
+    public ReportDepartmentController(DatabaseManager databaseManager, SessionFactory sessionFactory) {
+        this.databaseManager = databaseManager;
         this.sessionFactory = sessionFactory;
     }
 
     @FXML
     private ListView<Department> lv_departments;
-    @FXML
-    private Button viewDetailsButton;
-    @FXML
-    private Button countEmployeesButton;
 
     private ObservableList<Department> departmentList = FXCollections.observableArrayList();
 

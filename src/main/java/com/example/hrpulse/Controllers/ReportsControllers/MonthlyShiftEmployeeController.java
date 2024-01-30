@@ -1,6 +1,6 @@
 package com.example.hrpulse.Controllers.ReportsControllers;
 
-import com.example.hrpulse.HR_Pulse;
+import com.example.hrpulse.Services.Database.DatabaseManager;
 import com.example.hrpulse.Services.Interfaces.ReportsNavigators;
 import com.example.hrpulse.Services.Objects.Employee;
 import javafx.event.ActionEvent;
@@ -20,22 +20,23 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
-import static com.example.hrpulse.HR_Pulse.retrieveEmployees;
+import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveEmployees;
+
 
 public class MonthlyShiftEmployeeController implements ReportsNavigators {
-    private HR_Pulse hrPulse;
+    private DatabaseManager databaseManager;
     private SessionFactory sessionFactory;
 
     public MonthlyShiftEmployeeController() {
     }
 
-    public MonthlyShiftEmployeeController(HR_Pulse hrPulse) {
-        this.hrPulse = hrPulse;
+    public MonthlyShiftEmployeeController(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
         this.sessionFactory = null;
     }
 
-    public MonthlyShiftEmployeeController(HR_Pulse hrPulse, SessionFactory sessionFactory) {
-        this.hrPulse = hrPulse;
+    public MonthlyShiftEmployeeController(DatabaseManager databaseManager, SessionFactory sessionFactory) {
+        this.databaseManager = databaseManager;
         this.sessionFactory = sessionFactory;
     }
 
