@@ -1,8 +1,9 @@
 package com.example.hrpulse.Services.Objects;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "employees")
@@ -10,10 +11,10 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "employee_id")
-    private int employeeId;
+    private Integer employeeId;
 
     @Column(name = "first_name")
     private String firstName;
@@ -25,7 +26,7 @@ public class Employee {
     private String password;
 
     @Column(name = "date_of_birth")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Column(name = "email")
     private String email;
@@ -47,43 +48,64 @@ public class Employee {
     private BankInfo bankInfo;
 
     @Column(name = "hourly_rate")
-    private double hourlyRate;
+    private Double hourlyRate;
 
     @Column(name = "employment_start_date")
     private Date employmentStartDate;
 
     @Column(name = "hours_worked")
-    private int hoursWorked;
+    private Integer hoursWorked;
 
-    @Column(name = "status")
-    private boolean status;
+    @Column(name = "isHourly")
+    private Boolean isHourly;
 
     @Column(name = "salaryToTravel")
-    private double salaryToTravel;
+    private Double salaryToTravel;
 
-    public double getSalaryToTravel() {
-        return salaryToTravel;
-    }
+    @Column(name = "salaryPerMonth")
+    private Double salaryPerMonth;
 
-    public void setSalaryToTravel(double salaryToTravel) {
-        this.salaryToTravel = salaryToTravel;
-    }
+
+    @Transient
+    private String username;
+
 
     public Employee() {
+        this.bankInfo = new BankInfo();
     }
-    public Employee(String firstName,String email,String phoneNumber,String password){
+    public Employee(String firstName,String lastName, String email,String phoneNumber,String password,String username){
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.email=email;
+        this.phoneNumber=phoneNumber;
+        this.password=password;
+        this.username = username;
+    }
+
+    public Employee(String firstName, String email, String phoneNumber, String password) {
+
         this.firstName=firstName;
         this.email=email;
         this.phoneNumber=phoneNumber;
         this.password=password;
+        this.employeeRole = employeeRole;
     }
 
-    public boolean isStatus() {
-        return status;
+    public Employee(String firstName,String email,String phoneNumber,String password,String employeeRole){
+        this.firstName=firstName;
+        this.email=email;
+        this.phoneNumber=phoneNumber;
+        this.password=password;
+        this.employeeRole =employeeRole;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+
+    public boolean isHourly() {
+        return isHourly;
+    }
+
+    public void setHourly(boolean hourly) {
+        isHourly = hourly;
     }
 
     public int getId() {
@@ -126,11 +148,17 @@ public class Employee {
         this.password = password;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
+    public double getSalaryToTravel() {
+        return salaryToTravel;
+    }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setSalaryToTravel(double salaryToTravel) {
+        this.salaryToTravel = salaryToTravel;
+    }
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -206,16 +234,14 @@ public class Employee {
         this.hoursWorked = hoursWorked;
     }
 
-    public double computeSalary() {
-        // Calculate and return the employee's salary based on hourly rate and hours worked
-        // ...
-        return 0;
+    public double getSalaryPerMonth() {
+        return salaryPerMonth;
+    }
+
+    public void setSalaryPerMonth(double salaryPerMonth) {
+        this.salaryPerMonth = salaryPerMonth;
     }
 
 
 
-    public void updateEmployeeDetails() {
-        // Update employee details here
-        // ...
-    }
 }

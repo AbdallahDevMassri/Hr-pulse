@@ -1,39 +1,33 @@
 package com.example.hrpulse.Services.Objects;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Company {
-    private String companyName;
-    private List<Department> departments;
-
-    public Company(String companyName) {
-        // Initialize company attributes here
-        // Initialize the 'departments' list as an empty ArrayList
+    private static  Company myCompany;
+    private List<Department> departments= new ArrayList<>();
+    private List<Employee>employees=new ArrayList<>();
+    private Company() {
     }
+public static Company getMyCompany(){
+    if (myCompany == null) {
+        // Initialize myCompany if it's null
+        myCompany = new Company();
+    }
+    return myCompany;
+}
 
     public void addDepartment(Department department) {
-        // Add a department to the company's 'departments' list
-        // ...
+        departments.add(department);
     }
-
-    public void removeDepartment(Department department) {
-        // Remove a department from the company's 'departments' list
-        // ...
+    public void addEmployee(Employee employee){
+    employees.add(employee);
     }
-
-    public List<Employee> getAllEmployees() {
-        // Return a list of all employees in the company (across all departments)
-        // ...
-        return null;
-    }
-
-    public double calculateTotalCompanyBudget() {
-        // Calculate and return the total company budget (sum of all department budgets)
-        // ...
-        return 0;
-    }
-
-    public void generateReports() {
-        // Generate and display reports (e.g., employee list, department-wise reports)
-        // ...
+    public Department getDepartmentByName(String departmentName) {
+        for (Department department : departments) {
+            if (department.getDepartmentName().equalsIgnoreCase(departmentName)) {
+                return department;
+            }
+        }
+        return null; // Department not found
     }
 }

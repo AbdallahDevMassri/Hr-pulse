@@ -10,8 +10,6 @@ public class BankInfo {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "bank_name")
-    private String bankName;
     @Column(name = "bankSneefCode")
     private int bankSneefCode;
     @Column(name = "bankNumber")
@@ -24,7 +22,7 @@ public class BankInfo {
     }
 
     public BankInfo(String bankName, int bankSneefCode, int bankNumber, String accountNumber) {
-        this.bankName = bankName;
+
         this.bankSneefCode = bankSneefCode;
         this.bankNumber = bankNumber;
         this.accountNumber = accountNumber;
@@ -32,14 +30,6 @@ public class BankInfo {
 
     public int getId() {
         return id;
-    }
-
-    public String getBankName() {
-        return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
     }
 
     public int getBankSneefCode() {

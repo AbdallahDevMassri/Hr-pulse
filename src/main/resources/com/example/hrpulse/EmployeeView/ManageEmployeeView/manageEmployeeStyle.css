@@ -1,0 +1,68 @@
+/* Root styles */
+.root {
+   -fx-background-color: white; /* Set the background color to white */
+   -fx-background-size: cover;
+}
+
+/* Style for "הוספת עובד" button */
+#addEmployeeButton {
+    -fx-background-color: #FF5733;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+}
+
+/* Style for "הסרת עובד" button */
+#removeEmployeeButton {
+    -fx-background-color: #3498DB;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+}
+
+/* Style for "עדכון משמרת לעובד" button */
+#editShiftButton {
+    -fx-background-color: #E74C3C;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+}
+
+/* Style for "משוב  לעובד" button */
+#feedbackButton {
+    -fx-background-color: #27AE60;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+}
+
+/* Style for "הצגת דוח  עובד" button */
+#employeeReportButton {
+    -fx-background-color: #D35400;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+}
+
+/* Style for "עדכון תפקיד " button */
+#updateRoleButton {
+    -fx-background-color: #b54f4f;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+}
+
+/* Style for the "חזרה" (back) button */
+#backButton {
+    -fx-background-color: #E67E22;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+}
+
+/* Apply hover effect to all buttons */
+.button:hover {
+    -fx-background-color: derive(#34495E, 20%); /* Lighter background color on hover */
+    -fx-cursor: hand; /* Change cursor to a hand on hover */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 0); /* Add a drop shadow on hover */
+}

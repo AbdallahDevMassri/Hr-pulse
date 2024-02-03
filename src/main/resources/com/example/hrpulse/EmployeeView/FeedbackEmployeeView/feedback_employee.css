@@ -1,0 +1,19 @@
+.root {
+    -fx-background-color: #f5f5f5; /* Light gray background color */
+
+    /* You can add more global styling here */
+}
+
+#label_message {
+    -fx-prompt-text-fill: #808080; /* Light gray prompt text */
+}
+
+#send_button, #backButtonClicked {
+    -fx-background-color: #4CAF50; /* Green background color for buttons */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-size: 14px; /* Font size */
+}
+
+#send_button:hover, #backButtonClicked:hover {
+    -fx-background-color: #45a049; /* Darker green on hover */
+}
