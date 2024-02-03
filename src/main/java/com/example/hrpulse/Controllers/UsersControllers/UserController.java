@@ -66,7 +66,7 @@ public class UserController implements Navigators, EmployeeNavigators, ReportsNa
     }
 
     private void hideHeadOfDepartmentButtons() {
-        reportsButton.setVisible(false);
+
         EditEmployeeButton.setVisible(false);
         // TODO: Add logic to hide other buttons specific to Head of Department
     }
@@ -81,6 +81,7 @@ public class UserController implements Navigators, EmployeeNavigators, ReportsNa
 
     private void hideSecretaryButtons() {
         EditEmployeeButton.setVisible(false);
+        reportsButton.setVisible(false);
         // TODO: Add logic to hide buttons specific to Secretary
     }
 
