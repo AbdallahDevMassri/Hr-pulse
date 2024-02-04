@@ -66,8 +66,8 @@ public class DepartmentCellFactory implements Callback<ListView<Department>, Lis
      */
     private void showEmployeesDialog(Department department) {
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Employees in " + department.getDepartmentName());
-        alert.setHeaderText("Employees in the " + department.getDepartmentName() + " department:");
+        alert.setTitle("עובדים במחלקת: " + department.getDepartmentName());
+        alert.setHeaderText("רשימת עובדים במחלקת: " + department.getDepartmentName());
 
         StringBuilder employeesInfo = new StringBuilder();
         for (Employee employee : department.getEmployees()) {

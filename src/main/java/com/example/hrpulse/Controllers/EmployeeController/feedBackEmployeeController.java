@@ -71,7 +71,8 @@ public class feedBackEmployeeController implements EmployeeNavigators {
 
         if (selectedEmployees.isEmpty()) {
             // No employee selected, handle this case accordingly
-            System.out.println("Please select an employee.");
+            showConfirmationDialog("אנה בחר עובד כדי לשלוח אימייל");
+            System.out.println("אנה בחר עובד");
             return;
         }
         // Assuming your Employee class has an getEmail() method
@@ -85,8 +86,8 @@ public class feedBackEmployeeController implements EmployeeNavigators {
         sendEmail(selectedEmployeeEmail, "Feedback from HR Pulse", messageContent);
 
         System.out.println(messageContent);
-        showConfirmationDialog("The feedback sent successfully");
-        System.out.println("Email sent successfully.");
+        showConfirmationDialog("המשוב נשלח בהצלחה.");
+        System.out.println("האימייל נשלח בהצלחה");
     }
 
     private void sendEmail(String selectedEmployeeEmail, String feedback_from_hr_pulse, String messageContent) {
@@ -115,7 +116,7 @@ public class feedBackEmployeeController implements EmployeeNavigators {
             message.setText(messageContent);
             Transport.send(message);
         } catch (Exception e) {
-            System.out.println("the error is : " + e.getMessage());
+            System.out.println("שגיאה : " + e.getMessage());
         }
     }
 
@@ -133,7 +134,7 @@ public class feedBackEmployeeController implements EmployeeNavigators {
     private void showConfirmationDialog(String message) {
         // Helper method to display a confirmation dialog
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(" Confirm ");
+        alert.setTitle(" אישור או ביטול");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

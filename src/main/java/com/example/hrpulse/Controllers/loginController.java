@@ -5,17 +5,23 @@ import com.example.hrpulse.Services.Objects.Employee;
 import com.example.hrpulse.Services.Interfaces.Navigators;
 import com.example.hrpulse.Session.UserSession;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.util.Duration;
 import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveEmployees;
 
@@ -25,6 +31,15 @@ import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveEmpl
 public class loginController implements Navigators {
     private DatabaseManager databaseManager;
     private SessionFactory sessionFactory;
+
+    @FXML
+    private Label wrongLogin;
+
+    private int loginAttempts = 0;
+    private final int maxLoginAttempts = 3;
+    private final Duration lockoutDuration = Duration.minutes(5);
+    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
 
     public loginController() {
         // Default constructor
@@ -55,8 +70,6 @@ public class loginController implements Navigators {
     @FXML
     private TextField tf_UserName;
 
-    @FXML
-    private Label wrongLogin;
 
     private static final List<Employee> employeesList = getEmployees();
 
@@ -73,6 +86,12 @@ public class loginController implements Navigators {
     void userLogin(ActionEvent event) throws IOException {
         String username = tf_UserName.getText().trim().toLowerCase();
         String password = tf_Password.getText().toLowerCase();
+
+        if (loginAttempts >= maxLoginAttempts) {
+            wrongLogin.setText("יותר מידיי ניסיונות כושלים - אנה נסה שנית בעוד 5 דק");
+            return;
+        }
+
         // get the local employee that we declare if not found it returns null.
         Employee employee = employees.get(username);
         System.out.print("employee");
@@ -82,21 +101,42 @@ public class loginController implements Navigators {
         System.out.print("employeeDb");
         System.out.println(employeeDb);
 
+
         if (employeeDb != null) {
             // Employee found in the database
             // Declare a new User
             UserSession.getInstance().setCurrentUser(employeeDb);
             navigateToMainPage(event);
-        }
-
-        if (employee != null && password.equals(employee.getPassword())) {
+        } else if (employee != null && password.equals(employee.getPassword())) {
+            // Successful login
             UserSession.getInstance().setCurrentUser(employee);
             navigateToMainPage(event);
-        } else if (username.trim().isEmpty() && password.trim().isEmpty()) {
-            wrongLogin.setText("נא הכנס את שם המשתמש והסיסמה שלך"); // print that the user needs to enter user & pass
         } else {
-            wrongLogin.setText("שם משתמש או סיסמה שגויים"); // print an error for wrong user/pass
+            // Incorrect username or password
+            loginAttempts++;
+            if (loginAttempts >= maxLoginAttempts) {
+                scheduleUnlock();
+            }
+            wrongLogin.setText("שם משתמש או סיסמה שגויים, ניסיונות שנותרו: " +
+                    (maxLoginAttempts - loginAttempts));
         }
+    }
+
+    private void scheduleUnlock() {
+        Task<Void> unlockTask = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                TimeUnit.MINUTES.sleep((long) lockoutDuration.toMinutes());
+                loginAttempts = 0;
+                return null;
+            }
+        };
+
+        unlockTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
+            wrongLogin.setText("");
+        });
+
+        scheduler.schedule(unlockTask, 0, TimeUnit.SECONDS);
     }
 
     private Employee getEmployeeByUsernameAndPassword(String username, String password) {

@@ -72,11 +72,11 @@ public class ReportDepartmentController implements Navigators {
                     // If a matching department is found, add the employee to it
                     matchingDepartment.addEmployee(employee);
                 } else {
-                    System.err.println("No matching department found for employee: " + employee.getFirstName());
+                    System.err.println("לא נמצאה מחלקה מתאימה לעובד: " + employee.getFirstName());
                 }
             }
         } else {
-            System.err.println("Company is not properly initialized.");
+            System.err.println("המחלקה לא מוגדרת נכון.");
         }
     }
 
