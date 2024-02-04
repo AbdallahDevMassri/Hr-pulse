@@ -88,8 +88,7 @@ public class loginController implements Navigators {
         String password = tf_Password.getText().toLowerCase();
 
         if (loginAttempts >= maxLoginAttempts) {
-            wrongLogin.setText("יותר מידיי ניסיונות כושלים - אנה נסה שנית בעוד 5 דק" +
-                    lockoutDuration.toMinutes() + " דקות.");
+            wrongLogin.setText("יותר מידיי ניסיונות כושלים - אנה נסה שנית בעוד 5 דק");
             return;
         }
 

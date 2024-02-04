@@ -12,13 +12,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="745.0"
-            xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.ReportsControllers.MonthlyShiftEmployeeController"
-            nodeOrientation="RIGHT_TO_LEFT">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="520.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.ReportsControllers.MonthlyShiftEmployeeController">
 
     <bottom>
         <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <buttons>
+                  <Button maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#back_btn" text="חזרה" />
                 <GridPane>
                     <columnConstraints>
                         <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="414.20001220703125" minWidth="10.0" prefWidth="414.20001220703125" />
@@ -27,14 +26,9 @@
                     <rowConstraints>
                         <RowConstraints maxHeight="196.8000015258789" minHeight="10.0" prefHeight="173.60001220703126" vgrow="SOMETIMES" />
                     </rowConstraints>
-                    <children>
-                        <Button maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#showListClicked" text="הצגה" textFill="#282828" GridPane.halignment="LEFT">
-                            <GridPane.margin>
-                                <Insets left="40.0" />
-                            </GridPane.margin>
-                        </Button>
-                        <Button maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#back_btn" text="חזרה" />
-                    </children>
+               <children>
+                        <Button maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#showListClicked" text="הצגה" textFill="#282828" />
+               </children>
                 </GridPane>
             </buttons>
             <opaqueInsets>
@@ -52,7 +46,7 @@
     <top>
         <HBox alignment="CENTER_LEFT" spacing="20.0" BorderPane.alignment="CENTER">
             <children>
-                <Label text="בחר חודש : " style="-fx-font-size: 14.0; -fx-font-weight: bold;">
+                <Label style="-fx-font-size: 14.0; -fx-font-weight: bold;" text="בחר חודש : ">
                     <HBox.margin>
                         <Insets left="20.0" />
                     </HBox.margin>
@@ -67,7 +61,7 @@
     </top>
 
     <center>
-        <ListView fx:id="lv_retrieveEmployees" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" />
+        <ListView fx:id="lv_retrieveEmployees" nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
 
     </center>
 </BorderPane>
