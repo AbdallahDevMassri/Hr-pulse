@@ -1,7 +1,8 @@
 /* Root styles */
 .root {
-   -fx-background-color: white; /* Set the background color to white */
-   -fx-background-size: cover;
+  -fx-background-image: url("background-business-screen.jpg");
+    -fx-background-size: cover;
+
 }
 
 /* Style for "הוספת עובד" button */

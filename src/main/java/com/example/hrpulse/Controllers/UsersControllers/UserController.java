@@ -68,7 +68,7 @@ public class UserController implements Navigators, EmployeeNavigators, ReportsNa
     private void hideHeadOfDepartmentButtons() {
         reportsButton.setVisible(false);
         EditEmployeeButton.setVisible(false);
-        // TODO: Add logic to hide other buttons specific to Head of Department
+
     }
 
     private void applySecretaryStyles() {
@@ -81,7 +81,7 @@ public class UserController implements Navigators, EmployeeNavigators, ReportsNa
 
     private void hideSecretaryButtons() {
         EditEmployeeButton.setVisible(false);
-        // TODO: Add logic to hide buttons specific to Secretary
+
     }
 
     private void applyManagerStyles() {
@@ -89,7 +89,7 @@ public class UserController implements Navigators, EmployeeNavigators, ReportsNa
         borderPane.getStyleClass().removeAll("headOfDepartment");
         // Add the manager style class
         borderPane.getStyleClass().add("manager");
-        // TODO: Add logic for Manager-specific styles
+
     }
 
     @FXML
@@ -110,12 +110,10 @@ public class UserController implements Navigators, EmployeeNavigators, ReportsNa
         navigateToManageDepartment(event);
     }
 
-    @FXML
-    void NavigateToReportsPage(ActionEvent event) throws IOException {
-        // TODO: Method to handle the "Reports Page" button click
 
-        // Show error or display a message for the user; this button will be used in the next version
-    }
+    //TODO : this a future feature
+    @FXML
+    void NavigateToReportsPage(ActionEvent event) throws IOException {}
 
     @FXML
     void ExitButtonClicked(ActionEvent event) {

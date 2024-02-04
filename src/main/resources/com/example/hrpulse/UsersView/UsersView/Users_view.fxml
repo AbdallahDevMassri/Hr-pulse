@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" blendMode="DARKEN" prefHeight="652.0" prefWidth="1002.0" styleClass="root" stylesheets="@UsersStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.UsersControllers.UserController">
+<BorderPane fx:id="borderPane" blendMode="DARKEN" prefHeight="700.0" prefWidth="1200.0" styleClass="root" stylesheets="@UsersStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hrpulse.Controllers.UsersControllers.UserController">
    <center>
       <GridPane alignment="CENTER" prefHeight="318.0" prefWidth="434.0" BorderPane.alignment="CENTER_LEFT">
          <columnConstraints>
@@ -23,19 +23,19 @@
             <RowConstraints maxHeight="164.80000610351564" minHeight="10.0" prefHeight="92.40001220703121" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="shiftHandlingbutton" alignment="CENTER" mnemonicParsing="false" onAction="#manageEmployeeClicked" prefHeight="60.0" prefWidth="120.0" text="ניהול עובדים">
+            <Button fx:id="shiftHandlingbutton" alignment="CENTER" maxHeight="60.0" maxWidth="150.0" minHeight="60.0" minWidth="150.0" mnemonicParsing="false" onAction="#manageEmployeeClicked" prefHeight="60.0" prefWidth="120.0" text="ניהול עובדים">
                <GridPane.margin>
                   <Insets right="40.0" />
                </GridPane.margin></Button>
-            <Button fx:id="reportsButton" alignment="CENTER" mnemonicParsing="false" onAction="#NavigateToReportsPage" prefHeight="60.0" prefWidth="252.0" text="ניהול דוחות ובקשות (Future Feature)" GridPane.rowIndex="2">
+            <Button fx:id="reportsButton" alignment="CENTER" maxHeight="60.0" maxWidth="300.0" minHeight="60.0" minWidth="300.0" mnemonicParsing="false" onAction="#NavigateToReportsPage" prefHeight="60.0" prefWidth="252.0" text="ניהול דוחות ובקשות (Future Feature)" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets right="40.0" />
                </GridPane.margin></Button>
-            <Button fx:id="production_of_report_btn" alignment="CENTER" mnemonicParsing="false" onAction="#reportsClicked" prefHeight="60.0" prefWidth="120.0" text="הפקת דוחות" GridPane.rowIndex="3">
+            <Button fx:id="production_of_report_btn" alignment="CENTER" maxHeight="60.0" maxWidth="250.0" minHeight="60.0" minWidth="250.0" mnemonicParsing="false" onAction="#reportsClicked" prefHeight="60.0" prefWidth="120.0" text="הפקת דוחות" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets right="40.0" />
                </GridPane.margin></Button>
-            <Button fx:id="EditEmployeeButton" alignment="CENTER" mnemonicParsing="false" onAction="#NavigateToManageDepartment" prefHeight="60.0" prefWidth="120.0" text="ניהול מחלקות" GridPane.rowIndex="1">
+            <Button fx:id="EditEmployeeButton" alignment="CENTER" maxHeight="60.0" maxWidth="200.0" minHeight="60.0" minWidth="200.0" mnemonicParsing="false" onAction="#NavigateToManageDepartment" prefHeight="60.0" prefWidth="120.0" text="ניהול מחלקות" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets right="40.0" />
                </GridPane.margin></Button>

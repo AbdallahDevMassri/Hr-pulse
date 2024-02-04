@@ -8,11 +8,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.hibernate.SessionFactory;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+
 import static com.example.hrpulse.Controllers.DepartmentController.EditDepartmentController.retrieveDepartmentNames;
 import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveDepartments;
 import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveEmployees;
@@ -98,6 +100,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
             cb_isPerMoth.setDisable(newValue);
             tf_perMonth.setDisable(newValue);
         });
+
         cb_role.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             // Check if the selected role is "secretariat" or "headOfDepartment"
             if ("secretary".equals(newValue) || "headOfDepartment".equals(newValue)) {
@@ -142,7 +145,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
             showErrorDialog("נא הכנס שם עובד ");
             return;
         }
-        if (firstName.length()<2) {
+        if (firstName.length() < 2) {
             showErrorDialog("שם עובד קצר מדי ");
             return;
         }
@@ -153,7 +156,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
             showErrorDialog("נא הכנס שם משפחה של עובד ");
             return;
         }
-        if(lastName.length()<2){
+        if (lastName.length() < 2) {
             showErrorDialog("שם משפחה קצר מדי ");
             return;
         }
@@ -168,7 +171,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
 
         try {
             employeeID = Integer.parseInt(employeeIDText);
-            if(employeeIDText.trim().length() != 9){
+            if (employeeIDText.trim().length() != 9) {
                 showErrorDialog("ת.ז חייבת להיות 9 ספרות / רק מספרים");
                 return;
             }
@@ -217,6 +220,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         }
         String password = tf_password.getText();
 
+
         // Retrieve the selected date from the DatePicker
         LocalDate dateOfBirth = dp_dateOfBirth.getValue();
 
@@ -229,25 +233,26 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         try {
             salaryPerHour = Integer.parseInt(salaryPerHourText);
         } catch (NumberFormatException e) {
+            System.err.println("error convert salaryPerHour");
 
         }
 
         boolean isPerMonth = cb_isPerMoth.isSelected();
         //------------------------------------------------------------------------
         String salaryPerMonthText = tf_perMonth.getText();
-        Double salaryPerMonth = 0.0;
+        double salaryPerMonth = 0.0;
         try {
             salaryPerMonth = Double.parseDouble(salaryPerMonthText);
         } catch (NumberFormatException e) {
-
+            System.err.println("error convert salaryPerMonth");
         }
         //------------------------------------------------------------------------
         String salaryToTravelText = tf_salaryToTravel.getText();
-        Double salaryToTravel = 0.0;
+        double salaryToTravel = 0.0;
         try {
             salaryToTravel = Double.parseDouble(salaryToTravelText);
         } catch (NumberFormatException e) {
-
+            System.err.println("error convert salaryToTravel");
         }
         //------------------------------------------------------------------------
         String bankNumberText = tf_bankNumber.getText();
@@ -255,7 +260,7 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         try {
             bankNumber = Integer.parseInt(bankNumberText);
         } catch (NumberFormatException e) {
-
+            System.err.println("error convert bankNumber");
         }
         //------------------------------------------------------------------------
         String acountNumber = tf_accountNumber.getText();
@@ -265,11 +270,9 @@ public class CreateEmployeePageController implements EmployeeNavigators {
         try {
             sneefBankCode = Integer.parseInt(sneefBankCodeText);
         } catch (NumberFormatException e) {
-
+            System.err.println("error convert sneefBankCode");
         }
         //------------------------------------------------------------------------
-
-
         // Create an Employee object
         Employee employee = new Employee();
         employee.setFirstName(firstName);
@@ -296,18 +299,14 @@ public class CreateEmployeePageController implements EmployeeNavigators {
             employee.setEmploymentStartDate(Date.from(currentDay.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         }
 
-
         String departmentName = cb_department.getValue(); // Get the selected department name
-
-
 
         // Retrieve the selected department based on its name
         Department selectedDepartment = getDepartmentByName(departmentName);
 
-
         // Associate the employee with the selected department
         employee.setDepartment(selectedDepartment.getDepartmentName());
-//        selectedDepartment.addEmployee(employee);
+
         // Save the data to the database using HR_Pulse's method
 
         databaseManager.performDatabaseOperations(employee);
@@ -357,10 +356,10 @@ public class CreateEmployeePageController implements EmployeeNavigators {
 
         List<Employee> employees;
 
-        employees=retrieveEmployees();
-        for (Employee employee: employees
+        employees = retrieveEmployees();
+        for (Employee employee : employees
         ) {
-            if(employee.getEmployeeId()==employeeID) return false;
+            if (employee.getEmployeeId() == employeeID) return false;
         }
         return true; // Replace with your actual logic
     }
