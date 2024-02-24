@@ -9,13 +9,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import org.hibernate.SessionFactory;
-
 import java.io.IOException;
 import java.util.List;
-
 import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveDepartments;
 import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveEmployees;
 
@@ -44,6 +41,7 @@ public class ReportDepartmentController implements Navigators {
     private ListView<Department> lv_departments;
 
     private ObservableList<Department> departmentList = FXCollections.observableArrayList();
+
 
     /**
      * Initializes the controller. Populates the department list in the UI.

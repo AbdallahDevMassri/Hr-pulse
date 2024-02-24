@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import org.hibernate.SessionFactory;
-
 import java.io.IOException;
 
 /**
@@ -60,10 +59,8 @@ public class CreateNewDepartmentController implements Navigators {
         Department department = new Department();
         department.setDepartmentName(departmentName);
         department.setDescription(description);
-
-        // Perform database operations to save the department
+         // Perform database operations to save the department
         databaseManager.performDatabaseOperations(department);
-
         // Show a confirmation dialog
         showConfirmationDialog("נתוני המחלקה התווספו בהצלחה .");
     }

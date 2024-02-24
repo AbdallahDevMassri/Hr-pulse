@@ -38,6 +38,10 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
     void shiftEmployeeReportsClicked(ActionEvent event) throws IOException {
         navigateToMonthlyShiftEmployee(event);
     }
+    @FXML
+    void shiftEmployeeReportByYear(ActionEvent event) throws IOException{
+        navigateToReportByYear(event);
+    }
 
 
     @FXML
@@ -47,7 +51,7 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
             Class.forName("com.mysql.jdbc.Driver");
 
             // Establish a connection to the MySQL database
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/pulsedb", "root", "hrpulse123");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hrpulsedb", "root", "0523239955");
 
             // Path to the JR XML file (JasperReports XML template)
             String reportPath = "EmployeeReport.jrxml";
@@ -58,8 +62,9 @@ public class productionOfReportsController implements Navigators, ReportsNavigat
             // Fill the report with data and create a JasperPrint object
             JasperPrint jp = JasperFillManager.fillReport(jr, null, connection);
 
-            // View the JasperPrint object using JasperViewer
-            JasperViewer.viewReport(jp, false);
+            JasperViewer viewer = new JasperViewer(jp, false);
+            viewer.setZoomRatio(0.5f); // Set zoom level to 50%
+            viewer.setVisible(true);
 
             // Close the database connection
             connection.close();

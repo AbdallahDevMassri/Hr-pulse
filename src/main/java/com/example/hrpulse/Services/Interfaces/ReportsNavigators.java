@@ -32,4 +32,13 @@ public interface ReportsNavigators {
         mainStage.centerOnScreen();
         mainStage.show();
     }
+    default void navigateToReportByYear(ActionEvent event) throws IOException {
+        Parent navigateToReportByYearViewParent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/hrpulse/productionOfReports_view/productionOfReports/shiftReportByYear.fxml")));
+        Scene navigateToReportByYearViewScene = new Scene(navigateToReportByYearViewParent);
+        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        mainStage.setScene(navigateToReportByYearViewScene);
+        mainStage.setTitle("שעות שנתיות");
+        mainStage.centerOnScreen();
+        mainStage.show();
+    }
 }

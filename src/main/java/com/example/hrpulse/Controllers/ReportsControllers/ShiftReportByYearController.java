@@ -3,6 +3,8 @@ package com.example.hrpulse.Controllers.ReportsControllers;
 import com.example.hrpulse.Services.Database.DatabaseManager;
 import com.example.hrpulse.Services.Interfaces.ReportsNavigators;
 import com.example.hrpulse.Services.Objects.Employee;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,49 +15,46 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import org.hibernate.SessionFactory;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.example.hrpulse.Services.Database.DatabaseManager.retrieveEmployees;
 
-
-public class MonthlyShiftEmployeeController implements ReportsNavigators {
+public class ShiftReportByYearController implements ReportsNavigators {
     private DatabaseManager databaseManager;
     private SessionFactory sessionFactory;
 
-    public MonthlyShiftEmployeeController() {
+    public ShiftReportByYearController() {
     }
 
-    public MonthlyShiftEmployeeController(DatabaseManager databaseManager) {
+    public ShiftReportByYearController(DatabaseManager databaseManager) {
         this.databaseManager = databaseManager;
         this.sessionFactory = null;
     }
 
-    public MonthlyShiftEmployeeController(DatabaseManager databaseManager, SessionFactory sessionFactory) {
+    public ShiftReportByYearController(DatabaseManager databaseManager, SessionFactory sessionFactory) {
         this.databaseManager = databaseManager;
         this.sessionFactory = sessionFactory;
     }
 
     @FXML
-    private ChoiceBox<Integer> cb_monthSelect;
-
+    private ChoiceBox<Integer> cb_yearSelect;
     @FXML
     private ListView<Employee> lv_retrieveEmployees;
-    private Integer selectedMonth;
+    private Integer selectedYear;
     private Employee selectedEmployee;
     private ObservableList<Employee> employeeObservableList;
-
-
     @FXML
     public void initialize() {
+       int currentYear = LocalDate.now().getYear();
         // Populate the ChoiceBox with months
-        ObservableList<Integer> months = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
-        cb_monthSelect.setItems(months);
-
+        ObservableList<Integer> year = FXCollections.observableArrayList(currentYear-1,currentYear-2,
+                currentYear-3,currentYear-4,currentYear-5,
+                currentYear-6,currentYear-7,currentYear-8,
+                currentYear-9,currentYear-10,currentYear-11,currentYear-12);
+        cb_yearSelect.setItems(year);
         // Initialize the employee list
         List<Employee> employeeList = retrieveEmployees();
         employeeObservableList = FXCollections.observableArrayList(employeeList);
@@ -97,31 +96,21 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
         });
 
         // Set up the selection model for the ChoiceBox
-        cb_monthSelect.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            selectedMonth = newValue;
+        cb_yearSelect.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            selectedYear = newValue;
         });
     }
-
-    public Integer getSelectedMonth() {
-        return selectedMonth;
-    }
-
-    public Employee getSelectedEmployee() {
-        return selectedEmployee;
-    }
-
     @FXML
     void back_btn(ActionEvent event) throws IOException {
         navigateToProductionOfReportsPage(event);
     }
-
+    //TODO: Show list need to implement the method that get the employee shift by year
     @FXML
     void showListClicked(ActionEvent event) {
-        if (selectedMonth == null || selectedEmployee == null) {
-            showAlert("אנא בחר עובד  או חודש בכדי להמשיך");
+        if (selectedYear == null || selectedEmployee == null) {
+            showAlert("אנא בחר עובד  או שנה בכדי להמשיך");
             return;
         }
-
         try {
             // Load the MySQL JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
@@ -130,12 +119,12 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hrpulsedb", "root", "0523239955");
 
             // Path to the JR XML file (JasperReports XML template)
-            String reportPath = "MonthlyShiftReport.jrxml";
+            String reportPath = "YearlyShiftReport.jrxml";
 
             JasperDesign jd = JRXmlLoader.load(reportPath);
             Integer employeeId = selectedEmployee.getEmployeeId();
 
-            // Modified SQL query to include the selected month
+            // Modified SQL query to include the selected year
             String sql = "SELECT e.employee_id AS employee_id, " +
                     "e.first_name, " +
                     "e.last_name, " +
@@ -145,13 +134,13 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
                     "esd.total_work_hours " +
                     "FROM employees e " +
                     "JOIN employeeshiftdata esd ON e.employee_id = esd.employee_id " +
-                    "WHERE e.employee_id = ? AND MONTH(STR_TO_DATE(esd.date, '%d/%m/%Y')) = ?";
+                    "WHERE e.employee_id = ? AND YEAR(STR_TO_DATE(esd.date, '%d/%m/%Y')) = ?";
 
 
             // Using prepared statement to avoid SQL injection
             try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
                 pstmt.setInt(1, employeeId);
-                pstmt.setInt(2, selectedMonth);
+                pstmt.setInt(2, selectedYear);
 
                 // Execute the query
                 ResultSet resultSet = pstmt.executeQuery();
@@ -167,6 +156,7 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
                 // Fill the report with data and create a JasperPrint object
                 JasperPrint jp = JasperFillManager.fillReport(jr, null, new JRResultSetDataSource(resultSet));
 
+                // View the JasperPrint object using JasperViewer with 50% zoom
                 JasperViewer viewer = new JasperViewer(jp, false);
                 viewer.setZoomRatio(0.5f); // Set zoom level to 50%
                 viewer.setVisible(true);
@@ -177,12 +167,8 @@ public class MonthlyShiftEmployeeController implements ReportsNavigators {
             throw new RuntimeException(e);
         }
     }
-
-
-    // Helper method to show an alert
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
         alert.showAndWait();
     }
-
 }

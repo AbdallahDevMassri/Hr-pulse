@@ -151,6 +151,7 @@ public class EditDepartmentController implements Navigators {
                 showErrorDialog("Error", "שגיאה בעידכון המחלקה !");
             }
         }
+//        ReportDepartmentController.refreshDepartmentList();
     }
 
     /**
@@ -174,6 +175,7 @@ public class EditDepartmentController implements Navigators {
                 showErrorDialog("Error", "שגיאה במחיקת המחלקה !");
             }
         }
+//        ReportDepartmentController.refreshDepartmentList();
     }
 
     // Define the retrieveDepartmentNames method
