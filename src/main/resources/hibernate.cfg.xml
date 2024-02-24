@@ -1,13 +1,23 @@
+<<<<<<< HEAD
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+=======
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
 <hibernate-configuration>
     <session-factory>
         <!-- Database connection settings -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+<<<<<<< HEAD
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hrpulsedb</property>
+=======
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hrpulsedb?serverTimezone=UTC</property>
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">0523239955</property>
 
         <!-- Specify dialect -->
+<<<<<<< HEAD
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
         <property name="hibernate.search.default.directory_provider">com.example.hrpulse.Service.Objects</property>
@@ -15,4 +25,23 @@
 
     </session-factory>
 
+=======
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <property name="hibernate.archive.autodetection">class</property>
+
+        <!-- Specify the packages to scan for annotated entities -->
+        <property name="hibernate.packageToScan">com.example.hrpulse.Services.Objects</property>
+
+        <!-- Enable Hibernate's automatic session management -->
+        <property name="hibernate.transaction.coordinator_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+
+        <!-- Echo all executed SQL to stdout -->
+        <property name="hibernate.show_sql">true</property>
+
+    </session-factory>
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
 </hibernate-configuration>

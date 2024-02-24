@@ -1,6 +1,6 @@
 package com.example.hrpulse.Controllers.DepartmentController;
 
-import com.example.hrpulse.Service.Intefaces.Navigators;
+import com.example.hrpulse.Services.Interfaces.Navigators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 

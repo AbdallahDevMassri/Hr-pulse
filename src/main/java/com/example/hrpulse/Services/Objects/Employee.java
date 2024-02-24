@@ -1,5 +1,6 @@
 package com.example.hrpulse.Services.Objects;
 
+<<<<<<< HEAD
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -7,14 +8,37 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "employees")
+=======
+import java.util.Date;
+import javax.persistence.*;
+import java.util.Date;
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+<<<<<<<< HEAD:src/main/java/com/example/hrpulse/Service/Objects/Employee.java
+@Table(name = "Employee")
+========
+@Table(name = "employees")
+>>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159:src/main/java/com/example/hrpulse/Services/Objects/Employee.java
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+<<<<<<< HEAD
     private Integer id;
 
     @Column(name = "employee_id")
     private Integer employeeId;
+=======
+    private int id;
+<<<<<<<< HEAD:src/main/java/com/example/hrpulse/Service/Objects/Employee.java
+========
+
+    @Column(name = "employee_id")
+    private int employeeId;
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
 
     @Column(name = "first_name")
     private String firstName;
@@ -26,14 +50,21 @@ public class Employee {
     private String password;
 
     @Column(name = "date_of_birth")
+<<<<<<< HEAD
     private LocalDate dateOfBirth;
+=======
+    private Date dateOfBirth;
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
 
     @Column(name = "email")
     private String email;
 
     @Column(name = "phone_number")
     private String phoneNumber;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
     @Column(name = "gender")
     private String gender;
 
@@ -48,12 +79,19 @@ public class Employee {
     private BankInfo bankInfo;
 
     @Column(name = "hourly_rate")
+<<<<<<< HEAD
     private Double hourlyRate;
+=======
+    private double hourlyRate;
+    @Column(name = "permonth")
+    private boolean perMonth;
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
 
     @Column(name = "employment_start_date")
     private Date employmentStartDate;
 
     @Column(name = "hours_worked")
+<<<<<<< HEAD
     private Integer hoursWorked;
 
     @Column(name = "isHourly")
@@ -84,10 +122,70 @@ public class Employee {
 
     public Employee(String firstName, String email, String phoneNumber, String password) {
 
+=======
+    private int hoursWorked;
+    @Column(name = "status")
+    private boolean status;
+    @Column(name = "salaryToTravel")
+    private double salaryToTravel;
+
+    public double getSalaryToTravel() {
+        return salaryToTravel;
+    }
+
+    public void setSalaryToTravel(double salaryToTravel) {
+        this.salaryToTravel = salaryToTravel;
+    }
+>>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159:src/main/java/com/example/hrpulse/Services/Objects/Employee.java
+
+    @Column(name = "employeeId")
+    private int employeeId;
+
+    @Column(name = "firstName")
+    private String firstName;
+
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "dateOfBirth")
+    private Date dateOfBirth;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "phoneNumber")
+    private String phoneNumber;
+
+    @Column(name = "employeeRole")
+    private String employeeRole;
+
+    @Column(name = "department")
+    private String department;
+
+    @OneToOne(cascade = CascadeType.ALL) // Use CascadeType.ALL if you want to save BankInfo when saving Employee
+    @JoinColumn(name = "bankInfoId") // Add a column for the BankInfo reference
+    private BankInfo bankInfo;
+
+    @Column(name = "hourlyRate")
+    private double hourlyRate;
+
+    @Column(name = "employmentStartDate")
+    private Date employmentStartDate;
+
+    @Column(name = "hoursWorked")
+    private int hoursWorked;
+    public Employee() {
+    }
+    public Employee(String firstName,String email,String phoneNumber,String password){
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
         this.firstName=firstName;
         this.email=email;
         this.phoneNumber=phoneNumber;
         this.password=password;
+<<<<<<< HEAD
         this.employeeRole = employeeRole;
     }
 
@@ -106,6 +204,26 @@ public class Employee {
 
     public void setHourly(boolean hourly) {
         isHourly = hourly;
+=======
+    }
+
+    public boolean isPerMonth() {
+        return perMonth;
+    }
+
+    public void setPerMonth(boolean perMonth) {
+        this.perMonth = perMonth;
+    }
+
+
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
     }
 
     public int getId() {
@@ -148,6 +266,7 @@ public class Employee {
         this.password = password;
     }
 
+<<<<<<< HEAD
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
@@ -159,6 +278,13 @@ public class Employee {
         this.salaryToTravel = salaryToTravel;
     }
     public void setDateOfBirth(LocalDate dateOfBirth) {
+=======
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -234,14 +360,28 @@ public class Employee {
         this.hoursWorked = hoursWorked;
     }
 
+<<<<<<< HEAD
     public double getSalaryPerMonth() {
         return salaryPerMonth;
     }
 
     public void setSalaryPerMonth(double salaryPerMonth) {
         this.salaryPerMonth = salaryPerMonth;
+=======
+    public double computeSalary() {
+        // Calculate and return the employee's salary based on hourly rate and hours worked
+        // ...
+        return 0;
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
     }
 
 
 
+<<<<<<< HEAD
+=======
+    public void updateEmployeeDetails() {
+        // Update employee details here
+        // ...
+    }
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
 }

@@ -10,6 +10,11 @@ public class BankInfo {
     @Column(name = "id")
     private int id;
 
+<<<<<<< HEAD
+=======
+    @Column(name = "bank_name")
+    private String bankName;
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
     @Column(name = "bankSneefCode")
     private int bankSneefCode;
     @Column(name = "bankNumber")
@@ -22,7 +27,11 @@ public class BankInfo {
     }
 
     public BankInfo(String bankName, int bankSneefCode, int bankNumber, String accountNumber) {
+<<<<<<< HEAD
 
+=======
+        this.bankName = bankName;
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
         this.bankSneefCode = bankSneefCode;
         this.bankNumber = bankNumber;
         this.accountNumber = accountNumber;
@@ -32,6 +41,17 @@ public class BankInfo {
         return id;
     }
 
+<<<<<<< HEAD
+=======
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+>>>>>>> 8452ff04666fa1a352d6dd4e284d1b1d09392159
     public int getBankSneefCode() {
         return bankSneefCode;
     }
