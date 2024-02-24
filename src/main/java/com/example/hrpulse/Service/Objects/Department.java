@@ -1,12 +1,22 @@
 package com.example.hrpulse.Service.Objects;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.*;
 
+
+@Entity
+@Table(name = "Department")
 public class Department {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "departmentId")
     private int departmentId;
-    private String departmentName;
-    private List<Employee> employees;
 
+    @Column(name = "departmentName")
+    private String departmentName;
+
+    @OneToMany(mappedBy = "department") // Use mappedBy to define the reverse relationship in Employee
+    private List<Employee> employees;
     public Department(int departmentId, String departmentName) {
         // Initialize department attributes here
         // Initialize the 'employees' list as an empty ArrayList

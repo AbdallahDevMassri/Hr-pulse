@@ -3,13 +3,20 @@ package com.example.hrpulse.Controllers;
 import com.example.hrpulse.Service.Objects.Employee;
 import com.example.hrpulse.Service.Intefaces.Navigators;
 
-import javafx.application.Platform;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +47,28 @@ public class loginController implements Navigators {
 
     @FXML
     void ExitButtonClicked(ActionEvent event) {
-        Platform.exit();
+        // Hibernate configuration
+        Configuration configuration = new Configuration().configure();
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                .applySettings(configuration.getProperties()).build();
+        SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
+        // Open a Hibernate session
+        Session session = sessionFactory.openSession();
+
+        // Retrieve metadata and get table names
+        String[] tableNames = session.getSessionFactory().getMetamodel().getEntities().stream()
+                .map(e -> e.getName())
+                .toArray(String[]::new);
+
+        // Close the Hibernate session and session factory
+        session.close();
+        sessionFactory.close();
+
+        // Display table names
+        for (String tableName : tableNames) {
+            System.out.println("Table Name: " + tableName);
+        }
     }
 
     @FXML

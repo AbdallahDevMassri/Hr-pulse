@@ -5,7 +5,9 @@ module com.example.hrpulse {
     requires org.hibernate.orm.core;
     requires java.sql;
     requires java.mail;
-
+    requires java.persistence;
+    requires java.naming;
+    requires jakarta.persistence;
 
 
     opens com.example.hrpulse to javafx.fxml;

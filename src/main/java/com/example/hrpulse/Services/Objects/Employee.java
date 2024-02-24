@@ -1,62 +1,111 @@
-package com.example.hrpulse.Service.Objects;
+package com.example.hrpulse.Services.Objects;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
-@Table(name = "Employee")
+@Table(name = "employees")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
-    @Column(name = "employeeId")
-    private int employeeId;
+    @Column(name = "employee_id")
+    private Integer employeeId;
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "password")
     private String password;
 
-    @Column(name = "dateOfBirth")
-    private Date dateOfBirth;
+    @Column(name = "date_of_birth")
+    private LocalDate dateOfBirth;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "phoneNumber")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "employeeRole")
+    @Column(name = "gender")
+    private String gender;
+
+    @Column(name = "employee_role")
     private String employeeRole;
 
     @Column(name = "department")
     private String department;
 
-    @OneToOne(cascade = CascadeType.ALL) // Use CascadeType.ALL if you want to save BankInfo when saving Employee
-    @JoinColumn(name = "bankInfoId") // Add a column for the BankInfo reference
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bank_info_id")
     private BankInfo bankInfo;
 
-    @Column(name = "hourlyRate")
-    private double hourlyRate;
+    @Column(name = "hourly_rate")
+    private Double hourlyRate;
 
-    @Column(name = "employmentStartDate")
+    @Column(name = "employment_start_date")
     private Date employmentStartDate;
 
-    @Column(name = "hoursWorked")
-    private int hoursWorked;
+    @Column(name = "hours_worked")
+    private Integer hoursWorked;
+
+    @Column(name = "isHourly")
+    private Boolean isHourly;
+
+    @Column(name = "salaryToTravel")
+    private Double salaryToTravel;
+
+    @Column(name = "salaryPerMonth")
+    private Double salaryPerMonth;
+
+
+    @Transient
+    private String username;
+
+
     public Employee() {
+        this.bankInfo = new BankInfo();
     }
-    public Employee(String firstName,String email,String phoneNumber,String password){
+    public Employee(String firstName,String lastName, String email,String phoneNumber,String password,String username){
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.email=email;
+        this.phoneNumber=phoneNumber;
+        this.password=password;
+        this.username = username;
+    }
+
+    public Employee(String firstName, String email, String phoneNumber, String password) {
+
         this.firstName=firstName;
         this.email=email;
         this.phoneNumber=phoneNumber;
         this.password=password;
+        this.employeeRole = employeeRole;
+    }
+
+    public Employee(String firstName,String email,String phoneNumber,String password,String employeeRole){
+        this.firstName=firstName;
+        this.email=email;
+        this.phoneNumber=phoneNumber;
+        this.password=password;
+        this.employeeRole =employeeRole;
+    }
+
+
+    public boolean isHourly() {
+        return isHourly;
+    }
+
+    public void setHourly(boolean hourly) {
+        isHourly = hourly;
     }
 
     public int getId() {
@@ -99,11 +148,17 @@ public class Employee {
         this.password = password;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
+    public double getSalaryToTravel() {
+        return salaryToTravel;
+    }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setSalaryToTravel(double salaryToTravel) {
+        this.salaryToTravel = salaryToTravel;
+    }
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -143,6 +198,14 @@ public class Employee {
         return bankInfo;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public void setBankInfo(BankInfo bankInfo) {
         this.bankInfo = bankInfo;
     }
@@ -171,21 +234,14 @@ public class Employee {
         this.hoursWorked = hoursWorked;
     }
 
-    public double computeSalary() {
-        // Calculate and return the employee's salary based on hourly rate and hours worked
-        // ...
-        return 0;
+    public double getSalaryPerMonth() {
+        return salaryPerMonth;
     }
 
-    public boolean isActiveEmployee() {
-        // Check if the employee is considered active based on specific criteria
-        // For example, you can check if they have worked in the last month, etc.
-        // ...
-        return false;
+    public void setSalaryPerMonth(double salaryPerMonth) {
+        this.salaryPerMonth = salaryPerMonth;
     }
 
-    public void updateEmployeeDetails() {
-        // Update employee details here
-        // ...
-    }
+
+
 }
