@@ -77,9 +77,7 @@ public class EditEmployeeShiftController implements EmployeeNavigators {
     /**
      * Initializes the EditEmployeeShiftController.
      */
-    public EditEmployeeShiftController() {
-
-    }
+    public EditEmployeeShiftController() {}
 
     /**
      * Handles the upload CSV file action.
